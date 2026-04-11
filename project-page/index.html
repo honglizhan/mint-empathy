@@ -1,0 +1,1562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Discourse Diversity in Multi-Turn Empathic Dialogue</title>
+  <meta name="description" content="MINT: Multi-turn Inter-tactic Novelty Training for discourse diversity in multi-turn empathic dialogue.">
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:title" content="Discourse Diversity in Multi-Turn Empathic Dialogue">
+  <meta property="og:description" content="LLMs lock into the same empathy tactics turn after turn. MINT is the first RL framework to optimize discourse move diversity in multi-turn empathic dialogue.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="static/figure1_teaser.svg">
+  <meta property="og:image:alt" content="Comparison of human, vanilla LLM, and MINT empathic dialogue strategies across conversation turns">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Discourse Diversity in Multi-Turn Empathic Dialogue">
+  <meta name="twitter:description" content="LLMs lock into the same empathy tactics turn after turn. MINT is the first RL framework to optimize discourse move diversity in multi-turn empathic dialogue.">
+  <meta name="twitter:image" content="static/figure1_teaser.svg">
+  <meta name="twitter:image:alt" content="Comparison of human, vanilla LLM, and MINT empathic dialogue strategies across conversation turns">
+
+  <!-- Scholar meta -->
+  <meta name="citation_title" content="Discourse Diversity in Multi-Turn Empathic Dialogue">
+  <meta name="citation_author" content="Zhan, Hongli">
+  <meta name="citation_author" content="Gueorguieva, Emma S.">
+  <meta name="citation_author" content="Hernandez, Javier">
+  <meta name="citation_author" content="Suh, Jina">
+  <meta name="citation_author" content="Ong, Desmond C.">
+  <meta name="citation_author" content="Li, Junyi Jessy">
+  <meta name="citation_publication_date" content="2026">
+
+  <!-- Google Fonts: Source Serif 4 for headings -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============================================================
+       RESET & BASE
+       ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      font-size: 15px;
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: 0s !important; animation-duration: 0s !important; }
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: #ffffff;
+      color: #4b5563;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    ::selection {
+      background: rgba(82, 183, 136, 0.25);
+      color: #111827;
+    }
+
+    img { max-width: 100%; height: auto; display: block; }
+    a { color: #2d6a4f; text-decoration: none; transition: color 0.15s; }
+    a:hover { color: #1b4332; }
+    a:focus-visible, button:focus-visible { outline: 2px solid #52b788; outline-offset: 2px; border-radius: 4px; }
+
+    /* ============================================================
+       LAYOUT
+       ============================================================ */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    .container--narrow {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    section {
+      padding: 72px 0;
+    }
+
+    /* ============================================================
+       STICKY HEADER BAR
+       ============================================================ */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-top: 4px solid #2d6a4f;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.3);
+      padding: 0 32px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .topbar__left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .topbar__logo {
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
+      border-radius: 6px;
+    }
+
+    .topbar__name {
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-weight: 700;
+      font-size: 15px;
+      color: #2d6a4f;
+      letter-spacing: 0.03em;
+      flex-shrink: 0;
+    }
+
+    .topbar__sep {
+      width: 1px;
+      height: 18px;
+      background: rgba(148, 163, 184, 0.5);
+      flex-shrink: 0;
+    }
+
+    .topbar__title {
+      font-size: 13px;
+      color: #6b7280;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .topbar__links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .topbar__pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 14px;
+      border-radius: 999px;
+      font-size: 12.5px;
+      font-weight: 500;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      color: #4b5563;
+      background: #ffffff;
+      transition: all 0.15s;
+      cursor: pointer;
+    }
+
+    .topbar__pill:hover {
+      background: rgba(45, 106, 79, 0.06);
+      border-color: #2d6a4f;
+      color: #2d6a4f;
+    }
+
+    .topbar__pill svg {
+      flex-shrink: 0;
+    }
+
+    .topbar__pill--disabled {
+      opacity: 0.5;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    /* ============================================================
+       HERO
+       ============================================================ */
+    .hero {
+      padding: 72px 0 56px;
+      text-align: center;
+    }
+
+    .hero__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .hero__badge img {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+    }
+
+    .hero__badge span {
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-weight: 700;
+      font-size: 16px;
+      color: #2d6a4f;
+      letter-spacing: 0.04em;
+    }
+
+    .hero h1 {
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: clamp(26px, 4.5vw, 38px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.18;
+      color: #111827;
+      max-width: 720px;
+      margin: 0 auto 18px;
+    }
+
+    .hero__subtitle {
+      font-size: 17px;
+      color: #374151;
+      line-height: 1.55;
+      max-width: 620px;
+      margin: 0 auto 24px;
+    }
+
+    /* Authors */
+    .authors {
+      font-size: 15px;
+      line-height: 1.8;
+      color: #4b5563;
+    }
+
+    .authors a { color: #2d6a4f; }
+    .authors a:hover { text-decoration: underline; }
+
+    .authors__name--nolink {
+      color: #52b788;
+    }
+
+    .authors sup {
+      font-size: 10px;
+      margin-left: 1px;
+      color: #6b7280;
+    }
+
+    .affiliations {
+      margin-top: 8px;
+      font-size: 13px;
+      color: #6b7280;
+      line-height: 1.7;
+    }
+
+    .affiliations span {
+      display: inline-block;
+      margin: 0 8px;
+    }
+
+    .affiliations__note {
+      display: block;
+      margin-top: 4px;
+      font-size: 12px;
+      color: #6b7280;
+      font-style: italic;
+    }
+
+    /* Hero links */
+    .hero__links {
+      margin-top: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .hero__btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 20px;
+      border-radius: 999px;
+      font-size: 13.5px;
+      font-weight: 500;
+      transition: all 0.15s;
+    }
+
+    .hero__btn--primary {
+      background: #2d6a4f;
+      color: #ffffff;
+      border: 1px solid #2d6a4f;
+    }
+
+    .hero__btn--primary:hover {
+      background: #1b4332;
+      border-color: #1b4332;
+      color: #ffffff;
+    }
+
+    .hero__btn--outline {
+      background: #ffffff;
+      color: #4b5563;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+    }
+
+    .hero__btn--outline:hover {
+      border-color: #2d6a4f;
+      color: #2d6a4f;
+      background: rgba(45, 106, 79, 0.04);
+    }
+
+    .hero__btn--disabled {
+      opacity: 0.5;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .hero__note {
+      display: block;
+      width: 100%;
+      margin-top: 10px;
+      font-size: 12.5px;
+      color: #6b7280;
+      font-style: italic;
+    }
+
+    /* ============================================================
+       SECTION HEADINGS
+       ============================================================ */
+    .section-heading {
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      color: #111827;
+      margin-bottom: 24px;
+      line-height: 1.3;
+    }
+
+    /* ============================================================
+       BODY TEXT
+       ============================================================ */
+    .prose {
+      font-size: 15px;
+      color: #4b5563;
+      line-height: 1.7;
+    }
+
+    .prose p + p {
+      margin-top: 14px;
+    }
+
+    .prose strong {
+      color: #111827;
+      font-weight: 600;
+    }
+
+    .prose em {
+      font-style: italic;
+    }
+
+    .callout-text {
+      font-size: 15.5px;
+      font-weight: 500;
+      color: #111827;
+      line-height: 1.6;
+    }
+
+    .muted-text {
+      font-size: 13.5px;
+      color: #6b7280;
+      line-height: 1.6;
+    }
+
+    .source-note {
+      text-align: center;
+      font-size: 12px;
+      color: #6b7280;
+      margin-top: 12px;
+    }
+
+    /* ============================================================
+       STAT CARDS
+       ============================================================ */
+    .stat-grid {
+      display: grid;
+      gap: 16px;
+      margin-top: 28px;
+    }
+
+    .stat-grid--4 { grid-template-columns: repeat(4, 1fr); }
+    .stat-grid--3 { grid-template-columns: repeat(3, 1fr); }
+    .stat-grid--2 { grid-template-columns: repeat(2, 1fr); }
+
+    .stat-card {
+      background: #ffffff;
+      border-top: 3px solid #52b788;
+      border-left: 1px solid rgba(148, 163, 184, 0.25);
+      border-right: 1px solid rgba(148, 163, 184, 0.25);
+      border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+      border-radius: 14px;
+      padding: 22px 16px;
+      text-align: center;
+      transition: box-shadow 0.2s;
+    }
+
+    .stat-card:hover {
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+    }
+
+    .stat-card__number {
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: #2d6a4f;
+      line-height: 1;
+      margin-bottom: 6px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .stat-card__number--sm {
+      font-size: 22px;
+    }
+
+    .stat-card__label {
+      font-size: 12.5px;
+      color: #6b7280;
+      line-height: 1.4;
+    }
+
+    .stat-card__sublabel {
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    .stat-card__sublabel--green { color: #2d6a4f; }
+    .stat-card__sublabel--muted { color: #6b7280; }
+
+    .stat-card__header {
+      font-size: 13px;
+      font-weight: 600;
+      color: #111827;
+      margin-bottom: 12px;
+    }
+
+    .stat-card__row {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 8px;
+    }
+
+    /* ============================================================
+       REWARD CARDS (method section)
+       ============================================================ */
+    .reward-card .stat-card__number {
+      font-size: 28px;
+      font-style: italic;
+    }
+
+    .reward-card .stat-card__label {
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .reward-card .stat-card__label strong {
+      color: #111827;
+      font-weight: 600;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    /* ============================================================
+       FIGURE CARDS
+       ============================================================ */
+    .figure-card {
+      background: #ffffff;
+      border: none;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      border-radius: 14px;
+      padding: 16px;
+      margin-top: 32px;
+    }
+
+    .figure-card img {
+      border-radius: 8px;
+    }
+
+    .figure-card figcaption {
+      font-size: 13px;
+      color: #6b7280;
+      line-height: 1.6;
+      margin-top: 14px;
+      padding: 0 4px;
+    }
+
+    .figure-card figcaption strong {
+      color: #4b5563;
+    }
+
+    /* ============================================================
+       RESULTS TABLE
+       ============================================================ */
+    .table-card {
+      background: #ffffff;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      border-radius: 14px;
+      padding: 24px;
+      margin-top: 32px;
+      overflow-x: auto;
+    }
+
+    .table-caption {
+      font-size: 14px;
+      font-weight: 600;
+      color: #111827;
+      margin-bottom: 16px;
+    }
+
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .results-table thead th {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #6b7280;
+      padding: 8px 12px;
+      border-bottom: 2px solid #111827;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    .results-table thead th:nth-child(n+2) {
+      text-align: right;
+    }
+
+    .results-table td,
+    .results-table th[scope="row"] {
+      padding: 9px 12px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+      vertical-align: middle;
+      font-weight: 400;
+      color: #4b5563;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .results-table th[scope="row"] {
+      font-weight: 500;
+      color: #111827;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    .results-table td:nth-child(n+2) {
+      text-align: right;
+    }
+
+    .results-table tbody tr:hover {
+      background: rgba(45, 106, 79, 0.02);
+    }
+
+    .results-table tbody tr:last-child td,
+    .results-table tbody tr:last-child th {
+      border-bottom: 2px solid #111827;
+    }
+
+    .results-table .row-ours {
+      background: rgba(45, 106, 79, 0.06);
+      border-left: 3px solid #2d6a4f;
+    }
+
+    .results-table .row-ours td,
+    .results-table .row-ours th[scope="row"] {
+      font-weight: 600;
+      color: #2d6a4f;
+    }
+
+    .results-table .row-ours:hover {
+      background: rgba(45, 106, 79, 0.09);
+    }
+
+    .results-table .row-gold {
+      background: rgba(180, 134, 11, 0.04);
+    }
+
+    .results-table .row-gold td,
+    .results-table .row-gold th[scope="row"] {
+      color: #6b7280;
+      font-weight: 400;
+    }
+
+    .results-table .row-gold th[scope="row"] {
+      font-weight: 500;
+      color: #92700a;
+    }
+
+    .results-table .val-best {
+      font-weight: 700;
+    }
+
+    .results-table .val-best-ours::after {
+      content: " \25B2";
+      color: #2d6a4f;
+      font-size: 10px;
+    }
+
+    .results-table .group-label th {
+      font-size: 12px;
+      font-weight: 600;
+      color: #2d6a4f;
+      padding: 18px 12px 6px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.3);
+      letter-spacing: 0.02em;
+    }
+
+    /* ============================================================
+       BIBTEX
+       ============================================================ */
+    .bibtex-box {
+      background: #111827;
+      color: rgba(255, 255, 255, 0.82);
+      border-radius: 14px;
+      padding: 24px 28px;
+      font-size: 12.5px;
+      line-height: 1.65;
+      overflow-x: auto;
+      position: relative;
+      font-family: 'SF Mono', 'Fira Code', 'Fira Mono', Menlo, Consolas, monospace;
+      margin-top: 16px;
+    }
+
+    .bibtex-box pre {
+      margin: 0;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      color: rgba(255, 255, 255, 0.82);
+      font-family: inherit;
+      font-size: inherit;
+      line-height: inherit;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 12px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      cursor: pointer;
+      border-radius: 8px;
+      padding: 5px 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s;
+    }
+
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+    }
+
+    .copy-btn:focus-visible {
+      outline: 2px solid #52b788;
+      outline-offset: 2px;
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    .site-footer {
+      padding: 32px 0;
+      text-align: center;
+      font-size: 12.5px;
+      color: #6b7280;
+      border-top: 1px solid rgba(148, 163, 184, 0.2);
+    }
+
+    .site-footer a {
+      color: #6b7280;
+    }
+
+    .site-footer a:hover {
+      color: #2d6a4f;
+    }
+
+    /* ============================================================
+       SECTION BACKGROUNDS (alternating)
+       ============================================================ */
+    .bg-tint {
+      background: #f8faf9;
+    }
+
+    /* ============================================================
+       SPACING HELPERS
+       ============================================================ */
+    .mt-16 { margin-top: 16px; }
+    .mt-20 { margin-top: 20px; }
+    .mt-24 { margin-top: 24px; }
+    .mt-32 { margin-top: 32px; }
+
+    /* ============================================================
+       SCROLL FADE-IN ANIMATIONS
+       ============================================================ */
+    .fade-in-target {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .fade-in-target.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .fade-in-target {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    /* ============================================================
+       ACCESSIBILITY
+       ============================================================ */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: 16px;
+      z-index: 200;
+      padding: 8px 16px;
+      background: #2d6a4f;
+      color: #fff;
+      border-radius: 0 0 8px 8px;
+      font-size: 13px;
+      font-weight: 500;
+      transition: top 0.15s;
+    }
+
+    .skip-link:focus {
+      top: 0;
+      color: #fff;
+    }
+
+    /* ============================================================
+       TAKEAWAY BOX
+       ============================================================ */
+    .takeaway-box {
+      background: rgba(45, 106, 79, 0.06);
+      border-left: 3px solid #2d6a4f;
+      border-radius: 0 10px 10px 0;
+      padding: 18px 22px;
+      margin-top: 28px;
+    }
+
+    .takeaway-box p {
+      font-size: 15px;
+      color: #1b4332;
+      line-height: 1.6;
+      font-weight: 500;
+    }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 768px) {
+      .topbar__title { display: none; }
+      .topbar__sep { display: none; }
+
+      .hero { padding: 48px 0 36px; }
+      .hero h1 { font-size: 24px; }
+
+      section { padding: 56px 0; }
+
+      .stat-grid--4 { grid-template-columns: repeat(2, 1fr); }
+      .stat-grid--3 { grid-template-columns: 1fr 1fr; }
+      .stat-grid--2 { grid-template-columns: 1fr; }
+
+      .container, .container--narrow {
+        padding: 0 20px;
+      }
+
+      .topbar {
+        padding: 0 16px;
+      }
+
+      .table-card {
+        padding: 16px 12px;
+      }
+
+      .results-table {
+        font-size: 12px;
+      }
+
+      .results-table thead th {
+        font-size: 10px;
+        padding: 6px 8px;
+      }
+
+      .results-table td,
+      .results-table th[scope="row"] {
+        padding: 7px 8px;
+      }
+
+      .affiliations span {
+        display: block;
+        margin: 2px 0;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .stat-grid--4 { grid-template-columns: 1fr 1fr; }
+      .hero__links { flex-direction: column; }
+      .hero__btn { width: 100%; justify-content: center; }
+      .topbar__pill span.pill-label { display: none; }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- Skip to content (visible only on keyboard focus) -->
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<!-- Accessibility: live region for copy feedback -->
+<div id="copy-status" class="sr-only" aria-live="polite"></div>
+
+<!-- ==================== STICKY HEADER BAR ==================== -->
+<header class="topbar">
+  <div class="topbar__left">
+    <img src="static/mint_logo.png" alt="MINT logo" class="topbar__logo">
+    <span class="topbar__name">MINT</span>
+    <span class="topbar__sep"></span>
+    <span class="topbar__title">Discourse Diversity in Multi-Turn Empathic Dialogue</span>
+  </div>
+  <nav class="topbar__links" aria-label="Primary">
+    <span class="topbar__pill topbar__pill--disabled" aria-label="Paper (coming soon)" title="Paper (coming soon)">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      <span class="pill-label">Paper</span>
+    </span>
+    <a href="https://github.com/honglizhan/mint-empathy" class="topbar__pill" target="_blank" rel="noopener" aria-label="Code on GitHub">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+      <span class="pill-label">Code</span>
+    </a>
+    <a href="https://huggingface.co/hongli-zhan/empathy-tactic-taggers-llama3.1-8b" class="topbar__pill" target="_blank" rel="noopener" aria-label="Tactic taggers on Hugging Face">
+      <span aria-hidden="true">🤗</span>
+      <span class="pill-label">Taggers</span>
+    </a>
+    <a href="https://huggingface.co/hongli-zhan/MINT-empathy-Qwen3-1.7B" class="topbar__pill" target="_blank" rel="noopener" aria-label="Trained models on Hugging Face">
+      <span aria-hidden="true">🤗</span>
+      <span class="pill-label">Models</span>
+    </a>
+    <span class="topbar__pill topbar__pill--disabled" aria-label="Data (coming soon)" title="Data (coming soon)">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+      <span class="pill-label">Data</span>
+    </span>
+  </nav>
+</header>
+
+<main id="main-content">
+
+<!-- ==================== HERO ==================== -->
+<section class="hero">
+  <div class="container">
+
+    <div class="hero__badge">
+      <img src="static/mint_logo.png" width="32" height="32" alt="MINT logo">
+      <span>MINT</span>
+    </div>
+
+    <h1>Discourse Diversity in Multi-Turn Empathic Dialogue</h1>
+
+    <p class="hero__subtitle">
+      LLMs produce empathic responses in single turns, but lock into the same discourse moves across a conversation. We introduce MINT, the first RL framework to optimize discourse move diversity in multi-turn empathic dialogue.
+    </p>
+
+    <div class="authors">
+      <span><a href="https://honglizhan.github.io/">Hongli Zhan</a><sup>1</sup>,</span>
+      <span><a href="https://scholar.google.com/citations?user=0a9mGGUAAAAJ&hl=en">Emma S. Gueorguieva</a><sup>2</sup>,</span>
+      <span><a href="https://www.javierhr.com/">Javier Hernandez</a><sup>3</sup>,</span>
+      <span><a href="https://jinasuh.com/">Jina Suh</a><sup>4*</sup>,</span>
+      <span><a href="https://desmond-ong.github.io/">Desmond C. Ong</a><sup>2</sup>,</span>
+      <span><a href="https://jessyli.com/">Junyi Jessy Li</a><sup>1</sup></span>
+    </div>
+
+    <div class="affiliations">
+      <span><sup>1</sup>Department of Linguistics, The University of Texas at Austin</span>
+      <span><sup>2</sup>Department of Psychology, The University of Texas at Austin</span>
+      <span><sup>3</sup>Microsoft Research</span>
+      <span><sup>4</sup>University of Washington</span>
+      <span class="affiliations__note">*Work done while at Microsoft Research.</span>
+    </div>
+
+    <div class="hero__links">
+      <a href="https://github.com/honglizhan/mint-empathy" class="hero__btn hero__btn--primary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+        Code
+      </a>
+      <span class="hero__btn hero__btn--outline hero__btn--disabled">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        Paper
+      </span>
+      <a href="https://huggingface.co/hongli-zhan/empathy-tactic-taggers-llama3.1-8b" class="hero__btn hero__btn--outline" target="_blank" rel="noopener">
+        🤗 Taggers
+      </a>
+      <a href="https://huggingface.co/hongli-zhan/MINT-empathy-Qwen3-1.7B" class="hero__btn hero__btn--outline" target="_blank" rel="noopener">
+        🤗 Models
+      </a>
+      <span class="hero__btn hero__btn--outline hero__btn--disabled">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+        Data
+      </span>
+      <span class="hero__note">Paper and data will be released upon publication.</span>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ==================== LLMs ARE PERCEIVED AS EMPATHIC ==================== -->
+<section class="bg-tint">
+  <div class="container--narrow">
+    <h2 class="section-heading">LLMs Are Perceived as Empathic</h2>
+    <div class="prose">
+      <p>
+        In single-turn evaluations, human raters consistently judge LLM responses as more empathic than human-written ones.
+      </p>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="stat-grid stat-grid--4 fade-in-target">
+      <div class="stat-card">
+        <div class="stat-card__number">3.41</div>
+        <div class="stat-card__label">Human</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card__number">4.09</div>
+        <div class="stat-card__label">GPT-4</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card__number">4.09</div>
+        <div class="stat-card__label">Llama-2</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card__number">3.70</div>
+        <div class="stat-card__label">Mistral</div>
+      </div>
+    </div>
+    <p class="source-note">Perceived empathy scores (1&ndash;5 scale). Source: Lee, Suh, Zhan, Li, &amp; Ong, ACII 2024.</p>
+  </div>
+
+  <div class="container--narrow mt-24">
+    <p class="callout-text">
+      LLMs score high on perceived empathy. But what is actually in the language of these responses?
+    </p>
+  </div>
+</section>
+
+
+<!-- ==================== BUT LLMs ARE FORMULAIC GENERATORS ==================== -->
+<section>
+  <div class="container--narrow">
+    <h2 class="section-heading">But LLMs Are Formulaic Generators</h2>
+    <div class="prose">
+      <p>
+        Recent work reveals that LLMs are formulaic generators at every linguistic level: they produce homogeneous <strong>lexical patterns</strong> (Jiang et al., 2025), reuse <strong>syntactic templates</strong> (Shaib et al., 2024), and follow similar <strong>discourse structures</strong> (Namuduri et al., 2025). But less attention has been paid to whether this formulaicity extends to the level of discourse <em>functions</em>: what a response <em>does</em> for the person it is addressing. To answer this question, we first need a vocabulary of empathic discourse moves.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ==================== A TAXONOMY OF EMPATHY TACTICS ==================== -->
+<section class="bg-tint">
+  <div class="container--narrow">
+    <h2 class="section-heading">A Taxonomy of Empathy Tactics</h2>
+    <div class="prose">
+      <p>
+        We adopt a taxonomy of <strong>10 empathy tactics</strong> from Gueorguieva et al. (2026), synthesized from psychology literature. These tactics capture what a response <em>does</em> for the listener: validating feelings, asking questions, offering advice, paraphrasing concerns, and more. To detect these tactics automatically, we train sentence-level taggers using Llama-3.1-8B-Instruct with per-tactic LoRA adapters, achieving an average F1 of 0.80. The trained tagger adapters are <a href="https://huggingface.co/hongli-zhan/empathy-tactic-taggers-llama3.1-8b" target="_blank" rel="noopener">publicly available</a>.
+      </p>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="figure-card fade-in-target">
+      <figure>
+        <img src="static/stickiness_prevalence.svg" width="2400" height="877" loading="lazy" alt="Two-panel dot plot showing tactic prevalence and tactic stickiness across humans, GPT-3.5, GPT-4, and Llama-2, revealing that LLMs dramatically overuse and repeat the same tactics">
+        <figcaption>
+          <strong>Figure 1.</strong> <strong>Left:</strong> Tactic prevalence (percentage of turns containing each tactic). LLMs heavily overuse advice and information while under-using questioning. <strong>Right:</strong> Tactic stickiness. Blue: P(tactic in turn <em>t</em> | tactic in turn <em>t</em>&minus;1); gray: P(tactic in turn <em>t</em> | tactic not in turn <em>t</em>&minus;1). For humans, prior presence has limited influence; for LLMs, the gap is dramatic.
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+
+<!-- ==================== LLMs LOCK INTO THE SAME DISCOURSE MOVES ==================== -->
+<section>
+  <div class="container--narrow">
+    <h2 class="section-heading">LLMs Lock into the Same Discourse Moves</h2>
+    <div class="prose">
+      <p>
+        Armed with this vocabulary, we can now ask: do LLMs actually adapt their discourse moves, or do they repeat the same tactics?
+      </p>
+    </div>
+  </div>
+
+  <!-- Within individual responses -->
+  <div class="container--narrow mt-20">
+    <div class="prose">
+      <p>
+        <strong>Within individual responses.</strong> LLMs repeat the same tactic sequences far more than humans. The pattern Paraphrasing &rarr; Validation &rarr; Paraphrasing appears at <strong>62%</strong> in LLMs versus <strong>34%</strong> in humans.
+      </p>
+    </div>
+  </div>
+
+  <!-- Across turns -->
+  <div class="container--narrow mt-20">
+    <div class="prose">
+      <p>
+        <strong>Across turns, the rigidity compounds.</strong> We define <em>tactic stickiness</em> as P(tactic in turn <em>t</em> | tactic in turn <em>t</em>&minus;1): how likely is a discourse move to be repeated in the next turn? Standard metrics completely miss this gap:
+      </p>
+    </div>
+  </div>
+
+  <!-- BERTScore vs Stickiness comparison cards -->
+  <div class="container">
+    <div class="stat-grid stat-grid--2 mt-20 fade-in-target">
+      <div class="stat-card">
+        <div class="stat-card__header">BERTScore</div>
+        <div class="stat-card__row">
+          <div>
+            <div class="stat-card__number stat-card__number--sm">0.86</div>
+            <div class="stat-card__label">LLMs</div>
+          </div>
+          <div>
+            <div class="stat-card__number stat-card__number--sm">0.87</div>
+            <div class="stat-card__label">Humans</div>
+          </div>
+        </div>
+        <div class="stat-card__sublabel stat-card__sublabel--muted">Looks identical!</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card__header">Tactic Stickiness</div>
+        <div class="stat-card__row">
+          <div>
+            <div class="stat-card__number stat-card__number--sm">0.50&ndash;0.56</div>
+            <div class="stat-card__label">LLMs</div>
+          </div>
+          <div>
+            <div class="stat-card__number stat-card__number--sm">0.27</div>
+            <div class="stat-card__label">Humans</div>
+          </div>
+        </div>
+        <div class="stat-card__sublabel stat-card__sublabel--green">Nearly 2&times; gap!</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container--narrow mt-16">
+    <p class="muted-text">
+      BERTScore shows near-identical scores. Only tactic stickiness reveals the 2&times; gap.
+    </p>
+  </div>
+
+  <!-- Real consequences -->
+  <div class="container--narrow mt-20">
+    <div class="prose">
+      <p>
+        <strong>This has real consequences.</strong> Higher tactic stickiness is significantly associated with lower user willingness to re-engage (&rho; = &minus;0.287, <em>p</em> = 0.017). Discourse-level repetition erodes the supportive relationship.
+      </p>
+    </div>
+  </div>
+
+  <!-- Figure 2: Teaser -->
+  <div class="container">
+    <div class="figure-card fade-in-target">
+      <figure>
+        <img src="static/figure1_teaser.svg" width="2400" height="1705" loading="lazy" alt="Comparison of a human supporter conversation, a vanilla LLM that repeats the same tactics, and MINT which adapts its discourse moves across turns">
+        <figcaption>
+          <strong>Figure 2.</strong> As the seeker's needs evolve, vanilla LLMs recycle a narrow tactic set (center), whereas MINT adapts its discourse moves across turns (right), more closely resembling human supporters (left).
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+
+<!-- ==================== MINT: METHOD ==================== -->
+<section class="bg-tint">
+  <div class="container--narrow">
+    <h2 class="section-heading">MINT: Multi-turn Inter-tactic Novelty Training</h2>
+    <div class="prose">
+      <p>
+        To address this gap, we introduce <strong>MINT</strong> (Multi-turn Inter-tactic Novelty Training), the first RL framework that directly rewards discourse move diversity in multi-turn empathic dialogue. Optimized with GRPO (Group Relative Policy Optimization), the reward combines three signals, all min-max normalized within each rollout group:
+      </p>
+    </div>
+  </div>
+
+  <!-- Reward component cards -->
+  <div class="container">
+    <div class="stat-grid stat-grid--3 mt-24 fade-in-target">
+      <div class="stat-card reward-card">
+        <div class="stat-card__number"><em>Q</em></div>
+        <div class="stat-card__label"><strong>Empathy quality</strong> PsychoCounsel reward model trained on 36K+ counseling preference pairs</div>
+      </div>
+      <div class="stat-card reward-card">
+        <div class="stat-card__number"><em>D</em><sub>KL</sub></div>
+        <div class="stat-card__label"><strong>Cross-turn tactic novelty</strong> KL divergence between current and previous turn's tactic distributions</div>
+      </div>
+      <div class="stat-card reward-card">
+        <div class="stat-card__number"><em>H</em></div>
+        <div class="stat-card__label"><strong>Within-turn tactic breadth</strong> Entropy of the current turn's tactic distribution</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Figure 3: Method -->
+  <div class="container">
+    <div class="figure-card fade-in-target">
+      <figure>
+        <img src="static/figure2_method.svg" width="2000" height="1125" loading="lazy" alt="Three-step MINT pipeline: Step 1 extracts tactic history from multi-turn conversation, Step 2 generates and tags responses with LoRA-based sentence classifiers, Step 3 computes diversity reward combining cross-turn KL divergence and within-turn entropy">
+        <figcaption>
+          <strong>Figure 3.</strong> Overview of MINT. <strong>Step 1</strong>: A multi-turn conversation provides tactic history. <strong>Step 2</strong>: The policy generates a new supporter response, and a sentence-level tactic tagger labels each sentence. <strong>Step 3</strong>: The tactic distribution of the current turn (<em>Q</em>) is compared against the historical profile (<em>P</em>) via D<sub>KL</sub>(<em>Q</em>&Vert;<em>P</em>) for novelty and <em>H</em>(<em>Q</em>) for within-turn breadth, yielding a combined quality-weighted diversity reward optimized with GRPO.
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+
+<!-- ==================== EVALUATION ==================== -->
+<section>
+  <div class="container--narrow">
+    <h2 class="section-heading">Evaluation: Both Empathy and Diversity</h2>
+    <div class="prose">
+      <p>
+        If we only measure empathy, a model can score high by repeating one effective pattern every turn. If we only measure diversity, a model can appear varied but unhelpful. We need both dimensions to tell the full story.
+      </p>
+      <p>
+        For <strong>perceived empathy</strong>, we adopt the Lend-an-Ear framework (Kumar et al., 2026): 6 dimensions rated on a 1&ndash;5 scale, evaluated per turn across 315 supporter turns from 50 conversations. An LLM judge (gpt-oss-120b, temperature 0) achieves weighted Cohen's &kappa;<sub>w</sub> = 0.58, matching expert-level inter-annotator agreement. For <strong>tactic diversity</strong>, we measure stickiness: the conditional probability that a tactic reappears in the next turn.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ==================== RESULTS ==================== -->
+<section class="bg-tint">
+  <div class="container--narrow">
+    <h2 class="section-heading">Results</h2>
+    <div class="prose">
+      <p>
+        MINT (Q+D<sub>KL</sub>) outperforms all baselines on aggregate empathy across both model sizes while substantially reducing tactic stickiness.
+      </p>
+    </div>
+  </div>
+
+  <!-- Key result callouts -->
+  <div class="container">
+    <div class="stat-grid stat-grid--3 fade-in-target">
+      <div class="stat-card">
+        <div class="stat-card__number">+25.3%</div>
+        <div class="stat-card__label">Aggregate empathy improvement (avg. across 1.7B and 4B)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card__number">&minus;26.3%</div>
+        <div class="stat-card__label">Tactic stickiness reduction (4B model)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card__number stat-card__number--sm">5.04 vs 6.43</div>
+        <div class="stat-card__label">Fewer tactics/turn than PsychoCounsel (1.7B): diversity does not mean cramming more in</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container--narrow mt-24">
+    <div class="prose">
+      <p>
+        Crucially, Q+D<sub>KL</sub> achieves this with fewer tactics per turn than PsychoCounsel (5.04 vs 6.43 on 1.7B; 4.67 vs 6.58 on 4B), showing that cross-turn diversity does not require cramming more tactics into each response. Token-level diversity baselines (R1-Zero-Div) do not reduce discourse-move repetition, confirming that surface-level and discourse-function-level diversity are distinct phenomena.
+      </p>
+    </div>
+  </div>
+
+  <!-- Results Table -->
+  <div class="container">
+    <div class="table-card fade-in-target">
+      <div class="table-caption">Table 1. MINT improves empathy quality while reducing cross-turn tactic repetition.</div>
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th scope="col">Method</th>
+            <th scope="col">Agg. Empathy &uarr;</th>
+            <th scope="col">Stickiness &darr;</th>
+            <th scope="col">Tactics/Turn &uarr;</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="row-gold">
+            <th scope="row">Human (Gold)</th>
+            <td>2.90</td>
+            <td class="val-best">0.27</td>
+            <td>1.97</td>
+          </tr>
+          <tr class="group-label"><th colspan="4"><a href="https://huggingface.co/hongli-zhan/MINT-empathy-Qwen3-1.7B" target="_blank" rel="noopener">Qwen3-1.7B</a></th></tr>
+          <tr>
+            <th scope="row">Vanilla</th>
+            <td>3.60</td>
+            <td>0.51</td>
+            <td>4.49</td>
+          </tr>
+          <tr>
+            <th scope="row">PsychoCounsel</th>
+            <td>4.42</td>
+            <td>0.65</td>
+            <td>6.43</td>
+          </tr>
+          <tr>
+            <th scope="row">R1-Zero-Div</th>
+            <td>4.38</td>
+            <td>0.63</td>
+            <td>5.85</td>
+          </tr>
+          <tr class="row-ours">
+            <th scope="row">MINT (Q+D<sub>KL</sub>)</th>
+            <td class="val-best val-best-ours">4.54</td>
+            <td>0.51</td>
+            <td>5.04</td>
+          </tr>
+          <tr class="group-label"><th colspan="4"><a href="https://huggingface.co/hongli-zhan/MINT-empathy-Qwen3-4B" target="_blank" rel="noopener">Qwen3-4B</a></th></tr>
+          <tr>
+            <th scope="row">Vanilla</th>
+            <td>3.75</td>
+            <td>0.57</td>
+            <td>4.65</td>
+          </tr>
+          <tr>
+            <th scope="row">PsychoCounsel</th>
+            <td>4.62</td>
+            <td>0.67</td>
+            <td>6.58</td>
+          </tr>
+          <tr>
+            <th scope="row">R1-Zero-Div</th>
+            <td>4.58</td>
+            <td>0.57</td>
+            <td>5.57</td>
+          </tr>
+          <tr class="row-ours">
+            <th scope="row">MINT (Q+D<sub>KL</sub>)</th>
+            <td class="val-best val-best-ours">4.67</td>
+            <td class="val-best val-best-ours">0.42</td>
+            <td>4.67</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Pareto Front (interactive) -->
+  <div class="container--narrow">
+    <div class="figure-card fade-in-target">
+      <figure>
+        <div style="position:relative;width:100%;max-width:700px;margin:0 auto;">
+          <canvas id="pareto-chart" role="img" aria-label="Scatter plot of aggregate empathy vs tactic stickiness. MINT (Q+D_KL) achieves the best trade-off: highest empathy with lowest stickiness across both 1.7B and 4B model sizes."></canvas>
+        </div>
+        <figcaption>
+          <strong>Figure 4.</strong> Aggregate empathy vs. tactic stickiness. Higher is better on empathy; lower (rightward) is better on stickiness. MINT (Q+D<sub>KL</sub>) gives the best trade-off across both model sizes. Hover over points to see details.
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <!-- Takeaway -->
+  <div class="container--narrow mt-32">
+    <div class="takeaway-box">
+      <p>
+        These results suggest that what current models lack is not empathy itself, but the ability to strategically vary their discourse moves across the arc of a conversation.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ==================== BIBTEX ==================== -->
+<section id="BibTeX">
+  <div class="container--narrow">
+    <h2 class="section-heading">BibTeX</h2>
+    <div class="bibtex-box">
+      <button type="button" class="copy-btn" onclick="copyBibtex()" aria-label="Copy BibTeX to clipboard">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        <span>Copy</span>
+      </button>
+<pre id="bibtex-content">@article{zhan2026discourse,
+  title   = {Discourse Diversity in Multi-Turn
+             Empathic Dialogue},
+  author  = {Zhan, Hongli and Gueorguieva, Emma S. and
+             Hernandez, Javier and Suh, Jina and
+             Ong, Desmond C. and Li, Junyi Jessy},
+  year    = {2026},
+  note    = {Under review}
+}</pre>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="site-footer">
+  <div class="container">
+    <p>
+      The website template is borrowed from <a href="https://nerfies.github.io/">Nerfies</a>.
+    </p>
+  </div>
+</footer>
+
+<script>
+function copyBibtex() {
+  var text = document.getElementById('bibtex-content').textContent;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(function() {
+      showCopied();
+    }).catch(function() {
+      fallbackCopy(text);
+    });
+  } else {
+    fallbackCopy(text);
+  }
+}
+
+function fallbackCopy(text) {
+  var textarea = document.createElement('textarea');
+  textarea.value = text;
+  textarea.style.position = 'fixed';
+  textarea.style.opacity = '0';
+  document.body.appendChild(textarea);
+  textarea.select();
+  try {
+    document.execCommand('copy');
+    showCopied();
+  } catch (e) {
+    alert('Copy failed. Please select the text manually.');
+  }
+  document.body.removeChild(textarea);
+}
+
+function showCopied() {
+  var btn = document.querySelector('.copy-btn');
+  var origHTML = btn.innerHTML;
+  btn.innerHTML = '\u2713 Copied!';
+  document.getElementById('copy-status').textContent = 'BibTeX copied to clipboard';
+  setTimeout(function() {
+    btn.innerHTML = origHTML;
+    document.getElementById('copy-status').textContent = '';
+  }, 2000);
+}
+
+/* ============================================================
+   SCROLL FADE-IN (IntersectionObserver)
+   ============================================================ */
+(function() {
+  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReducedMotion) return;
+
+  var targets = document.querySelectorAll('.fade-in-target');
+  if (!targets.length) return;
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.15,
+    rootMargin: '0px 0px -40px 0px'
+  });
+
+  targets.forEach(function(el) {
+    observer.observe(el);
+  });
+})();
+</script>
+
+<!-- Chart.js for interactive figures -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script>
+(function() {
+  // ============================================================
+  // INTERACTIVE PARETO FRONT (Figure 4)
+  // ============================================================
+  const methods = [
+    // [stickiness, empathy, name, family, model_size]
+    [0.27, 2.90, 'Human (Gold)', 'human', 'both'],
+    [0.51, 3.60, 'Vanilla', 'prompt', '1.7B'],
+    [0.65, 4.42, 'PsychoCounsel', 'quality_rl', '1.7B'],
+    [0.63, 4.38, 'R1-Zero-Div', 'token_div', '1.7B'],
+    [0.51, 4.54, 'MINT (Q+D_KL)', 'ours', '1.7B'],
+    [0.57, 3.75, 'Vanilla', 'prompt', '4B'],
+    [0.67, 4.62, 'PsychoCounsel', 'quality_rl', '4B'],
+    [0.57, 4.58, 'R1-Zero-Div', 'token_div', '4B'],
+    [0.42, 4.67, 'MINT (Q+D_KL)', 'ours', '4B'],
+  ];
+
+  const familyColors = {
+    human: '#B8860B',
+    prompt: '#7c9ab5',
+    quality_rl: '#d4944c',
+    token_div: '#9b82c4',
+    ours: '#2563eb',
+  };
+
+  const familyShapes = {
+    human: 'star',
+    prompt: 'rect',
+    quality_rl: 'triangle',
+    token_div: 'triangle',
+    ours: 'circle',
+  };
+
+  const datasets = [];
+
+  // Group by family + size for distinct visual encoding
+  const groups = {};
+  methods.forEach(function(m) {
+    var key = m[3] + '_' + m[4];
+    if (!groups[key]) groups[key] = [];
+    groups[key].push(m);
+  });
+
+  Object.keys(groups).forEach(function(key) {
+    var pts = groups[key];
+    var fam = pts[0][3];
+    var size = pts[0][4];
+    var color = familyColors[fam];
+    var isFilled = size === '4B' || size === 'both';
+    var label = pts[0][2] + (size !== 'both' ? ' (' + size + ')' : '');
+
+    datasets.push({
+      label: label,
+      data: pts.map(function(p) { return { x: p[0], y: p[1] }; }),
+      backgroundColor: isFilled ? color : 'rgba(255,255,255,0.9)',
+      borderColor: color,
+      borderWidth: fam === 'ours' ? 2.5 : 1.5,
+      pointRadius: fam === 'human' ? 12 : fam === 'ours' ? 10 : 7,
+      pointHoverRadius: fam === 'human' ? 14 : fam === 'ours' ? 13 : 10,
+      pointStyle: familyShapes[fam],
+      _meta: pts.map(function(p) { return { name: p[2], size: p[4], stick: p[0], emp: p[1] }; }),
+    });
+  });
+
+  // Dashed connector lines between 1.7B and 4B of same method
+  var connectorFamilies = ['prompt', 'quality_rl', 'token_div', 'ours'];
+  connectorFamilies.forEach(function(fam) {
+    var p17 = methods.find(function(m) { return m[3] === fam && m[4] === '1.7B'; });
+    var p4 = methods.find(function(m) { return m[3] === fam && m[4] === '4B'; });
+    if (p17 && p4) {
+      datasets.push({
+        label: '_connector_' + fam,
+        data: [{ x: p17[0], y: p17[1] }, { x: p4[0], y: p4[1] }],
+        type: 'line',
+        borderColor: familyColors[fam],
+        borderDash: [4, 4],
+        borderWidth: 1,
+        pointRadius: 0,
+        pointHoverRadius: 0,
+        showLine: true,
+      });
+    }
+  });
+
+  var ctx = document.getElementById('pareto-chart');
+  if (ctx) {
+    new Chart(ctx, {
+      type: 'scatter',
+      data: { datasets: datasets },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        aspectRatio: 1.5,
+        scales: {
+          x: {
+            reverse: true,
+            min: 0.20,
+            max: 0.74,
+            title: { display: true, text: 'Stickiness (more diverse \u2192)', font: { size: 13 } },
+            grid: { display: false },
+            ticks: { font: { size: 11 } },
+          },
+          y: {
+            min: 2.7,
+            max: 4.88,
+            title: { display: true, text: 'Aggregate Empathy (more empathic \u2192)', font: { size: 13 } },
+            grid: { color: 'rgba(0,0,0,0.05)' },
+            ticks: { font: { size: 11 } },
+          },
+        },
+        plugins: {
+          legend: {
+            display: true,
+            position: 'bottom',
+            labels: {
+              filter: function(item) { return !item.text.startsWith('_connector'); },
+              usePointStyle: true,
+              padding: 16,
+              font: { size: 11.5 },
+            },
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                var ds = context.dataset;
+                var meta = ds._meta ? ds._meta[context.dataIndex] : null;
+                if (!meta) return '';
+                return meta.name + ' (' + meta.size + '): Empathy=' + meta.emp.toFixed(2) + ', Stickiness=' + meta.stick.toFixed(2);
+              },
+            },
+            backgroundColor: 'rgba(17,24,39,0.92)',
+            titleFont: { size: 12 },
+            bodyFont: { size: 12 },
+            padding: 10,
+            cornerRadius: 8,
+          },
+        },
+      },
+    });
+  }
+})();
+</script>
+
+</body>
+</html>
