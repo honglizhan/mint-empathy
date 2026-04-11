@@ -183,6 +183,27 @@
       pointer-events: none;
     }
 
+    .topbar__pill--nav {
+      font-size: 12px;
+      border: none;
+      padding: 5px 10px;
+      color: #6b7280;
+      background: transparent;
+    }
+
+    .topbar__pill--nav:hover {
+      background: transparent;
+      border: none;
+      color: #2d6a4f;
+    }
+
+    .topbar__nav-sep {
+      width: 1px;
+      height: 16px;
+      background: rgba(148, 163, 184, 0.4);
+      flex-shrink: 0;
+    }
+
     /* ============================================================
        HERO
        ============================================================ */
@@ -478,6 +499,13 @@
       margin-bottom: 2px;
     }
 
+    .stat-card__gloss {
+      font-size: 13px;
+      font-weight: 500;
+      color: #2d6a4f;
+      margin-bottom: 6px;
+    }
+
     /* ============================================================
        FIGURE CARDS
        ============================================================ */
@@ -707,6 +735,236 @@
     }
 
     /* ============================================================
+       ABSTRACT / CONTRIBUTIONS
+       ============================================================ */
+    .section-heading--sm {
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: #111827;
+      margin-bottom: 16px;
+      line-height: 1.3;
+    }
+
+    .contributions-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      border-left: 3px solid rgba(45, 106, 79, 0.2);
+      padding-left: 20px;
+    }
+
+    .contributions-list li {
+      font-size: 15px;
+      color: #4b5563;
+      line-height: 1.7;
+      padding: 6px 0;
+    }
+
+    .contributions-list li + li {
+      border-top: 1px solid rgba(148, 163, 184, 0.15);
+    }
+
+    /* ============================================================
+       DIALOGUE SPOTLIGHT
+       ============================================================ */
+    .dialogue-spotlight {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      margin-top: 28px;
+    }
+
+    .dialogue-col {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .dialogue-col__header {
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      padding: 10px 16px;
+      border-radius: 10px 10px 0 0;
+      text-align: center;
+    }
+
+    .dialogue-col--vanilla .dialogue-col__header {
+      color: #4a6d8c;
+      background: rgba(124, 154, 181, 0.08);
+      border-bottom: 2px solid #4a6d8c;
+    }
+
+    .dialogue-col--mint .dialogue-col__header {
+      color: #2d6a4f;
+      background: rgba(45, 106, 79, 0.06);
+      border-bottom: 2px solid #2d6a4f;
+    }
+
+    .dialogue-turn {
+      padding: 16px;
+    }
+
+    .dialogue-turn + .dialogue-turn {
+      border-top: 1px solid rgba(148, 163, 184, 0.15);
+    }
+
+    .dialogue-turn__label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #6b7280;
+      margin-bottom: 8px;
+    }
+
+    .dialogue-seeker {
+      background: #f3f4f6;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 13.5px;
+      font-style: italic;
+      color: #4b5563;
+      line-height: 1.55;
+      margin-bottom: 10px;
+    }
+
+    .dialogue-response {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 13.5px;
+      color: #374151;
+      line-height: 1.55;
+    }
+
+    .dialogue-col--vanilla .dialogue-response {
+      border-left: 3px solid #7c9ab5;
+    }
+
+    .dialogue-col--mint .dialogue-response {
+      border-left: 3px solid #2d6a4f;
+    }
+
+    .dialogue-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 8px;
+    }
+
+    .tactic-badge {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 2px 10px;
+      font-size: 11px;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    /* Vanilla badges: uniform muted color to emphasize repetition */
+    .tactic-badge--vanilla {
+      background: rgba(124, 154, 181, 0.12);
+      color: #5a7a94;
+    }
+
+    /* MINT badges: each tactic gets a distinct shade to emphasize variety */
+    .tactic-badge--validation {
+      background: rgba(45, 106, 79, 0.10);
+      color: #2d6a4f;
+    }
+
+    .tactic-badge--questioning {
+      background: rgba(37, 99, 235, 0.10);
+      color: #2563eb;
+    }
+
+    .tactic-badge--reappraisal {
+      background: rgba(155, 130, 196, 0.15);
+      color: #7c5fb0;
+    }
+
+    .tactic-badge--empowerment {
+      background: rgba(217, 119, 6, 0.10);
+      color: #b45309;
+    }
+
+    .tactic-badge--advice {
+      background: rgba(6, 148, 162, 0.10);
+      color: #0e7490;
+    }
+
+    .dialogue-annotation {
+      margin-top: 24px;
+      font-size: 14px;
+      color: #4b5563;
+      line-height: 1.6;
+      text-align: center;
+      max-width: 760px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ============================================================
+       TACTIC GRID
+       ============================================================ */
+    .tactic-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    .tactic-grid__card {
+      background: #ffffff;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+
+    .tactic-grid__name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #111827;
+      margin-bottom: 4px;
+    }
+
+    .tactic-grid__example {
+      font-size: 13px;
+      color: #6b7280;
+      font-style: italic;
+      line-height: 1.5;
+    }
+
+    /* ============================================================
+       SUB-BLOCKS (within cohesive sections)
+       ============================================================ */
+    .sub-block {
+      padding: 48px 0;
+    }
+
+    .sub-block + .sub-block {
+      border-top: none;
+    }
+
+    .sub-block--tint {
+      background: #f8faf9;
+    }
+
+    .sub-block__heading {
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: #111827;
+      margin-bottom: 18px;
+      line-height: 1.3;
+    }
+
+    /* ============================================================
        SPACING HELPERS
        ============================================================ */
     .mt-16 { margin-top: 16px; }
@@ -717,22 +975,15 @@
     /* ============================================================
        SCROLL FADE-IN ANIMATIONS
        ============================================================ */
-    .fade-in-target {
+    .js-animations .fade-in-target {
       opacity: 0;
       transform: translateY(20px);
       transition: opacity 0.5s ease, transform 0.5s ease;
     }
 
-    .fade-in-target.visible {
+    .js-animations .fade-in-target.visible {
       opacity: 1;
       transform: translateY(0);
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .fade-in-target {
-        opacity: 1;
-        transform: none;
-      }
     }
 
     /* ============================================================
@@ -793,6 +1044,8 @@
     @media (max-width: 768px) {
       .topbar__title { display: none; }
       .topbar__sep { display: none; }
+      .topbar__pill--nav { display: none; }
+      .topbar__nav-sep { display: none; }
 
       .hero { padding: 48px 0 36px; }
       .hero h1 { font-size: 24px; }
@@ -833,6 +1086,19 @@
         display: block;
         margin: 2px 0;
       }
+
+      .dialogue-spotlight {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .tactic-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .sub-block {
+        padding: 36px 0;
+      }
     }
 
     @media (max-width: 480px) {
@@ -861,10 +1127,10 @@
     <span class="topbar__title">Discourse Diversity in Multi-Turn Empathic Dialogue</span>
   </div>
   <nav class="topbar__links" aria-label="Primary">
-    <span class="topbar__pill topbar__pill--disabled" aria-label="Paper (coming soon)" title="Paper (coming soon)">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-      <span class="pill-label">Paper</span>
-    </span>
+    <a href="#problem" class="topbar__pill topbar__pill--nav">Problem</a>
+    <a href="#method" class="topbar__pill topbar__pill--nav">Method</a>
+    <a href="#results" class="topbar__pill topbar__pill--nav">Results</a>
+    <span class="topbar__nav-sep"></span>
     <a href="https://github.com/honglizhan/mint-empathy" class="topbar__pill" target="_blank" rel="noopener" aria-label="Code on GitHub">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
       <span class="pill-label">Code</span>
@@ -877,10 +1143,6 @@
       <span aria-hidden="true">🤗</span>
       <span class="pill-label">Models</span>
     </a>
-    <span class="topbar__pill topbar__pill--disabled" aria-label="Data (coming soon)" title="Data (coming soon)">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
-      <span class="pill-label">Data</span>
-    </span>
   </nav>
 </header>
 
@@ -923,199 +1185,338 @@
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
         Code
       </a>
-      <span class="hero__btn hero__btn--outline hero__btn--disabled">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-        Paper
-      </span>
       <a href="https://huggingface.co/hongli-zhan/empathy-tactic-taggers-llama3.1-8b" class="hero__btn hero__btn--outline" target="_blank" rel="noopener">
         🤗 Taggers
       </a>
       <a href="https://huggingface.co/hongli-zhan/MINT-empathy-Qwen3-1.7B" class="hero__btn hero__btn--outline" target="_blank" rel="noopener">
         🤗 Models
       </a>
-      <span class="hero__btn hero__btn--outline hero__btn--disabled">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
-        Data
-      </span>
-      <span class="hero__note">Paper and data will be released upon publication.</span>
+      <span class="hero__note">Paper and data will be available upon publication.</span>
     </div>
 
   </div>
 </section>
 
 
-<!-- ==================== LLMs ARE PERCEIVED AS EMPATHIC ==================== -->
-<section class="bg-tint">
+<!-- ==================== ABSTRACT / OVERVIEW ==================== -->
+<section>
   <div class="container--narrow">
-    <h2 class="section-heading">LLMs Are Perceived as Empathic</h2>
+    <h2 class="section-heading">Overview</h2>
     <div class="prose">
       <p>
-        In single-turn evaluations, human raters consistently judge LLM responses as more empathic than human-written ones.
+        LLMs are perceived as empathic in single turns, but what happens over the course of a conversation? We find that LLMs lock into the same discourse moves turn after turn: if a model validates your feelings in one turn, it is nearly twice as likely as a human to validate again in the next. We call this phenomenon <strong>tactic stickiness</strong>, and show that it is significantly associated with lower user willingness to re-engage.
+      </p>
+      <p>
+        To address this, we introduce <strong>MINT</strong> (Multi-turn Inter-tactic Novelty Training), the first reinforcement learning framework that directly optimizes discourse move diversity in multi-turn empathic dialogue. MINT rewards both empathy quality and cross-turn variation in discourse moves, what the response <em>does</em> for the listener, not just what it says. Trained with GRPO on Qwen3-1.7B and Qwen3-4B, MINT improves aggregate empathy by 25% while reducing tactic stickiness by 26% on the 4B model.
       </p>
     </div>
-  </div>
 
-  <div class="container">
-    <div class="stat-grid stat-grid--4 fade-in-target">
-      <div class="stat-card">
-        <div class="stat-card__number">3.41</div>
-        <div class="stat-card__label">Human</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-card__number">4.09</div>
-        <div class="stat-card__label">GPT-4</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-card__number">4.09</div>
-        <div class="stat-card__label">Llama-2</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-card__number">3.70</div>
-        <div class="stat-card__label">Mistral</div>
-      </div>
+    <div class="mt-32">
+      <h2 class="section-heading--sm">Contributions</h2>
+      <ul class="contributions-list">
+        <li>A vocabulary of <strong>10 empathy tactics</strong> and sentence-level taggers (Llama-3.1-8B with per-tactic LoRA adapters, avg F1 = 0.80) to detect them automatically.</li>
+        <li><strong>Tactic stickiness</strong>: a new multi-turn metric that captures discourse-level repetition invisible to standard metrics like BERTScore.</li>
+        <li><strong>MINT</strong>: an RL objective combining empathy quality, cross-turn tactic novelty (D<sub>KL</sub>), and within-turn tactic breadth (<em>H</em>).</li>
+        <li><strong>Empirical gains</strong>: higher empathy and lower stickiness across two model sizes, without cramming more tactics per turn.</li>
+      </ul>
     </div>
-    <p class="source-note">Perceived empathy scores (1&ndash;5 scale). Source: Lee, Suh, Zhan, Li, &amp; Ong, ACII 2024.</p>
   </div>
+</section>
 
-  <div class="container--narrow mt-24">
-    <p class="callout-text">
-      LLMs score high on perceived empathy. But what is actually in the language of these responses?
+
+<!-- ==================== DIALOGUE SPOTLIGHT ==================== -->
+<section class="bg-tint">
+  <div class="container">
+    <p class="muted-text" style="text-align:center;margin-bottom:12px;">Before diving into the metrics, here is a concrete example. The tactics shown (like Validation, Questioning, and Reappraisal) are defined in the glossary below.</p>
+    <h2 class="section-heading" style="text-align:center;">What Does Tactic Stickiness Look Like?</h2>
+
+    <div class="dialogue-spotlight fade-in-target">
+
+      <!-- Vanilla LLM column -->
+      <div class="dialogue-col dialogue-col--vanilla">
+        <div class="dialogue-col__header">Vanilla LLM</div>
+
+        <div class="dialogue-turn">
+          <div class="dialogue-turn__label">Turn 1</div>
+          <div class="dialogue-seeker">"I've been feeling really overwhelmed at work lately. My manager keeps piling on new projects and I don't know how to say no."</div>
+          <div class="dialogue-response">
+            "It sounds like you're really struggling with the workload right now. That must be incredibly stressful, and your feelings are completely valid."
+            <div class="dialogue-badges">
+              <span class="tactic-badge tactic-badge--vanilla">Paraphrasing</span>
+              <span class="tactic-badge tactic-badge--vanilla">Validation</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="dialogue-turn">
+          <div class="dialogue-turn__label">Turn 2</div>
+          <div class="dialogue-seeker">"Yeah, I think part of it is that I'm afraid of being seen as incompetent. Like if I push back, they'll think I can't handle it."</div>
+          <div class="dialogue-response">
+            "I hear you &mdash; it sounds like the fear of being judged is making it even harder. It's completely understandable to feel that way."
+            <div class="dialogue-badges">
+              <span class="tactic-badge tactic-badge--vanilla">Paraphrasing</span>
+              <span class="tactic-badge tactic-badge--vanilla">Validation</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="dialogue-turn">
+          <div class="dialogue-turn__label">Turn 3</div>
+          <div class="dialogue-seeker">"I just don't know where to start. Everything feels urgent and I can't prioritize."</div>
+          <div class="dialogue-response">
+            "It sounds like you're dealing with a lot of pressure from all directions. That's a really tough spot to be in, and it makes sense you'd feel stuck."
+            <div class="dialogue-badges">
+              <span class="tactic-badge tactic-badge--vanilla">Paraphrasing</span>
+              <span class="tactic-badge tactic-badge--vanilla">Validation</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MINT column -->
+      <div class="dialogue-col dialogue-col--mint">
+        <div class="dialogue-col__header">MINT</div>
+
+        <div class="dialogue-turn">
+          <div class="dialogue-turn__label">Turn 1</div>
+          <div class="dialogue-seeker">"I've been feeling really overwhelmed at work lately. My manager keeps piling on new projects and I don't know how to say no."</div>
+          <div class="dialogue-response">
+            "That sounds really stressful. What kinds of projects are being added &mdash; are they related to your main role, or are they coming from different directions?"
+            <div class="dialogue-badges">
+              <span class="tactic-badge tactic-badge--validation">Validation</span>
+              <span class="tactic-badge tactic-badge--questioning">Questioning</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="dialogue-turn">
+          <div class="dialogue-turn__label">Turn 2</div>
+          <div class="dialogue-seeker">"Yeah, I think part of it is that I'm afraid of being seen as incompetent. Like if I push back, they'll think I can't handle it."</div>
+          <div class="dialogue-response">
+            "That fear makes a lot of sense, but pushing back on scope is actually a sign of professional maturity, not weakness. The strongest people I know are the ones who set clear boundaries."
+            <div class="dialogue-badges">
+              <span class="tactic-badge tactic-badge--reappraisal">Reappraisal</span>
+              <span class="tactic-badge tactic-badge--empowerment">Empowerment</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="dialogue-turn">
+          <div class="dialogue-turn__label">Turn 3</div>
+          <div class="dialogue-seeker">"I just don't know where to start. Everything feels urgent and I can't prioritize."</div>
+          <div class="dialogue-response">
+            "One thing that might help: pick just one task that you can finish today, even if it's small. Getting a quick win can break that frozen feeling."
+            <div class="dialogue-badges">
+              <span class="tactic-badge tactic-badge--advice">Advice</span>
+              <span class="tactic-badge tactic-badge--empowerment">Empowerment</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="dialogue-annotation muted-text">
+      The vanilla LLM repeats Paraphrasing + Validation every turn. MINT shifts its primary strategy across turns: Questioning in turn 1, Reappraisal in turn 2, Advice in turn 3, each paired with a different secondary tactic.
     </p>
   </div>
 </section>
 
 
-<!-- ==================== BUT LLMs ARE FORMULAIC GENERATORS ==================== -->
-<section>
-  <div class="container--narrow">
-    <h2 class="section-heading">But LLMs Are Formulaic Generators</h2>
-    <div class="prose">
-      <p>
-        Recent work reveals that LLMs are formulaic generators at every linguistic level: they produce homogeneous <strong>lexical patterns</strong> (Jiang et al., 2025), reuse <strong>syntactic templates</strong> (Shaib et al., 2024), and follow similar <strong>discourse structures</strong> (Namuduri et al., 2025). But less attention has been paid to whether this formulaicity extends to the level of discourse <em>functions</em>: what a response <em>does</em> for the person it is addressing. To answer this question, we first need a vocabulary of empathic discourse moves.
-      </p>
-    </div>
-  </div>
-</section>
+<!-- ==================== THE PROBLEM: MULTI-TURN REPETITION ==================== -->
+<section id="problem" style="padding:0;">
+  <h2 class="section-heading" style="text-align:center;padding:48px 0 0;margin-bottom:0;">The Problem: Multi-Turn Repetition</h2>
 
-
-<!-- ==================== A TAXONOMY OF EMPATHY TACTICS ==================== -->
-<section class="bg-tint">
-  <div class="container--narrow">
-    <h2 class="section-heading">A Taxonomy of Empathy Tactics</h2>
-    <div class="prose">
-      <p>
-        We adopt a taxonomy of <strong>10 empathy tactics</strong> from Gueorguieva et al. (2026), synthesized from psychology literature. These tactics capture what a response <em>does</em> for the listener: validating feelings, asking questions, offering advice, paraphrasing concerns, and more. To detect these tactics automatically, we train sentence-level taggers using Llama-3.1-8B-Instruct with per-tactic LoRA adapters, achieving an average F1 of 0.80. The trained tagger adapters are <a href="https://huggingface.co/hongli-zhan/empathy-tactic-taggers-llama3.1-8b" target="_blank" rel="noopener">publicly available</a>.
-      </p>
-    </div>
-  </div>
-
-  <div class="container">
-    <div class="figure-card fade-in-target">
-      <figure>
-        <img src="static/stickiness_prevalence.svg" width="2400" height="877" loading="lazy" alt="Two-panel dot plot showing tactic prevalence and tactic stickiness across humans, GPT-3.5, GPT-4, and Llama-2, revealing that LLMs dramatically overuse and repeat the same tactics">
-        <figcaption>
-          <strong>Figure 1.</strong> <strong>Left:</strong> Tactic prevalence (percentage of turns containing each tactic). LLMs heavily overuse advice and information while under-using questioning. <strong>Right:</strong> Tactic stickiness. Blue: P(tactic in turn <em>t</em> | tactic in turn <em>t</em>&minus;1); gray: P(tactic in turn <em>t</em> | tactic not in turn <em>t</em>&minus;1). For humans, prior presence has limited influence; for LLMs, the gap is dramatic.
-        </figcaption>
-      </figure>
-    </div>
-  </div>
-</section>
-
-
-<!-- ==================== LLMs LOCK INTO THE SAME DISCOURSE MOVES ==================== -->
-<section>
-  <div class="container--narrow">
-    <h2 class="section-heading">LLMs Lock into the Same Discourse Moves</h2>
-    <div class="prose">
-      <p>
-        Armed with this vocabulary, we can now ask: do LLMs actually adapt their discourse moves, or do they repeat the same tactics?
-      </p>
-    </div>
-  </div>
-
-  <!-- Within individual responses -->
-  <div class="container--narrow mt-20">
-    <div class="prose">
-      <p>
-        <strong>Within individual responses.</strong> LLMs repeat the same tactic sequences far more than humans. The pattern Paraphrasing &rarr; Validation &rarr; Paraphrasing appears at <strong>62%</strong> in LLMs versus <strong>34%</strong> in humans.
-      </p>
-    </div>
-  </div>
-
-  <!-- Across turns -->
-  <div class="container--narrow mt-20">
-    <div class="prose">
-      <p>
-        <strong>Across turns, the rigidity compounds.</strong> We define <em>tactic stickiness</em> as P(tactic in turn <em>t</em> | tactic in turn <em>t</em>&minus;1): how likely is a discourse move to be repeated in the next turn? Standard metrics completely miss this gap:
-      </p>
-    </div>
-  </div>
-
-  <!-- BERTScore vs Stickiness comparison cards -->
-  <div class="container">
-    <div class="stat-grid stat-grid--2 mt-20 fade-in-target">
-      <div class="stat-card">
-        <div class="stat-card__header">BERTScore</div>
-        <div class="stat-card__row">
-          <div>
-            <div class="stat-card__number stat-card__number--sm">0.86</div>
-            <div class="stat-card__label">LLMs</div>
-          </div>
-          <div>
-            <div class="stat-card__number stat-card__number--sm">0.87</div>
-            <div class="stat-card__label">Humans</div>
-          </div>
-        </div>
-        <div class="stat-card__sublabel stat-card__sublabel--muted">Looks identical!</div>
+  <!-- Part A: Single-turn empathy is misleading -->
+  <div class="sub-block sub-block--tint">
+    <div class="container--narrow">
+      <h3 class="sub-block__heading">Single-turn empathy is misleading</h3>
+      <div class="prose">
+        <p>
+          In single-turn evaluations, human raters consistently judge LLM responses as more empathic than human-written ones.
+        </p>
       </div>
-      <div class="stat-card">
-        <div class="stat-card__header">Tactic Stickiness</div>
-        <div class="stat-card__row">
-          <div>
-            <div class="stat-card__number stat-card__number--sm">0.50&ndash;0.56</div>
-            <div class="stat-card__label">LLMs</div>
-          </div>
-          <div>
-            <div class="stat-card__number stat-card__number--sm">0.27</div>
-            <div class="stat-card__label">Humans</div>
-          </div>
+    </div>
+
+    <div class="container">
+      <div class="stat-grid stat-grid--4 fade-in-target">
+        <div class="stat-card">
+          <div class="stat-card__number">3.41</div>
+          <div class="stat-card__label">Human</div>
         </div>
-        <div class="stat-card__sublabel stat-card__sublabel--green">Nearly 2&times; gap!</div>
+        <div class="stat-card">
+          <div class="stat-card__number">4.09</div>
+          <div class="stat-card__label">GPT-4</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card__number">4.09</div>
+          <div class="stat-card__label">Llama-2</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card__number">3.70</div>
+          <div class="stat-card__label">Mistral</div>
+        </div>
+      </div>
+      <p class="source-note">Perceived empathy scores (1&ndash;5 scale). Source: Lee, Suh, Zhan, Li, &amp; Ong, ACII 2024.</p>
+    </div>
+
+    <div class="container--narrow mt-24">
+      <div class="prose">
+        <p>
+          These scores create a paradox: if LLMs already outperform humans on perceived empathy, what could possibly be missing? The answer lies in what happens beyond a single turn. Single-turn evaluations reward polished, empathic-sounding language &mdash; but they cannot capture whether a model adapts its supportive strategy as a conversation unfolds.
+        </p>
       </div>
     </div>
   </div>
 
-  <div class="container--narrow mt-16">
-    <p class="muted-text">
-      BERTScore shows near-identical scores. Only tactic stickiness reveals the 2&times; gap.
-    </p>
-  </div>
+  <!-- Part B: A vocabulary of empathy tactics -->
+  <div class="sub-block">
+    <div class="container--narrow">
+      <h3 class="sub-block__heading">A vocabulary of empathy tactics</h3>
+      <div class="prose">
+        <p>
+          We adopt a taxonomy of <strong>10 empathy tactics</strong> from Gueorguieva et al. (2026), synthesized from psychology literature. These tactics capture what a response <em>does</em> for the listener: validating feelings, asking questions, offering advice, paraphrasing concerns, and more. To detect these tactics automatically, we train sentence-level taggers using Llama-3.1-8B-Instruct with per-tactic LoRA adapters, achieving an average F1 of 0.80. The trained tagger adapters are <a href="https://huggingface.co/hongli-zhan/empathy-tactic-taggers-llama3.1-8b" target="_blank" rel="noopener">publicly available</a>.
+        </p>
+      </div>
+    </div>
 
-  <!-- Real consequences -->
-  <div class="container--narrow mt-20">
-    <div class="prose">
-      <p>
-        <strong>This has real consequences.</strong> Higher tactic stickiness is significantly associated with lower user willingness to re-engage (&rho; = &minus;0.287, <em>p</em> = 0.017). Discourse-level repetition erodes the supportive relationship.
-      </p>
+    <div class="container">
+      <div class="tactic-grid fade-in-target">
+        <div class="tactic-grid__card">
+          <div class="tactic-grid__name">Validation</div>
+          <div class="tactic-grid__example">"You're not overreacting."</div>
+        </div>
+        <div class="tactic-grid__card">
+          <div class="tactic-grid__name">Paraphrasing</div>
+          <div class="tactic-grid__example">"It sounds like you..."</div>
+        </div>
+        <div class="tactic-grid__card">
+          <div class="tactic-grid__name">Questioning</div>
+          <div class="tactic-grid__example">"How are you feeling?"</div>
+        </div>
+        <div class="tactic-grid__card">
+          <div class="tactic-grid__name">Advice</div>
+          <div class="tactic-grid__example">"You could try..."</div>
+        </div>
+        <div class="tactic-grid__card">
+          <div class="tactic-grid__name">Information</div>
+          <div class="tactic-grid__example">"Here is a resource..."</div>
+        </div>
+        <div class="tactic-grid__card">
+          <div class="tactic-grid__name">Emotional Expression</div>
+          <div class="tactic-grid__example">"I'm so sorry to hear that."</div>
+        </div>
+        <div class="tactic-grid__card">
+          <div class="tactic-grid__name">Self-Disclosure</div>
+          <div class="tactic-grid__example">"I've felt the same way."</div>
+        </div>
+        <div class="tactic-grid__card">
+          <div class="tactic-grid__name">Reappraisal</div>
+          <div class="tactic-grid__example">"It wasn't your fault."</div>
+        </div>
+        <div class="tactic-grid__card">
+          <div class="tactic-grid__name">Empowerment</div>
+          <div class="tactic-grid__example">"You've totally got this."</div>
+        </div>
+        <div class="tactic-grid__card">
+          <div class="tactic-grid__name">Assistance</div>
+          <div class="tactic-grid__example">"Can I do anything?"</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="figure-card fade-in-target">
+        <figure>
+          <img src="static/stickiness_prevalence.svg" width="2400" height="877" loading="lazy" alt="Two-panel dot plot showing tactic prevalence and tactic stickiness across humans, GPT-3.5, GPT-4, and Llama-2, revealing that LLMs dramatically overuse and repeat the same tactics">
+          <figcaption>
+            <strong>Figure 1.</strong> <strong>Left:</strong> Tactic prevalence (percentage of turns containing each tactic). LLMs heavily overuse advice and information while under-using questioning. <strong>Right:</strong> Tactic stickiness. Blue: P(tactic in turn <em>t</em> | tactic in turn <em>t</em>&minus;1); gray: P(tactic in turn <em>t</em> | tactic not in turn <em>t</em>&minus;1). For humans, prior presence has limited influence; for LLMs, the gap is dramatic.
+          </figcaption>
+        </figure>
+      </div>
     </div>
   </div>
 
-  <!-- Figure 2: Teaser -->
-  <div class="container">
-    <div class="figure-card fade-in-target">
-      <figure>
-        <img src="static/figure1_teaser.svg" width="2400" height="1705" loading="lazy" alt="Comparison of a human supporter conversation, a vanilla LLM that repeats the same tactics, and MINT which adapts its discourse moves across turns">
-        <figcaption>
-          <strong>Figure 2.</strong> As the seeker's needs evolve, vanilla LLMs recycle a narrow tactic set (center), whereas MINT adapts its discourse moves across turns (right), more closely resembling human supporters (left).
-        </figcaption>
-      </figure>
+  <!-- Part C: Standard metrics miss the gap -->
+  <div class="sub-block sub-block--tint">
+    <div class="container--narrow">
+      <h3 class="sub-block__heading">Standard metrics miss the gap</h3>
+      <div class="prose">
+        <p>
+          <strong>Tactic stickiness</strong> measures: if a model uses validation in one turn, how likely is it to fall back to validation again next turn, instead of adapting? High stickiness = low conversational adaptability.
+        </p>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="stat-grid stat-grid--2 mt-20 fade-in-target">
+        <div class="stat-card">
+          <div class="stat-card__header">BERTScore</div>
+          <div class="stat-card__row">
+            <div>
+              <div class="stat-card__number stat-card__number--sm">0.86</div>
+              <div class="stat-card__label">LLMs</div>
+            </div>
+            <div>
+              <div class="stat-card__number stat-card__number--sm">0.87</div>
+              <div class="stat-card__label">Humans</div>
+            </div>
+          </div>
+          <div class="stat-card__sublabel stat-card__sublabel--muted">Looks identical!</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card__header">Tactic Stickiness</div>
+          <div class="stat-card__row">
+            <div>
+              <div class="stat-card__number stat-card__number--sm">0.50&ndash;0.56</div>
+              <div class="stat-card__label">LLMs</div>
+            </div>
+            <div>
+              <div class="stat-card__number stat-card__number--sm">0.27</div>
+              <div class="stat-card__label">Humans</div>
+            </div>
+          </div>
+          <div class="stat-card__sublabel stat-card__sublabel--green">Nearly 2&times; gap!</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container--narrow mt-20">
+      <div class="prose">
+        <p>
+          Why does BERTScore see no difference? BERTScore measures semantic similarity &mdash; it confirms that LLMs use the right "empathy words." But a model can change its wording while staying in the same functional loop (e.g., paraphrasing every turn with different words). Tactic stickiness captures what BERTScore misses: not what a response <em>says</em>, but what it <em>does</em>.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Part D: This has real consequences -->
+  <div class="sub-block">
+    <div class="container--narrow">
+      <h3 class="sub-block__heading">This has real consequences</h3>
+      <div class="prose">
+        <p>
+          Higher tactic stickiness is significantly associated with lower user willingness to re-engage (&rho; = &minus;0.287, <em>p</em> = 0.017). Discourse-level repetition erodes the supportive relationship.
+        </p>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="figure-card fade-in-target">
+        <figure>
+          <img src="static/figure1_teaser.svg" width="2400" height="1705" loading="lazy" alt="Comparison of a human supporter conversation, a vanilla LLM that repeats the same tactics, and MINT which adapts its discourse moves across turns">
+          <figcaption>
+            <strong>Figure 2.</strong> As the seeker's needs evolve, vanilla LLMs recycle a narrow tactic set (center), whereas MINT adapts its discourse moves across turns (right), more closely resembling human supporters (left).
+          </figcaption>
+        </figure>
+      </div>
     </div>
   </div>
 </section>
 
 
 <!-- ==================== MINT: METHOD ==================== -->
-<section class="bg-tint">
+<section id="method" class="bg-tint">
   <div class="container--narrow">
     <h2 class="section-heading">MINT: Multi-turn Inter-tactic Novelty Training</h2>
     <div class="prose">
@@ -1130,16 +1531,27 @@
     <div class="stat-grid stat-grid--3 mt-24 fade-in-target">
       <div class="stat-card reward-card">
         <div class="stat-card__number"><em>Q</em></div>
+        <div class="stat-card__gloss">Be helpful</div>
         <div class="stat-card__label"><strong>Empathy quality</strong> PsychoCounsel reward model trained on 36K+ counseling preference pairs</div>
       </div>
       <div class="stat-card reward-card">
         <div class="stat-card__number"><em>D</em><sub>KL</sub></div>
+        <div class="stat-card__gloss">Don't repeat last turn</div>
         <div class="stat-card__label"><strong>Cross-turn tactic novelty</strong> KL divergence between current and previous turn's tactic distributions</div>
       </div>
       <div class="stat-card reward-card">
         <div class="stat-card__number"><em>H</em></div>
+        <div class="stat-card__gloss">Use varied tactics</div>
         <div class="stat-card__label"><strong>Within-turn tactic breadth</strong> Entropy of the current turn's tactic distribution</div>
       </div>
+    </div>
+  </div>
+
+  <div class="container--narrow mt-24">
+    <div class="prose">
+      <p>
+        We evaluate ablations of this reward. Our primary variant, Q+D<sub>KL</sub>, combines quality and cross-turn novelty; adding within-turn breadth (Q+D<sub>KL</sub>+H) is also explored. Results below focus on Q+D<sub>KL</sub>, which achieves the strongest trade-off.
+      </p>
     </div>
   </div>
 
@@ -1149,7 +1561,7 @@
       <figure>
         <img src="static/figure2_method.svg" width="2000" height="1125" loading="lazy" alt="Three-step MINT pipeline: Step 1 extracts tactic history from multi-turn conversation, Step 2 generates and tags responses with LoRA-based sentence classifiers, Step 3 computes diversity reward combining cross-turn KL divergence and within-turn entropy">
         <figcaption>
-          <strong>Figure 3.</strong> Overview of MINT. <strong>Step 1</strong>: A multi-turn conversation provides tactic history. <strong>Step 2</strong>: The policy generates a new supporter response, and a sentence-level tactic tagger labels each sentence. <strong>Step 3</strong>: The tactic distribution of the current turn (<em>Q</em>) is compared against the historical profile (<em>P</em>) via D<sub>KL</sub>(<em>Q</em>&Vert;<em>P</em>) for novelty and <em>H</em>(<em>Q</em>) for within-turn breadth, yielding a combined quality-weighted diversity reward optimized with GRPO.
+          <strong>Figure 3.</strong> Overview of MINT. <strong>Step 1</strong>: A multi-turn conversation provides tactic history. <strong>Step 2</strong>: The policy generates a new supporter response, and a sentence-level tactic tagger labels each sentence. <strong>Step 3</strong>: The tactic distribution of the current turn is compared against the historical profile via D<sub>KL</sub> for cross-turn novelty and <em>H</em> for within-turn breadth, yielding a combined quality-weighted diversity reward optimized with GRPO.
         </figcaption>
       </figure>
     </div>
@@ -1157,16 +1569,22 @@
 </section>
 
 
-<!-- ==================== EVALUATION ==================== -->
-<section>
+<!-- ==================== EXPERIMENTAL SETUP ==================== -->
+<section id="setup">
   <div class="container--narrow">
-    <h2 class="section-heading">Evaluation: Both Empathy and Diversity</h2>
+    <h2 class="section-heading">Experimental Setup</h2>
     <div class="prose">
       <p>
-        If we only measure empathy, a model can score high by repeating one effective pattern every turn. If we only measure diversity, a model can appear varied but unhelpful. We need both dimensions to tell the full story.
+        The formulaic patterns documented above generalize across model families. We train and evaluate on Qwen3 to test whether reinforcement learning can correct this behavior in smaller, open-source models.
       </p>
       <p>
-        For <strong>perceived empathy</strong>, we adopt the Lend-an-Ear framework (Kumar et al., 2026): 6 dimensions rated on a 1&ndash;5 scale, evaluated per turn across 315 supporter turns from 50 conversations. An LLM judge (gpt-oss-120b, temperature 0) achieves weighted Cohen's &kappa;<sub>w</sub> = 0.58, matching expert-level inter-annotator agreement. For <strong>tactic diversity</strong>, we measure stickiness: the conditional probability that a tactic reappears in the next turn.
+        <strong>Models and training.</strong> We train on two base models: Qwen3-1.7B and Qwen3-4B, optimized with Group Relative Policy Optimization (GRPO). Multi-turn rollouts are constructed from the ESConv dataset, where the model generates supporter responses conditioned on real seeker turns and conversation history.
+      </p>
+      <p>
+        <strong>Baselines.</strong> <em>Vanilla</em>: the base model prompted with a supportive role instruction. <em>PsychoCounsel</em>: RL trained with an empathy-only reward model (trained on 36K+ counseling preference pairs) &mdash; optimizes empathy quality but has no diversity signal. <em>R1-Zero-Div</em>: adds a token-level diversity bonus (penalizing repeated n-grams) to test whether surface-level lexical diversity transfers to discourse-function diversity.
+      </p>
+      <p>
+        <strong>Evaluation.</strong> For <strong>perceived empathy</strong>, we adopt the Lend-an-Ear framework (Kumar et al., 2026): 6 dimensions rated on a 1&ndash;5 scale, evaluated per turn across 315 supporter turns from 50 conversations. An LLM judge achieves weighted Cohen&rsquo;s &kappa;<sub>w</sub> = 0.58, matching expert inter-annotator agreement. For <strong>tactic diversity</strong>, we measure stickiness: the conditional probability that a tactic reappears in the next turn.
       </p>
     </div>
   </div>
@@ -1174,7 +1592,7 @@
 
 
 <!-- ==================== RESULTS ==================== -->
-<section class="bg-tint">
+<section id="results" class="bg-tint">
   <div class="container--narrow">
     <h2 class="section-heading">Results</h2>
     <div class="prose">
@@ -1189,11 +1607,11 @@
     <div class="stat-grid stat-grid--3 fade-in-target">
       <div class="stat-card">
         <div class="stat-card__number">+25.3%</div>
-        <div class="stat-card__label">Aggregate empathy improvement (avg. across 1.7B and 4B)</div>
+        <div class="stat-card__label">Aggregate empathy vs. vanilla (avg. across 1.7B and 4B)</div>
       </div>
       <div class="stat-card">
         <div class="stat-card__number">&minus;26.3%</div>
-        <div class="stat-card__label">Tactic stickiness reduction (4B model)</div>
+        <div class="stat-card__label">Tactic stickiness reduction (4B: 0.57 &rarr; 0.42)</div>
       </div>
       <div class="stat-card">
         <div class="stat-card__number stat-card__number--sm">5.04 vs 6.43</div>
@@ -1285,12 +1703,18 @@
     </div>
   </div>
 
+  <div class="container--narrow mt-16">
+    <p class="muted-text">
+      <strong>Why do humans score lower on perceived empathy?</strong> LLMs produce longer, more polished responses that raters perceive as more empathic in isolation. The key insight is that humans are far more diverse in their discourse strategies (stickiness = 0.27), which sustains the supportive relationship over multiple turns.
+    </p>
+  </div>
+
   <!-- Pareto Front (interactive) -->
   <div class="container--narrow">
     <div class="figure-card fade-in-target">
       <figure>
         <div style="position:relative;width:100%;max-width:700px;margin:0 auto;">
-          <canvas id="pareto-chart" role="img" aria-label="Scatter plot of aggregate empathy vs tactic stickiness. MINT (Q+D_KL) achieves the best trade-off: highest empathy with lowest stickiness across both 1.7B and 4B model sizes."></canvas>
+          <canvas id="pareto-chart" role="img" aria-label="Scatter plot of aggregate empathy vs tactic stickiness. MINT (Q+D_KL) achieves the best empathy across both model sizes; on 4B it also achieves the lowest stickiness among all methods."></canvas>
         </div>
         <figcaption>
           <strong>Figure 4.</strong> Aggregate empathy vs. tactic stickiness. Higher is better on empathy; lower (rightward) is better on stickiness. MINT (Q+D<sub>KL</sub>) gives the best trade-off across both model sizes. Hover over points to see details.
@@ -1304,6 +1728,25 @@
     <div class="takeaway-box">
       <p>
         These results suggest that what current models lack is not empathy itself, but the ability to strategically vary their discourse moves across the arc of a conversation.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ==================== IMPACT & LIMITATIONS ==================== -->
+<section id="impact">
+  <div class="container--narrow">
+    <h2 class="section-heading">Impact and Limitations</h2>
+    <div class="prose">
+      <p>
+        <strong>Why discourse diversity matters.</strong> Empathic support is not a single-turn task. In real conversations &mdash; with therapists, counselors, crisis hotline workers, or even friends &mdash; the supporter adapts their strategy as the speaker's needs evolve. A good listener might validate first, then ask a probing question, then gently reframe. This variation is not random; it is responsive. MINT takes a first step toward building models that can do the same.
+      </p>
+      <p>
+        <strong>Limitations.</strong> MINT optimizes for diversity of discourse tactics, but the right tactic at the right moment requires contextual judgment that a reward signal alone cannot fully capture. Our evaluation uses an LLM judge for perceived empathy, which, while matching expert agreement, may not capture all dimensions of real therapeutic quality. The tactic taxonomy, while grounded in psychology literature, is one of several possible ways to categorize supportive discourse moves.
+      </p>
+      <p>
+        This work focuses on peer-support dialogue and is not intended as a substitute for professional mental health care.
       </p>
     </div>
   </div>
@@ -1388,6 +1831,7 @@ function showCopied() {
    SCROLL FADE-IN (IntersectionObserver)
    ============================================================ */
 (function() {
+  document.body.classList.add('js-animations');
   var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (prefersReducedMotion) return;
 
@@ -1437,7 +1881,7 @@ function showCopied() {
     prompt: '#7c9ab5',
     quality_rl: '#d4944c',
     token_div: '#9b82c4',
-    ours: '#2563eb',
+    ours: '#2d6a4f',
   };
 
   const familyShapes = {
