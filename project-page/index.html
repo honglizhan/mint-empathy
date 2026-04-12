@@ -6,7 +6,6 @@
   <title>Discourse Diversity in Multi-Turn Empathic Dialogue</title>
   <meta name="description" content="MINT: Multi-turn Inter-tactic Novelty Training for discourse diversity in multi-turn empathic dialogue.">
 
-  <!-- Open Graph / Twitter -->
   <meta property="og:title" content="Discourse Diversity in Multi-Turn Empathic Dialogue">
   <meta property="og:description" content="LLMs lock into the same empathy tactics turn after turn. MINT is the first RL framework to optimize discourse move diversity in multi-turn empathic dialogue.">
   <meta property="og:type" content="website">
@@ -18,7 +17,6 @@
   <meta name="twitter:image" content="static/figure1_teaser.svg">
   <meta name="twitter:image:alt" content="Comparison of human, vanilla LLM, and MINT empathic dialogue strategies across conversation turns">
 
-  <!-- Scholar meta -->
   <meta name="citation_title" content="Discourse Diversity in Multi-Turn Empathic Dialogue">
   <meta name="citation_author" content="Zhan, Hongli">
   <meta name="citation_author" content="Gueorguieva, Emma S.">
@@ -28,16 +26,23 @@
   <meta name="citation_author" content="Li, Junyi Jessy">
   <meta name="citation_publication_date" content="2026">
 
-  <!-- Google Fonts: Source Serif 4 for headings -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700&display=swap" rel="stylesheet">
-
   <style>
-    /* ============================================================
-       RESET & BASE
-       ============================================================ */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --accent: #2d6a4f;
+      --accent-dark: #1b4332;
+      --text: #334155;
+      --text-strong: #0f172a;
+      --muted: #64748b;
+      --line: #e2e8f0;
+      --soft: #f8fafc;
+      --white: #ffffff;
+      --shadow: 0 14px 40px rgba(15, 23, 42, 0.04);
+      --radius: 22px;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
 
     html {
       font-size: 16px;
@@ -46,701 +51,76 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      *, *::before, *::after { transition-duration: 0s !important; animation-duration: 0s !important; }
+      html {
+        scroll-behavior: auto;
+      }
+
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-      background: #ffffff;
-      color: #334155;
-      line-height: 1.7;
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background: var(--white);
+      line-height: 1.65;
       -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
     }
 
     ::selection {
-      background: rgba(82, 183, 136, 0.25);
-      color: #111827;
+      background: rgba(45, 106, 79, 0.18);
+      color: var(--text-strong);
     }
 
-    img { max-width: 100%; height: auto; display: block; }
-    a { color: #2d6a4f; text-decoration: none; transition: color 0.15s; }
-    a:hover { color: #1b4332; }
-    a:focus-visible, button:focus-visible { outline: 2px solid #52b788; outline-offset: 2px; border-radius: 4px; }
-
-    /* ============================================================
-       LAYOUT
-       ============================================================ */
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 0 32px;
+    a {
+      color: var(--accent);
+      text-decoration: none;
     }
 
-    .container--narrow {
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 0 32px;
+    a:hover {
+      color: var(--accent-dark);
     }
 
-    section {
-      padding: 96px 0;
+    a:focus-visible,
+    button:focus-visible,
+    select:focus-visible {
+      outline: 3px solid rgba(45, 106, 79, 0.28);
+      outline-offset: 3px;
     }
 
-    /* ============================================================
-       STICKY HEADER BAR
-       ============================================================ */
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(255, 255, 255, 0.75);
-      backdrop-filter: blur(16px) saturate(180%);
-      -webkit-backdrop-filter: blur(16px) saturate(180%);
-      border-top: 4px solid #2d6a4f;
-      border-bottom: 1px solid rgba(226, 232, 240, 0.8);
-      padding: 0 32px;
-      height: 52px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+    button,
+    select {
+      font: inherit;
     }
 
-    .topbar__left {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      min-width: 0;
-    }
-
-    .topbar__logo {
-      width: 28px;
-      height: 28px;
-      flex-shrink: 0;
-      border-radius: 6px;
-    }
-
-    .topbar__name {
-      font-family: 'Source Serif 4', Georgia, serif;
-      font-weight: 700;
-      font-size: 15px;
-      color: #2d6a4f;
-      letter-spacing: 0.03em;
-      flex-shrink: 0;
-    }
-
-    .topbar__sep {
-      width: 1px;
-      height: 18px;
-      background: rgba(148, 163, 184, 0.5);
-      flex-shrink: 0;
-    }
-
-    .topbar__title {
-      font-size: 13px;
-      color: #6b7280;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .topbar__links {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-shrink: 0;
-    }
-
-    .topbar__pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 5px 14px;
-      border-radius: 999px;
-      font-size: 12.5px;
-      font-weight: 500;
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      color: #4b5563;
-      background: #ffffff;
-      transition: all 0.15s;
-      cursor: pointer;
-    }
-
-    .topbar__pill:hover {
-      background: rgba(45, 106, 79, 0.06);
-      border-color: #2d6a4f;
-      color: #2d6a4f;
-    }
-
-    .topbar__pill svg {
-      flex-shrink: 0;
-    }
-
-    .topbar__pill--disabled {
-      opacity: 0.5;
-      cursor: default;
-      pointer-events: none;
-    }
-
-    /* ============================================================
-       HERO
-       ============================================================ */
-    .hero {
-      padding: 72px 0 56px;
-      text-align: center;
-    }
-
-    .hero__badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 20px;
-    }
-
-    .hero__badge img {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
-    }
-
-    .hero__badge span {
-      font-family: 'Source Serif 4', Georgia, serif;
-      font-weight: 700;
-      font-size: 16px;
-      color: #2d6a4f;
-      letter-spacing: 0.04em;
-    }
-
-    .hero h1 {
-      font-family: 'Source Serif 4', Georgia, serif;
-      font-size: clamp(36px, 5vw, 48px);
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      line-height: 1.18;
-      color: #111827;
-      max-width: 720px;
-      margin: 0 auto 18px;
-    }
-
-    .hero__subtitle {
-      font-size: 17px;
-      color: #374151;
-      line-height: 1.55;
-      max-width: 620px;
-      margin: 0 auto 24px;
-    }
-
-    /* Authors */
-    .authors {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 8px 16px;
-      font-size: 16px;
-      line-height: 1.8;
-      color: #4b5563;
-    }
-
-    .authors a { color: #2d6a4f; }
-    .authors a:hover { text-decoration: underline; }
-
-    .authors sup {
-      font-size: 10px;
-      margin-left: 1px;
-      color: #6b7280;
-    }
-
-    .affiliations {
-      margin-top: 8px;
-      font-size: 13px;
-      color: #6b7280;
-      line-height: 1.7;
-    }
-
-    .affiliations span {
-      display: inline-block;
-      margin: 0 8px;
-    }
-
-    .affiliations__note {
+    img,
+    canvas {
+      max-width: 100%;
       display: block;
-      margin-top: 4px;
-      font-size: 12px;
-      color: #6b7280;
-      font-style: italic;
     }
 
-    /* Hero links */
-    .hero__links {
-      margin-top: 24px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .hero__btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 20px;
-      border-radius: 999px;
-      font-size: 13.5px;
-      font-weight: 500;
-      transition: all 0.15s;
-    }
-
-    .hero__btn--primary {
-      background: #2d6a4f;
-      color: #ffffff;
-      border: 1px solid #2d6a4f;
-    }
-
-    .hero__btn--primary:hover {
-      background: #1b4332;
-      border-color: #1b4332;
-      color: #ffffff;
-    }
-
-    .hero__btn--outline {
-      background: #ffffff;
-      color: #4b5563;
-      border: 1px solid rgba(148, 163, 184, 0.4);
-    }
-
-    .hero__btn--outline:hover {
-      border-color: #2d6a4f;
-      color: #2d6a4f;
-      background: rgba(45, 106, 79, 0.04);
-    }
-
-    .hero__btn--disabled {
-      opacity: 0.5;
-      cursor: default;
-      pointer-events: none;
-    }
-
-    .hero__note {
-      display: block;
-      width: 100%;
-      margin-top: 10px;
-      font-size: 12.5px;
-      color: #6b7280;
-      font-style: italic;
-    }
-
-    /* ============================================================
-       SECTION HEADINGS
-       ============================================================ */
-    .section-heading {
-      font-family: 'Source Serif 4', Georgia, serif;
-      font-size: 22px;
-      font-weight: 600;
-      letter-spacing: -0.03em;
-      color: #111827;
-      margin-bottom: 24px;
-      line-height: 1.3;
-    }
-
-    /* ============================================================
-       BODY TEXT
-       ============================================================ */
-    .prose {
-      font-size: 15px;
-      color: #4b5563;
-      line-height: 1.7;
-    }
-
-    .prose p + p {
-      margin-top: 14px;
-    }
-
-    .prose strong {
-      color: #111827;
-      font-weight: 600;
-    }
-
-    .prose em {
-      font-style: italic;
-    }
-
-    .muted-text {
-      font-size: 13.5px;
-      color: #6b7280;
-      line-height: 1.6;
-    }
-
-    .section-intro {
-      max-width: 620px;
-      margin: 0 auto 28px;
-      text-align: center;
-      font-size: 15px;
-      color: #4b5563;
-      line-height: 1.65;
-    }
-
-    /* ============================================================
-       DIALOGUE SPOTLIGHT
-       ============================================================ */
-    .dialogue-spotlight {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 28px;
-      margin-top: 28px;
-    }
-
-    .dialogue-col {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      background: #fff;
-      border: 1px solid #e2e8f0;
-      border-radius: 16px;
-      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
-      overflow: hidden;
-    }
-
-    .dialogue-col__header {
-      font-family: 'Source Serif 4', Georgia, serif;
-      font-size: 15px;
-      font-weight: 600;
-      letter-spacing: 0.02em;
-      padding: 10px 16px;
-      border-radius: 10px 10px 0 0;
-      text-align: center;
-      background: #f8fafc;
-      border-bottom: 1px solid #e2e8f0;
-    }
-
-    .dialogue-col--vanilla .dialogue-col__header {
-      color: #4a6d8c;
-    }
-
-    .dialogue-col--mint .dialogue-col__header {
-      color: #2d6a4f;
-    }
-
-    .dialogue-turn {
-      padding: 16px;
-    }
-
-    .dialogue-turn + .dialogue-turn {
-      border-top: 1px solid rgba(148, 163, 184, 0.15);
-    }
-
-    .dialogue-turn__label {
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: #6b7280;
-      margin-bottom: 8px;
-    }
-
-    .dialogue-seeker {
-      background: #f1f5f9;
-      border: none;
-      border-radius: 16px 16px 16px 4px;
-      padding: 14px 18px;
-      font-size: 13.5px;
-      color: #334155;
-      line-height: 1.55;
-      margin-bottom: 10px;
-      overflow-wrap: break-word;
-      hyphens: auto;
-    }
-
-    .dialogue-response {
-      border-radius: 16px 16px 4px 16px;
-      padding: 14px 18px;
-      font-size: 13.5px;
-      color: #374151;
-      line-height: 1.55;
-      overflow-wrap: break-word;
-      hyphens: auto;
-    }
-
-    .dialogue-col--vanilla .dialogue-response {
-      background: #fff;
-      border: 1px solid #e2e8f0;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-    }
-
-    .dialogue-col--mint .dialogue-response {
-      background: #ecfdf5;
-      border: 1px solid #a7f3d0;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-    }
-
-    .dialogue-badges {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 5px;
-      margin-top: 8px;
-    }
-
-    .tactic-badge {
-      display: inline-block;
-      border: 1px solid rgba(0,0,0,0.05);
-      border-radius: 999px;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-      padding: 4px 12px;
-      font-size: 11.5px;
-      font-weight: 600;
-      line-height: 1.5;
-    }
-
-    .tactic-badge--vanilla {
-      background: rgba(124, 154, 181, 0.12);
-      color: #5a7a94;
-    }
-
-    .tactic-badge--validation {
-      background: rgba(45, 106, 79, 0.10);
-      color: #2d6a4f;
-    }
-
-    .tactic-badge--questioning {
-      background: rgba(37, 99, 235, 0.10);
-      color: #2563eb;
-    }
-
-    .tactic-badge--reappraisal {
-      background: rgba(155, 130, 196, 0.15);
-      color: #7c5fb0;
-    }
-
-    .tactic-badge--empowerment {
-      background: rgba(217, 119, 6, 0.10);
-      color: #b45309;
-    }
-
-    .tactic-badge--advice {
-      background: rgba(6, 148, 162, 0.10);
-      color: #0e7490;
-    }
-
-    .dialogue-annotation {
-      margin-top: 24px;
-      font-size: 14px;
-      color: #4b5563;
-      line-height: 1.6;
-      text-align: center;
-      max-width: 760px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    /* ============================================================
-       TACTIC LEGEND (compact inline)
-       ============================================================ */
-    .tactic-legend {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px 20px;
-      justify-content: center;
-      margin-bottom: 24px;
-      padding: 12px 16px;
-      background: rgba(255, 255, 255, 0.7);
-      border: 1px solid rgba(148, 163, 184, 0.2);
-      border-radius: 8px;
-    }
-
-    .tactic-legend__item {
-      font-size: 12px;
-      color: #4b5563;
-      line-height: 1.5;
-    }
-
-    .tactic-legend__item strong {
-      font-weight: 600;
-      color: #111827;
-    }
-
-    /* ============================================================
-       TOOLS CARDS
-       ============================================================ */
-    .tools-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-      margin-top: 28px;
-    }
-
-    .tool-card {
-      background: #ffffff;
-      border: 1px solid rgba(148, 163, 184, 0.3);
-      border-radius: 14px;
-      padding: 28px 24px;
-      text-align: center;
-      transform: translateY(0);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .tool-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 20px -5px rgba(0,0,0,0.08), 0 4px 6px -2px rgba(0,0,0,0.04);
-      border-color: #52b788;
-    }
-
-    .tool-card__icon {
-      width: 40px;
-      height: 40px;
-      margin: 0 auto 16px;
-      color: #2d6a4f;
-    }
-
-    .tool-card__title {
-      font-family: 'Source Serif 4', Georgia, serif;
-      font-size: 17px;
-      font-weight: 600;
-      color: #111827;
-      margin-bottom: 8px;
-    }
-
-    .tool-card__desc {
-      font-size: 14px;
-      color: #6b7280;
-      line-height: 1.5;
-      margin-bottom: 16px;
-    }
-
-    .tool-card__btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 8px 18px;
-      border-radius: 999px;
-      font-size: 13px;
-      font-weight: 500;
-      background: #2d6a4f;
-      color: #ffffff;
-      border: 1px solid #2d6a4f;
-      transition: all 0.15s;
-    }
-
-    .tool-card__btn:hover {
-      background: #1b4332;
-      border-color: #1b4332;
-      color: #ffffff;
-    }
-
-    .tools-note {
-      margin-top: 18px;
-      text-align: center;
-      font-size: 13px;
-      color: #6b7280;
-    }
-
-    /* ============================================================
-       BIBTEX
-       ============================================================ */
-    .bibtex-box {
-      background: #1e293b;
-      color: rgba(255, 255, 255, 0.82);
-      border: 1px solid #334155;
-      border-radius: 14px;
-      box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
-      padding: 24px 28px;
-      font-size: 12.5px;
-      line-height: 1.65;
-      overflow-x: auto;
-      position: relative;
-      font-family: 'SF Mono', 'Fira Code', 'Fira Mono', Menlo, Consolas, monospace;
-      margin-top: 16px;
-    }
-
-    .bibtex-box pre {
-      margin: 0;
-      white-space: pre-wrap;
-      word-wrap: break-word;
-      color: rgba(255, 255, 255, 0.82);
-      font-family: inherit;
-      font-size: inherit;
-      line-height: inherit;
-    }
-
-    .copy-btn {
+    .skip-link {
       position: absolute;
-      top: 12px;
-      right: 12px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: rgba(255, 255, 255, 0.7);
-      font-size: 12px;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      cursor: pointer;
-      border-radius: 8px;
-      padding: 5px 12px;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      transition: all 0.15s;
+      left: 1rem;
+      top: -4rem;
+      z-index: 100;
+      padding: 0.7rem 1rem;
+      border-radius: 0 0 12px 12px;
+      background: var(--accent);
+      color: var(--white);
+      transition: top 0.18s ease;
     }
 
-    .copy-btn:hover {
-      background: rgba(255, 255, 255, 0.15);
-      color: #ffffff;
+    .skip-link:focus {
+      top: 0;
+      color: var(--white);
     }
 
-    .copy-btn:focus-visible {
-      outline: 2px solid #52b788;
-      outline-offset: 2px;
-    }
-
-    /* ============================================================
-       FOOTER
-       ============================================================ */
-    .site-footer {
-      padding: 32px 0;
-      text-align: center;
-      font-size: 12.5px;
-      color: #6b7280;
-      border-top: 1px solid rgba(148, 163, 184, 0.2);
-    }
-
-    .site-footer a {
-      color: #6b7280;
-    }
-
-    .site-footer a:hover {
-      color: #2d6a4f;
-    }
-
-    /* ============================================================
-       SECTION BACKGROUNDS
-       ============================================================ */
-    .bg-tint {
-      background: #f8fafc;
-    }
-
-    /* ============================================================
-       SPACING HELPERS
-       ============================================================ */
-    .mt-16 { margin-top: 16px; }
-    .mt-20 { margin-top: 20px; }
-    .mt-24 { margin-top: 24px; }
-    .mt-32 { margin-top: 32px; }
-
-    /* ============================================================
-       SCROLL FADE-IN ANIMATIONS
-       ============================================================ */
-    .js-animations .fade-in-target {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
-    }
-
-    .js-animations .fade-in-target.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* ============================================================
-       ACCESSIBILITY
-       ============================================================ */
     .sr-only {
       position: absolute;
       width: 1px;
@@ -753,320 +133,699 @@
       border: 0;
     }
 
-    .skip-link {
+    .page {
+      padding: 0 1.5rem 5rem;
+    }
+
+    .container {
+      width: min(100%, 860px);
+      margin: 0 auto;
+    }
+
+    section {
+      padding: 4.5rem 0 0;
+    }
+
+    .hero {
+      padding-top: 5.5rem;
+      text-align: center;
+    }
+
+    .eyebrow {
+      margin: 0 0 0.9rem;
+      color: var(--accent);
+      font-size: 0.92rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0 auto;
+      max-width: 13ch;
+      font-size: clamp(2.4rem, 5.6vw, 4.3rem);
+      line-height: 1.04;
+      letter-spacing: -0.04em;
+      color: var(--text-strong);
+      font-weight: 700;
+    }
+
+    .hero .tldr {
+      width: min(100%, 720px);
+      margin: 1.35rem auto 0;
+      font-size: 1.1rem;
+      color: var(--muted);
+    }
+
+    .authors {
+      margin: 1.7rem auto 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem 1rem;
+      font-size: 1rem;
+    }
+
+    .authors span {
+      white-space: nowrap;
+    }
+
+    .authors sup,
+    .affiliations sup {
+      font-size: 0.68em;
+      vertical-align: super;
+    }
+
+    .affiliations {
+      margin-top: 0.8rem;
+      color: var(--muted);
+      font-size: 0.94rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.35rem 1rem;
+    }
+
+    .actions {
+      margin-top: 1.75rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+
+    .button,
+    .button-disabled {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 7.4rem;
+      padding: 0.78rem 1.15rem;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--white);
+      color: var(--text);
+      font-weight: 600;
+      transition: transform 0.16s ease, border-color 0.16s ease, color 0.16s ease, background 0.16s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(45, 106, 79, 0.03);
+    }
+
+    .button-primary {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: var(--white);
+    }
+
+    .button-primary:hover {
+      background: var(--accent-dark);
+      border-color: var(--accent-dark);
+      color: var(--white);
+    }
+
+    .button-disabled {
+      opacity: 0.52;
+      cursor: not-allowed;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(1.55rem, 2vw, 1.85rem);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      color: var(--text-strong);
+    }
+
+    .section-intro {
+      width: min(100%, 700px);
+      margin: 0.8rem 0 1.8rem;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .example-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.25rem;
+      align-items: start;
+    }
+
+    .example-card,
+    .chart-shell,
+    .explorer,
+    .bibtex-shell {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--white);
+      box-shadow: var(--shadow);
+    }
+
+    .example-card {
+      overflow: hidden;
+    }
+
+    .example-card__header {
+      padding: 0.95rem 1.2rem;
+      border-bottom: 1px solid var(--line);
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: #fbfcfd;
+    }
+
+    .example-card--mint .example-card__header {
+      color: var(--accent);
+    }
+
+    .turn {
+      padding: 1.1rem 1.15rem 1.2rem;
+      border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+    }
+
+    .turn:last-child {
+      border-bottom: 0;
+    }
+
+    .turn-label {
+      margin-bottom: 0.7rem;
+      font-size: 0.77rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .bubble {
+      max-width: 100%;
+      padding: 0.95rem 1rem;
+      border-radius: 1.15rem;
+      font-size: 0.97rem;
+      line-height: 1.56;
+      overflow-wrap: anywhere;
+    }
+
+    .bubble + .bubble,
+    .bubble + .message-meta,
+    .message-meta + .bubble {
+      margin-top: 0.7rem;
+    }
+
+    .bubble-seeker {
+      border: 1px solid #e2e8f0;
+      background: #f8fafc;
+      border-bottom-left-radius: 0.28rem;
+    }
+
+    .bubble-supporter {
+      border: 1px solid #dbe7e1;
+      background: #fcfefd;
+      border-bottom-right-radius: 0.28rem;
+    }
+
+    .example-card--mint .bubble-supporter {
+      border-color: rgba(45, 106, 79, 0.22);
+      background: rgba(45, 106, 79, 0.05);
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-top: 0.7rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.3rem 0.68rem;
+      border-radius: 999px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      border: 1px solid transparent;
+      white-space: nowrap;
+    }
+
+    .badge-muted {
+      background: rgba(100, 116, 139, 0.1);
+      color: #475569;
+      border-color: rgba(100, 116, 139, 0.18);
+    }
+
+    .chart-shell {
+      padding: 1.4rem;
+    }
+
+    .chart-wrap {
+      position: relative;
+      width: 100%;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .chart-caption {
+      margin: 1rem 0 0;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .explorer {
+      padding: 1.2rem;
+    }
+
+    .explorer-controls {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1rem;
+    }
+
+    .control-group label {
+      display: block;
+      margin-bottom: 0.45rem;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text-strong);
+    }
+
+    .control-group select {
+      width: 100%;
+      padding: 0.8rem 0.95rem;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: var(--white);
+      color: var(--text);
+    }
+
+    .model-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+    }
+
+    .model-tab {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0.72rem 1rem;
+      background: var(--white);
+      color: var(--muted);
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.16s ease, color 0.16s ease, border-color 0.16s ease, transform 0.16s ease;
+    }
+
+    .model-tab:hover {
+      transform: translateY(-1px);
+      border-color: #cbd5e1;
+      color: var(--text);
+    }
+
+    .model-tab[aria-selected="true"] {
+      background: #e2e8f0;
+      border-color: #cbd5e1;
+      color: var(--text-strong);
+    }
+
+    .model-tab--mint {
+      border-color: rgba(45, 106, 79, 0.28);
+      background: rgba(45, 106, 79, 0.07);
+      color: var(--accent);
+    }
+
+    .model-tab--mint[aria-selected="true"] {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--white);
+    }
+
+    .explorer-panel {
+      margin-top: 1.1rem;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: linear-gradient(180deg, #fbfdff 0%, #ffffff 100%);
+      overflow: hidden;
+    }
+
+    .explorer-status {
+      padding: 1rem 1.1rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .chat {
+      padding: 1.1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .chat-turn {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    .message {
+      display: flex;
+    }
+
+    .message--seeker {
+      justify-content: flex-start;
+    }
+
+    .message--supporter {
+      justify-content: flex-end;
+    }
+
+    .message__inner {
+      width: min(100%, 620px);
+    }
+
+    .message__label {
+      margin: 0 0 0.35rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .message--supporter .message__label {
+      text-align: right;
+    }
+
+    .message__bubble {
+      padding: 0.9rem 1rem;
+      border-radius: 1.15rem;
+      font-size: 0.96rem;
+      line-height: 1.58;
+      border: 1px solid var(--line);
+      overflow-wrap: anywhere;
+    }
+
+    .message--seeker .message__bubble {
+      background: #f1f5f9;
+      border-bottom-left-radius: 0.28rem;
+    }
+
+    .message--supporter .message__bubble {
+      background: rgba(45, 106, 79, 0.05);
+      border-color: rgba(45, 106, 79, 0.18);
+      border-bottom-right-radius: 0.28rem;
+    }
+
+    .message--supporter .badge-row {
+      justify-content: flex-end;
+    }
+
+    .diversity-summary {
+      padding: 0 1.1rem 1.05rem;
+      color: var(--muted);
+      font-size: 0.94rem;
+      font-weight: 600;
+    }
+
+    .explorer-note {
+      padding: 0 1.1rem 1.15rem;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .bibtex-shell {
+      position: relative;
+      overflow: hidden;
+      background: #182433;
+      border-color: #233245;
+      color: rgba(255, 255, 255, 0.88);
+    }
+
+    .copy-button {
       position: absolute;
-      top: -100%;
-      left: 16px;
-      z-index: 200;
-      padding: 8px 16px;
-      background: #2d6a4f;
-      color: #fff;
-      border-radius: 0 0 8px 8px;
-      font-size: 13px;
-      font-weight: 500;
-      transition: top 0.15s;
+      top: 1rem;
+      right: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 999px;
+      padding: 0.5rem 0.85rem;
+      background: rgba(255, 255, 255, 0.08);
+      color: rgba(255, 255, 255, 0.86);
+      cursor: pointer;
+      font-weight: 700;
     }
 
-    .skip-link:focus {
-      top: 0;
-      color: #fff;
+    .copy-button:hover {
+      background: rgba(255, 255, 255, 0.14);
     }
 
-    /* ============================================================
-       RESPONSIVE
-       ============================================================ */
-    @media (max-width: 768px) {
-      .topbar__title { display: none; }
-      .topbar__sep { display: none; }
+    pre {
+      margin: 0;
+      padding: 1.45rem;
+      overflow-x: auto;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 0.9rem;
+      line-height: 1.65;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
 
-      .hero { padding: 48px 0 36px; }
-      .hero h1 { font-size: 32px; }
+    .js-animations .fade-in-target {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
 
-      section { padding: 56px 0; }
+    .js-animations .fade-in-target.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
-      .container, .container--narrow {
-        padding: 0 20px;
+    @media (max-width: 760px) {
+      .page {
+        padding: 0 1rem 4rem;
       }
 
-      .topbar {
-        padding: 0 16px;
+      section {
+        padding-top: 3.75rem;
       }
 
-      .dialogue-spotlight {
+      .hero {
+        padding-top: 4.5rem;
+      }
+
+      .example-grid {
         grid-template-columns: 1fr;
-        gap: 32px;
       }
 
-      .tools-grid {
-        grid-template-columns: 1fr;
-        gap: 16px;
+      .affiliations {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.15rem;
       }
 
-      .affiliations span {
-        display: block;
-        margin: 2px 0;
+      .actions {
+        flex-direction: column;
+        align-items: stretch;
       }
 
-      .tactic-legend {
-        gap: 8px 14px;
+      .button,
+      .button-disabled {
+        width: 100%;
+      }
+
+      .model-tabs {
+        gap: 0.5rem;
+      }
+
+      .model-tab {
+        flex: 1 1 calc(50% - 0.5rem);
+        text-align: center;
+      }
+
+      .message__inner {
+        width: 100%;
       }
     }
 
-    @media (max-width: 480px) {
-      .hero__links { flex-direction: column; }
-      .hero__btn { width: 100%; justify-content: center; }
-      .topbar__pill span.pill-label { display: none; }
+    @media (max-width: 520px) {
+      h1 {
+        max-width: none;
+      }
+
+      .model-tab {
+        flex-basis: 100%;
+      }
+
+      .chart-shell,
+      .explorer,
+      .bibtex-shell {
+        border-radius: 18px;
+      }
     }
   </style>
 </head>
-
 <body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div id="copy-status" class="sr-only" aria-live="polite"></div>
 
-<!-- Skip to content (visible only on keyboard focus) -->
-<a href="#main-content" class="skip-link">Skip to main content</a>
+  <main id="main-content" class="page">
+    <div class="container">
+      <section class="hero fade-in-target" aria-labelledby="hero-title">
+        <p class="eyebrow">Project Page</p>
+        <h1 id="hero-title">Discourse Diversity in Multi-Turn Empathic Dialogue</h1>
+        <p class="tldr">LLMs repeat the same empathy tactics turn after turn. MINT uses RL to encourage diverse, human-like support strategies.</p>
 
-<!-- Accessibility: live region for copy feedback -->
-<div id="copy-status" class="sr-only" aria-live="polite"></div>
-
-<!-- ==================== STICKY HEADER BAR ==================== -->
-<header class="topbar">
-  <div class="topbar__left">
-    <img src="static/mint_logo.png" alt="MINT logo" class="topbar__logo">
-    <span class="topbar__name">MINT</span>
-    <span class="topbar__sep"></span>
-    <span class="topbar__title">Discourse Diversity in Multi-Turn Empathic Dialogue</span>
-  </div>
-  <nav class="topbar__links" aria-label="Primary">
-    <a class="topbar__pill topbar__pill--disabled" aria-label="Paper (coming soon)">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-      <span class="pill-label">Paper</span>
-    </a>
-    <a href="https://github.com/honglizhan/mint-empathy" class="topbar__pill" target="_blank" rel="noopener" aria-label="Code on GitHub">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-      <span class="pill-label">Code</span>
-    </a>
-    <a href="https://huggingface.co/hongli-zhan" class="topbar__pill" target="_blank" rel="noopener" aria-label="Project resources on Hugging Face">
-      <span aria-hidden="true">&#129303;</span>
-      <span class="pill-label">Hugging Face</span>
-    </a>
-    <a href="https://colab.research.google.com/github/honglizhan/mint-empathy/blob/main/analysis/tagger_colab_starter.ipynb" class="topbar__pill" target="_blank" rel="noopener" aria-label="Open the Colab starter notebook">
-      <span aria-hidden="true">&#128187;</span>
-      <span class="pill-label">Colab</span>
-    </a>
-  </nav>
-</header>
-
-<main id="main-content">
-
-<!-- ==================== HERO ==================== -->
-<section class="hero">
-  <div class="container">
-
-    <div class="hero__badge">
-      <img src="static/mint_logo.png" width="32" height="32" alt="MINT logo">
-      <span>MINT</span>
-    </div>
-
-    <h1>Discourse Diversity in Multi-Turn Empathic Dialogue</h1>
-
-    <p class="hero__subtitle">
-      LLMs often get stuck using the same empathy tactic turn after turn. MINT encourages more varied, human sounding support while preserving empathy quality.
-    </p>
-
-    <div class="authors">
-      <span><a href="https://honglizhan.github.io/">Hongli Zhan</a><sup>1</sup></span>
-      <span><a href="https://scholar.google.com/citations?user=0a9mGGUAAAAJ&hl=en">Emma S. Gueorguieva</a><sup>2</sup></span>
-      <span><a href="https://www.javierhr.com/">Javier Hernandez</a><sup>3</sup></span>
-      <span><a href="https://jinasuh.com/">Jina Suh</a><sup>4</sup></span>
-      <span><a href="https://desmond-ong.github.io/">Desmond C. Ong</a><sup>2</sup></span>
-      <span><a href="https://jessyli.com/">Junyi Jessy Li</a><sup>1</sup></span>
-    </div>
-
-    <div class="affiliations">
-      <span><sup>1</sup>UT Austin Linguistics</span>
-      <span><sup>2</sup>UT Austin Psychology</span>
-      <span><sup>3</sup>Microsoft Research</span>
-      <span><sup>4</sup>University of Washington</span>
-    </div>
-
-    <div class="hero__links">
-      <a class="hero__btn hero__btn--outline hero__btn--disabled" aria-label="Paper coming soon">
-        Paper
-      </a>
-      <a href="https://github.com/honglizhan/mint-empathy" class="hero__btn hero__btn--primary" target="_blank" rel="noopener">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-        Code
-      </a>
-      <a href="https://huggingface.co/hongli-zhan" class="hero__btn hero__btn--outline" target="_blank" rel="noopener">
-        &#129303; Hugging Face
-      </a>
-      <a href="https://colab.research.google.com/github/honglizhan/mint-empathy/blob/main/analysis/tagger_colab_starter.ipynb" class="hero__btn hero__btn--outline" target="_blank" rel="noopener">
-        &#128187; Open in Colab
-      </a>
-      <span class="hero__note">Paper and data will be available upon publication.</span>
-    </div>
-
-  </div>
-</section>
-
-
-<!-- ==================== DIALOGUE SPOTLIGHT ==================== -->
-<section class="bg-tint">
-  <div class="container">
-    <h2 class="section-heading" style="text-align:center;">Why MINT?</h2>
-
-    <div class="dialogue-spotlight fade-in-target">
-
-      <!-- Vanilla LLM column -->
-      <div class="dialogue-col dialogue-col--vanilla">
-        <div class="dialogue-col__header">Vanilla LLM</div>
-
-        <div class="dialogue-turn">
-          <div class="dialogue-turn__label">Turn 1</div>
-          <div class="dialogue-seeker">"I've been feeling really overwhelmed at work lately. My manager keeps piling on new projects and I don't know how to say no."</div>
-          <div class="dialogue-response">
-            "It sounds like you're really struggling with the workload right now. That must be incredibly stressful, and your feelings are completely valid."
-            <div class="dialogue-badges">
-              <span class="tactic-badge tactic-badge--vanilla">Paraphrasing</span>
-              <span class="tactic-badge tactic-badge--vanilla">Validation</span>
-            </div>
-          </div>
+        <div class="authors" aria-label="Authors">
+          <span><a href="https://honglizhan.github.io/">Hongli Zhan</a><sup>1</sup></span>
+          <span><a href="https://scholar.google.com/citations?user=0a9mGGUAAAAJ&amp;hl=en">Emma S. Gueorguieva</a><sup>2</sup></span>
+          <span><a href="https://www.javierhr.com/">Javier Hernandez</a><sup>3</sup></span>
+          <span><a href="https://jinasuh.com/">Jina Suh</a><sup>4</sup></span>
+          <span><a href="https://desmond-ong.github.io/">Desmond C. Ong</a><sup>2</sup></span>
+          <span><a href="https://jessyli.com/">Junyi Jessy Li</a><sup>1</sup></span>
         </div>
 
-        <div class="dialogue-turn">
-          <div class="dialogue-turn__label">Turn 2</div>
-          <div class="dialogue-seeker">"Yeah, I think part of it is that I'm afraid of being seen as incompetent. Like if I push back, they'll think I can't handle it."</div>
-          <div class="dialogue-response">
-            "I hear you &mdash; it sounds like the fear of being judged is making it even harder. It's completely understandable to feel that way."
-            <div class="dialogue-badges">
-              <span class="tactic-badge tactic-badge--vanilla">Paraphrasing</span>
-              <span class="tactic-badge tactic-badge--vanilla">Validation</span>
-            </div>
-          </div>
+        <div class="affiliations" aria-label="Affiliations">
+          <span><sup>1</sup>UT Austin Linguistics</span>
+          <span><sup>2</sup>UT Austin Psychology</span>
+          <span><sup>3</sup>Microsoft Research</span>
+          <span><sup>4</sup>University of Washington</span>
         </div>
 
-        <div class="dialogue-turn">
-          <div class="dialogue-turn__label">Turn 3</div>
-          <div class="dialogue-seeker">"I just don't know where to start. Everything feels urgent and I can't prioritize."</div>
-          <div class="dialogue-response">
-            "It sounds like you're dealing with a lot of pressure from all directions. That's a really tough spot to be in, and it makes sense you'd feel stuck."
-            <div class="dialogue-badges">
-              <span class="tactic-badge tactic-badge--vanilla">Paraphrasing</span>
-              <span class="tactic-badge tactic-badge--vanilla">Validation</span>
+        <div class="actions" aria-label="Project links">
+          <span class="button-disabled" aria-disabled="true">Paper</span>
+          <a class="button button-primary" href="https://github.com/honglizhan/mint-empathy" target="_blank" rel="noopener">Code</a>
+          <a class="button" href="https://huggingface.co/hongli-zhan" target="_blank" rel="noopener">Hugging Face</a>
+          <a class="button" href="https://colab.research.google.com/github/honglizhan/mint-empathy/blob/main/analysis/tagger_colab_starter.ipynb" target="_blank" rel="noopener">Colab</a>
+        </div>
+      </section>
+
+      <section aria-labelledby="why-mint-title">
+        <h2 id="why-mint-title">Why MINT?</h2>
+        <p class="section-intro">Vanilla models often stay in one empathic mode. MINT pushes the conversation to move, turn by turn, through a wider set of support strategies.</p>
+
+        <div class="example-grid fade-in-target">
+          <article class="example-card" aria-label="Vanilla LLM dialogue example">
+            <div class="example-card__header">Vanilla LLM</div>
+
+            <div class="turn">
+              <div class="turn-label">Turn 1</div>
+              <div class="bubble bubble-seeker">"I've been feeling really overwhelmed at work lately. My manager keeps piling on new projects and I don't know how to say no."</div>
+              <div class="bubble bubble-supporter">"It sounds like you're really struggling with the workload right now. That must be incredibly stressful, and your feelings are completely valid."</div>
+              <div class="badge-row" aria-label="Vanilla tactics for turn 1">
+                <span class="badge badge-muted">Paraphrasing</span>
+                <span class="badge badge-muted">Validation</span>
+              </div>
+            </div>
+
+            <div class="turn">
+              <div class="turn-label">Turn 2</div>
+              <div class="bubble bubble-seeker">"Yeah, I think part of it is that I'm afraid of being seen as incompetent. Like if I push back, they'll think I can't handle it."</div>
+              <div class="bubble bubble-supporter">"I hear you &mdash; it sounds like the fear of being judged is making it even harder. It's completely understandable to feel that way."</div>
+              <div class="badge-row" aria-label="Vanilla tactics for turn 2">
+                <span class="badge badge-muted">Paraphrasing</span>
+                <span class="badge badge-muted">Validation</span>
+              </div>
+            </div>
+
+            <div class="turn">
+              <div class="turn-label">Turn 3</div>
+              <div class="bubble bubble-seeker">"I just don't know where to start. Everything feels urgent and I can't prioritize."</div>
+              <div class="bubble bubble-supporter">"It sounds like you're dealing with a lot of pressure from all directions. That's a really tough spot to be in, and it makes sense you'd feel stuck."</div>
+              <div class="badge-row" aria-label="Vanilla tactics for turn 3">
+                <span class="badge badge-muted">Paraphrasing</span>
+                <span class="badge badge-muted">Validation</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="example-card example-card--mint" aria-label="MINT dialogue example">
+            <div class="example-card__header">MINT</div>
+
+            <div class="turn">
+              <div class="turn-label">Turn 1</div>
+              <div class="bubble bubble-seeker">"I've been feeling really overwhelmed at work lately. My manager keeps piling on new projects and I don't know how to say no."</div>
+              <div class="bubble bubble-supporter">"That sounds really stressful. What kinds of projects are being added &mdash; are they related to your main role, or are they coming from different directions?"</div>
+              <div class="badge-row" aria-label="MINT tactics for turn 1">
+                <span class="badge" style="background: rgba(45, 106, 79, 0.10); color: #2d6a4f; border-color: rgba(45, 106, 79, 0.18);">Validation</span>
+                <span class="badge" style="background: rgba(37, 99, 235, 0.10); color: #2563eb; border-color: rgba(37, 99, 235, 0.18);">Questioning</span>
+              </div>
+            </div>
+
+            <div class="turn">
+              <div class="turn-label">Turn 2</div>
+              <div class="bubble bubble-seeker">"Yeah, I think part of it is that I'm afraid of being seen as incompetent. Like if I push back, they'll think I can't handle it."</div>
+              <div class="bubble bubble-supporter">"That fear makes a lot of sense, but pushing back on scope is actually a sign of professional maturity, not weakness. The strongest people I know are the ones who set clear boundaries."</div>
+              <div class="badge-row" aria-label="MINT tactics for turn 2">
+                <span class="badge" style="background: rgba(124, 95, 176, 0.10); color: #7c5fb0; border-color: rgba(124, 95, 176, 0.18);">Reappraisal</span>
+                <span class="badge" style="background: rgba(180, 83, 9, 0.10); color: #b45309; border-color: rgba(180, 83, 9, 0.18);">Empowerment</span>
+              </div>
+            </div>
+
+            <div class="turn">
+              <div class="turn-label">Turn 3</div>
+              <div class="bubble bubble-seeker">"I just don't know where to start. Everything feels urgent and I can't prioritize."</div>
+              <div class="bubble bubble-supporter">"One thing that might help: pick just one task that you can finish today, even if it's small. Getting a quick win can break that frozen feeling."</div>
+              <div class="badge-row" aria-label="MINT tactics for turn 3">
+                <span class="badge" style="background: rgba(14, 116, 144, 0.10); color: #0e7490; border-color: rgba(14, 116, 144, 0.18);">Advice</span>
+                <span class="badge" style="background: rgba(180, 83, 9, 0.10); color: #b45309; border-color: rgba(180, 83, 9, 0.18);">Empowerment</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section aria-labelledby="pareto-title">
+        <h2 id="pareto-title">Pareto Front</h2>
+        <div class="chart-shell fade-in-target">
+          <div class="chart-wrap">
+            <canvas id="pareto-chart" role="img" aria-label="Scatter plot of aggregate empathy vs tactic diversity. MINT achieves the best trade-off across both model sizes."></canvas>
+          </div>
+          <p class="chart-caption">MINT achieves the best balance of empathy and diversity across both model sizes.</p>
+        </div>
+      </section>
+
+      <section aria-labelledby="explore-title">
+        <h2 id="explore-title">Explore Conversations</h2>
+        <p class="section-intro">Browse matched conversations from humans, a vanilla LLM, and MINT. The tactic summary below each transcript makes the diversity gap visible at a glance.</p>
+
+        <div class="explorer fade-in-target" id="explorer-root">
+          <div class="explorer-controls">
+            <div class="control-group">
+              <label for="conversation-select">Conversation</label>
+              <select id="conversation-select" aria-label="Select a conversation example">
+                <option>Loading conversations…</option>
+              </select>
+            </div>
+
+            <div class="control-group">
+              <label id="model-tabs-label">Model</label>
+              <div class="model-tabs" role="tablist" aria-labelledby="model-tabs-label">
+                <button type="button" class="model-tab" data-model="Human" role="tab" aria-selected="false">Human</button>
+                <button type="button" class="model-tab" data-model="Vanilla LLM" role="tab" aria-selected="false">Vanilla LLM</button>
+                <button type="button" class="model-tab model-tab--mint" data-model="MINT (Ours)" role="tab" aria-selected="true">MINT (Ours)</button>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <!-- MINT column -->
-      <div class="dialogue-col dialogue-col--mint">
-        <div class="dialogue-col__header">MINT</div>
-
-        <div class="dialogue-turn">
-          <div class="dialogue-turn__label">Turn 1</div>
-          <div class="dialogue-seeker">"I've been feeling really overwhelmed at work lately. My manager keeps piling on new projects and I don't know how to say no."</div>
-          <div class="dialogue-response">
-            "That sounds really stressful. What kinds of projects are being added &mdash; are they related to your main role, or are they coming from different directions?"
-            <div class="dialogue-badges">
-              <span class="tactic-badge tactic-badge--validation">Validation</span>
-              <span class="tactic-badge tactic-badge--questioning">Questioning</span>
-            </div>
+          <div class="explorer-panel" aria-live="polite" aria-busy="true">
+            <div class="explorer-status" id="explorer-status">Loading sample conversations…</div>
+            <div id="chat-panel" class="chat" role="region" aria-label="Conversation transcript"></div>
+            <div id="diversity-summary" class="diversity-summary"></div>
+            <p class="explorer-note">Want to tag your own conversations? <a href="https://colab.research.google.com/github/honglizhan/mint-empathy/blob/main/analysis/tagger_colab_starter.ipynb" target="_blank" rel="noopener">Open the Colab notebook.</a></p>
           </div>
         </div>
+      </section>
 
-        <div class="dialogue-turn">
-          <div class="dialogue-turn__label">Turn 2</div>
-          <div class="dialogue-seeker">"Yeah, I think part of it is that I'm afraid of being seen as incompetent. Like if I push back, they'll think I can't handle it."</div>
-          <div class="dialogue-response">
-            "That fear makes a lot of sense, but pushing back on scope is actually a sign of professional maturity, not weakness. The strongest people I know are the ones who set clear boundaries."
-            <div class="dialogue-badges">
-              <span class="tactic-badge tactic-badge--reappraisal">Reappraisal</span>
-              <span class="tactic-badge tactic-badge--empowerment">Empowerment</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="dialogue-turn">
-          <div class="dialogue-turn__label">Turn 3</div>
-          <div class="dialogue-seeker">"I just don't know where to start. Everything feels urgent and I can't prioritize."</div>
-          <div class="dialogue-response">
-            "One thing that might help: pick just one task that you can finish today, even if it's small. Getting a quick win can break that frozen feeling."
-            <div class="dialogue-badges">
-              <span class="tactic-badge tactic-badge--advice">Advice</span>
-              <span class="tactic-badge tactic-badge--empowerment">Empowerment</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-  </div>
-</section>
-
-
-<!-- ==================== PARETO FRONT ==================== -->
-<section>
-  <div class="container--narrow">
-    <div class="fade-in-target">
-      <div style="position:relative;width:100%;max-width:700px;margin:0 auto;">
-        <canvas id="pareto-chart" role="img" aria-label="Scatter plot of aggregate empathy vs tactic diversity. MINT achieves the best trade-off across both model sizes."></canvas>
-      </div>
-      <p class="muted-text" style="text-align:center;margin-top:14px;">
-        MINT achieves the best balance of empathy and diversity across both model sizes.
-      </p>
-    </div>
-  </div>
-</section>
-
-
-<!-- ==================== INTERACTIVE TOOLS ==================== -->
-<section class="bg-tint">
-  <div class="container--narrow">
-    <h2 class="section-heading" style="text-align:center;">Try It Yourself</h2>
-
-    <div class="tools-grid fade-in-target">
-
-      <div class="tool-card">
-        <svg class="tool-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-          <path d="M9 10h.01M12 10h.01M15 10h.01"/>
-        </svg>
-        <div class="tool-card__title">Tag your conversation</div>
-        <p class="tool-card__desc">Inspect empathy tactics on your own dialogue.</p>
-        <a href="https://colab.research.google.com/github/honglizhan/mint-empathy/blob/main/analysis/tagger_colab_starter.ipynb" class="tool-card__btn" target="_blank" rel="noopener">
-          Open in Colab &rarr;
-        </a>
-      </div>
-
-      <div class="tool-card">
-        <svg class="tool-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 2a8 8 0 0 0-8 8c0 3.4 2.1 6.3 5 7.5V20h6v-2.5c2.9-1.2 5-4.1 5-7.5a8 8 0 0 0-8-8z"/>
-          <path d="M10 20v1a2 2 0 0 0 4 0v-1"/>
-          <path d="M9 10h.01M12 10h.01M15 10h.01"/>
-        </svg>
-        <div class="tool-card__title">Explore models and taggers</div>
-        <p class="tool-card__desc">Browse checkpoints and taggers.</p>
-        <a href="https://huggingface.co/hongli-zhan" class="tool-card__btn" target="_blank" rel="noopener">
-          View on Hugging Face &rarr;
-        </a>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-
-<!-- ==================== BIBTEX ==================== -->
-<section id="BibTeX">
-  <div class="container--narrow">
-    <h2 class="section-heading">BibTeX</h2>
-    <div class="bibtex-box">
-      <button type="button" class="copy-btn" onclick="copyBibtex()" aria-label="Copy BibTeX to clipboard">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-        <span>Copy</span>
-      </button>
-<pre id="bibtex-content">@article{zhan2026discourse,
+      <section aria-labelledby="bibtex-title">
+        <h2 id="bibtex-title">BibTeX</h2>
+        <div class="bibtex-shell fade-in-target">
+          <button type="button" class="copy-button" id="copy-bibtex" aria-label="Copy BibTeX to clipboard">Copy</button>
+          <pre id="bibtex-content">@article{zhan2026discourse,
   title   = {Discourse Diversity in Multi-Turn
              Empathic Dialogue},
   author  = {Zhan, Hongli and Gueorguieva, Emma S. and
@@ -1075,237 +834,464 @@
   year    = {2026},
   note    = {Under review}
 }</pre>
+        </div>
+      </section>
     </div>
-  </div>
-</section>
+  </main>
 
-</main>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script>
+    const TACTIC_COLORS = {
+      information: '#4A90D9',
+      assistance: '#7B68EE',
+      advice: '#0e7490',
+      validation: '#2d6a4f',
+      emotional_expression: '#dc2626',
+      paraphrasing: '#16A085',
+      self_disclosure: '#8E44AD',
+      questioning: '#2563eb',
+      reappraisal: '#7c5fb0',
+      empowerment: '#b45309'
+    };
 
-<!-- ==================== FOOTER ==================== -->
-<footer class="site-footer">
-  <div class="container">
-    <p>
-      The website template is borrowed from <a href="https://nerfies.github.io/">Nerfies</a>.
-    </p>
-  </div>
-</footer>
+    const TACTIC_ORDER = [
+      'information',
+      'assistance',
+      'advice',
+      'validation',
+      'emotional_expression',
+      'paraphrasing',
+      'self_disclosure',
+      'questioning',
+      'reappraisal',
+      'empowerment'
+    ];
 
-<script>
-function copyBibtex() {
-  var text = document.getElementById('bibtex-content').textContent;
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(text).then(function() {
-      showCopied();
-    }).catch(function() {
-      fallbackCopy(text);
-    });
-  } else {
-    fallbackCopy(text);
-  }
-}
+    const MODEL_ORDER = ['Human', 'Vanilla LLM', 'MINT (Ours)'];
 
-function fallbackCopy(text) {
-  var textarea = document.createElement('textarea');
-  textarea.value = text;
-  textarea.style.position = 'fixed';
-  textarea.style.opacity = '0';
-  document.body.appendChild(textarea);
-  textarea.select();
-  try {
-    document.execCommand('copy');
-    showCopied();
-  } catch (e) {
-    alert('Copy failed. Please select the text manually.');
-  }
-  document.body.removeChild(textarea);
-}
+    const explorerState = {
+      conversations: [],
+      selectedConversation: 0,
+      selectedModel: 'MINT (Ours)'
+    };
 
-function showCopied() {
-  var btn = document.querySelector('.copy-btn');
-  var origHTML = btn.innerHTML;
-  btn.innerHTML = '\u2713 Copied!';
-  document.getElementById('copy-status').textContent = 'BibTeX copied to clipboard';
-  setTimeout(function() {
-    btn.innerHTML = origHTML;
-    document.getElementById('copy-status').textContent = '';
-  }, 2000);
-}
+    function hexToRgba(hex, alpha) {
+      const safe = hex.replace('#', '');
+      const value = safe.length === 3
+        ? safe.split('').map(char => char + char).join('')
+        : safe;
+      const int = parseInt(value, 16);
+      const r = (int >> 16) & 255;
+      const g = (int >> 8) & 255;
+      const b = int & 255;
+      return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+    }
 
-/* ============================================================
-   SCROLL FADE-IN (IntersectionObserver)
-   ============================================================ */
-(function() {
-  document.body.classList.add('js-animations');
-  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (prefersReducedMotion) return;
+    function formatTacticLabel(tactic) {
+      return tactic
+        .split('_')
+        .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+        .join(' ');
+    }
 
-  var targets = document.querySelectorAll('.fade-in-target');
-  if (!targets.length) return;
-
-  var observer = new IntersectionObserver(function(entries) {
-    entries.forEach(function(entry) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
+    function previewText(text) {
+      const normalized = (text || '').replace(/\s+/g, ' ').trim();
+      if (normalized.length <= 60) {
+        return normalized;
       }
-    });
-  }, {
-    threshold: 0.15,
-    rootMargin: '0px 0px -40px 0px'
-  });
+      return normalized.slice(0, 57).trimEnd() + '...';
+    }
 
-  targets.forEach(function(el) {
-    observer.observe(el);
-  });
-})();
-</script>
+    function collectUniqueTactics(turn) {
+      const seen = new Set();
+      const ordered = [];
+      const pushTactic = tactic => {
+        if (!tactic || seen.has(tactic)) {
+          return;
+        }
+        seen.add(tactic);
+        ordered.push(tactic);
+      };
 
-<!-- Chart.js for interactive figures -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
-<script>
-(function() {
-  // ============================================================
-  // INTERACTIVE PARETO FRONT
-  // X-axis = Tactic Diversity (1 - stickiness), higher = more diverse
-  // Y-axis = Aggregate Empathy, higher = more empathic
-  // ============================================================
-  const methods = [
-    // [diversity, empathy, name, family, model_size]
-    [0.73, 2.90, 'Human (Gold)', 'human', 'both'],
-    [0.49, 3.60, 'Vanilla', 'prompt', '1.7B'],
-    [0.35, 4.42, 'PsychoCounsel', 'quality_rl', '1.7B'],
-    [0.37, 4.38, 'R1-Zero-Div', 'token_div', '1.7B'],
-    [0.49, 4.54, 'MINT (Q+D_KL)', 'ours', '1.7B'],
-    [0.43, 3.75, 'Vanilla', 'prompt', '4B'],
-    [0.33, 4.62, 'PsychoCounsel', 'quality_rl', '4B'],
-    [0.43, 4.58, 'R1-Zero-Div', 'token_div', '4B'],
-    [0.58, 4.67, 'MINT (Q+D_KL)', 'ours', '4B'],
-  ];
+      (turn.sentence_tactics || []).forEach(sentence => {
+        (sentence || []).forEach(pushTactic);
+      });
 
-  const familyColors = {
-    human: '#B8860B',
-    prompt: '#7c9ab5',
-    quality_rl: '#d4944c',
-    token_div: '#9b82c4',
-    ours: '#2d6a4f',
-  };
+      Object.keys(turn.tactic_counts || {}).forEach(pushTactic);
 
-  const familyShapes = {
-    human: 'star',
-    prompt: 'rect',
-    quality_rl: 'triangle',
-    token_div: 'triangle',
-    ours: 'circle',
-  };
+      return TACTIC_ORDER.filter(tactic => ordered.includes(tactic)).concat(
+        ordered.filter(tactic => !TACTIC_ORDER.includes(tactic))
+      );
+    }
 
-  const datasets = [];
+    function populateConversationOptions() {
+      const select = document.getElementById('conversation-select');
+      select.innerHTML = '';
 
-  // Group by family + size for distinct visual encoding
-  const groups = {};
-  methods.forEach(function(m) {
-    var key = m[3] + '_' + m[4];
-    if (!groups[key]) groups[key] = [];
-    groups[key].push(m);
-  });
+      explorerState.conversations.forEach((conversation, index) => {
+        const firstModel = conversation.models['Human'] || conversation.models['Vanilla LLM'] || conversation.models['MINT (Ours)'] || [];
+        const opening = firstModel[0]?.seeker || conversation.topic || '';
+        const option = document.createElement('option');
+        option.value = String(index);
+        option.textContent = previewText(opening);
+        select.appendChild(option);
+      });
 
-  Object.keys(groups).forEach(function(key) {
-    var pts = groups[key];
-    var fam = pts[0][3];
-    var size = pts[0][4];
-    var color = familyColors[fam];
-    var isFilled = size === '4B' || size === 'both';
-    var label = pts[0][2] + (size !== 'both' ? ' (' + size + ')' : '');
+      select.value = String(explorerState.selectedConversation);
+    }
 
-    datasets.push({
-      label: label,
-      data: pts.map(function(p) { return { x: p[0], y: p[1] }; }),
-      backgroundColor: isFilled ? color : 'rgba(255,255,255,0.9)',
-      borderColor: color,
-      borderWidth: fam === 'ours' ? 2.5 : 1.5,
-      pointRadius: fam === 'human' ? 12 : fam === 'ours' ? 10 : 7,
-      pointHoverRadius: fam === 'human' ? 14 : fam === 'ours' ? 13 : 10,
-      pointStyle: familyShapes[fam],
-      _meta: pts.map(function(p) { return { name: p[2], size: p[4], div: p[0], emp: p[1] }; }),
-    });
-  });
+    function renderBadges(container, tactics) {
+      if (!tactics.length) {
+        return;
+      }
 
-  // Dashed connector lines between 1.7B and 4B of same method
-  var connectorFamilies = ['prompt', 'quality_rl', 'token_div', 'ours'];
-  connectorFamilies.forEach(function(fam) {
-    var p17 = methods.find(function(m) { return m[3] === fam && m[4] === '1.7B'; });
-    var p4 = methods.find(function(m) { return m[3] === fam && m[4] === '4B'; });
-    if (p17 && p4) {
-      datasets.push({
-        label: '_connector_' + fam,
-        data: [{ x: p17[0], y: p17[1] }, { x: p4[0], y: p4[1] }],
-        type: 'line',
-        borderColor: familyColors[fam],
-        borderDash: [4, 4],
-        borderWidth: 1,
-        pointRadius: 0,
-        pointHoverRadius: 0,
-        showLine: true,
+      const row = document.createElement('div');
+      row.className = 'badge-row';
+      row.setAttribute('aria-label', 'Support tactics');
+
+      tactics.forEach(tactic => {
+        const color = TACTIC_COLORS[tactic] || '#64748b';
+        const badge = document.createElement('span');
+        badge.className = 'badge';
+        badge.textContent = formatTacticLabel(tactic);
+        badge.style.color = color;
+        badge.style.backgroundColor = hexToRgba(color, 0.12);
+        badge.style.borderColor = hexToRgba(color, 0.22);
+        row.appendChild(badge);
+      });
+
+      container.appendChild(row);
+    }
+
+    function makeMessage(role, text, label) {
+      const wrapper = document.createElement('div');
+      wrapper.className = `message message--${role}`;
+
+      const inner = document.createElement('div');
+      inner.className = 'message__inner';
+
+      const labelEl = document.createElement('p');
+      labelEl.className = 'message__label';
+      labelEl.textContent = label;
+
+      const bubble = document.createElement('div');
+      bubble.className = 'message__bubble';
+      bubble.textContent = text;
+
+      inner.appendChild(labelEl);
+      inner.appendChild(bubble);
+      wrapper.appendChild(inner);
+
+      return { wrapper, inner };
+    }
+
+    function updateTabs() {
+      document.querySelectorAll('.model-tab').forEach(button => {
+        const selected = button.dataset.model === explorerState.selectedModel;
+        button.setAttribute('aria-selected', selected ? 'true' : 'false');
+        button.tabIndex = selected ? 0 : -1;
       });
     }
-  });
 
-  var ctx = document.getElementById('pareto-chart');
-  if (ctx) {
-    new Chart(ctx, {
-      type: 'scatter',
-      data: { datasets: datasets },
-      options: {
-        responsive: true,
-        maintainAspectRatio: true,
-        aspectRatio: 1.5,
-        scales: {
-          x: {
-            min: 0.25,
-            max: 0.80,
-            title: { display: true, text: 'Tactic Diversity (more diverse \u2192)', font: { size: 13 } },
-            grid: { display: false },
-            ticks: { font: { size: 11 } },
-          },
-          y: {
-            min: 2.7,
-            max: 4.88,
-            title: { display: true, text: 'Aggregate Empathy (more empathic \u2192)', font: { size: 13 } },
-            grid: { color: 'rgba(0,0,0,0.05)' },
-            ticks: { font: { size: 11 } },
-          },
-        },
-        plugins: {
-          legend: {
-            display: true,
-            position: 'bottom',
-            labels: {
-              filter: function(item) { return !item.text.startsWith('_connector'); },
-              usePointStyle: true,
-              padding: 16,
-              font: { size: 11.5 },
-            },
-          },
-          tooltip: {
-            callbacks: {
-              label: function(context) {
-                var ds = context.dataset;
-                var meta = ds._meta ? ds._meta[context.dataIndex] : null;
-                if (!meta) return '';
-                return meta.name + ' (' + meta.size + '): Empathy=' + meta.emp.toFixed(2) + ', Diversity=' + meta.div.toFixed(2);
+    function renderConversation() {
+      updateTabs();
+
+      const panel = document.querySelector('.explorer-panel');
+      const status = document.getElementById('explorer-status');
+      const chat = document.getElementById('chat-panel');
+      const summary = document.getElementById('diversity-summary');
+      const conversation = explorerState.conversations[explorerState.selectedConversation];
+
+      if (!conversation) {
+        status.textContent = 'No conversation available.';
+        panel.setAttribute('aria-busy', 'false');
+        chat.innerHTML = '';
+        summary.textContent = '';
+        return;
+      }
+
+      const turns = conversation.models[explorerState.selectedModel] || [];
+      const opener = turns[0]?.seeker || conversation.topic || '';
+      status.textContent = opener;
+      panel.setAttribute('aria-busy', 'false');
+      chat.innerHTML = '';
+
+      const tacticSet = new Set();
+
+      turns.forEach((turn, index) => {
+        const turnWrap = document.createElement('div');
+        turnWrap.className = 'chat-turn';
+
+        const seeker = makeMessage('seeker', turn.seeker || '', `Seeker · Turn ${index + 1}`);
+        turnWrap.appendChild(seeker.wrapper);
+
+        const supporter = makeMessage('supporter', turn.supporter || '', `Supporter · Turn ${index + 1}`);
+        const tactics = collectUniqueTactics(turn);
+        tactics.forEach(tactic => tacticSet.add(tactic));
+        renderBadges(supporter.inner, tactics);
+        turnWrap.appendChild(supporter.wrapper);
+
+        chat.appendChild(turnWrap);
+      });
+
+      summary.textContent = `${tacticSet.size} unique tactics used across ${turns.length} turns`;
+    }
+
+    function attachExplorerEvents() {
+      document.getElementById('conversation-select').addEventListener('change', event => {
+        explorerState.selectedConversation = Number(event.target.value);
+        renderConversation();
+      });
+
+      document.querySelectorAll('.model-tab').forEach(button => {
+        button.addEventListener('click', () => {
+          explorerState.selectedModel = button.dataset.model;
+          renderConversation();
+        });
+      });
+    }
+
+    function loadExplorer() {
+      fetch('static/demo_conversations.json')
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+          }
+          return response.json();
+        })
+        .then(data => {
+          explorerState.conversations = Array.isArray(data) ? data : [];
+          populateConversationOptions();
+          renderConversation();
+        })
+        .catch(error => {
+          const panel = document.querySelector('.explorer-panel');
+          const status = document.getElementById('explorer-status');
+          panel.setAttribute('aria-busy', 'false');
+          status.textContent = `Could not load sample conversations (${error.message}).`;
+        });
+    }
+
+    function copyBibtex() {
+      const text = document.getElementById('bibtex-content').textContent;
+      const status = document.getElementById('copy-status');
+      const button = document.getElementById('copy-bibtex');
+      const reset = () => {
+        button.textContent = 'Copy';
+        status.textContent = '';
+      };
+      const done = () => {
+        button.textContent = 'Copied';
+        status.textContent = 'BibTeX copied to clipboard';
+        window.setTimeout(reset, 1800);
+      };
+      const fallback = () => {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.setAttribute('readonly', 'readonly');
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          done();
+        } catch (error) {
+          status.textContent = 'Copy failed. Please copy manually.';
+        }
+        document.body.removeChild(textarea);
+      };
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done).catch(fallback);
+        return;
+      }
+
+      fallback();
+    }
+
+    function enableFadeIn() {
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduced) {
+        return;
+      }
+
+      document.body.classList.add('js-animations');
+      const targets = document.querySelectorAll('.fade-in-target');
+      if (!targets.length) {
+        return;
+      }
+
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) {
+            return;
+          }
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        });
+      }, {
+        threshold: 0.12,
+        rootMargin: '0px 0px -36px 0px'
+      });
+
+      targets.forEach(target => observer.observe(target));
+    }
+
+    function buildParetoChart() {
+      const methods = [
+        [0.73, 2.90, 'Human (Gold)', 'human', 'both'],
+        [0.49, 3.60, 'Vanilla', 'prompt', '1.7B'],
+        [0.35, 4.42, 'PsychoCounsel', 'quality_rl', '1.7B'],
+        [0.37, 4.38, 'R1-Zero-Div', 'token_div', '1.7B'],
+        [0.49, 4.54, 'MINT (Q+D_KL)', 'ours', '1.7B'],
+        [0.43, 3.75, 'Vanilla', 'prompt', '4B'],
+        [0.33, 4.62, 'PsychoCounsel', 'quality_rl', '4B'],
+        [0.43, 4.58, 'R1-Zero-Div', 'token_div', '4B'],
+        [0.58, 4.67, 'MINT (Q+D_KL)', 'ours', '4B']
+      ];
+
+      const familyColors = {
+        human: '#B8860B',
+        prompt: '#7c9ab5',
+        quality_rl: '#d4944c',
+        token_div: '#9b82c4',
+        ours: '#2d6a4f'
+      };
+
+      const familyShapes = {
+        human: 'star',
+        prompt: 'rect',
+        quality_rl: 'triangle',
+        token_div: 'triangle',
+        ours: 'circle'
+      };
+
+      const groups = {};
+      const datasets = [];
+
+      methods.forEach(method => {
+        const key = `${method[3]}_${method[4]}`;
+        if (!groups[key]) {
+          groups[key] = [];
+        }
+        groups[key].push(method);
+      });
+
+      Object.keys(groups).forEach(key => {
+        const pts = groups[key];
+        const family = pts[0][3];
+        const size = pts[0][4];
+        const color = familyColors[family];
+        const isFilled = size === '4B' || size === 'both';
+        const label = pts[0][2] + (size !== 'both' ? ` (${size})` : '');
+
+        datasets.push({
+          label,
+          data: pts.map(point => ({ x: point[0], y: point[1] })),
+          backgroundColor: isFilled ? color : 'rgba(255,255,255,0.9)',
+          borderColor: color,
+          borderWidth: family === 'ours' ? 2.5 : 1.5,
+          pointRadius: family === 'human' ? 12 : family === 'ours' ? 10 : 7,
+          pointHoverRadius: family === 'human' ? 14 : family === 'ours' ? 13 : 10,
+          pointStyle: familyShapes[family],
+          _meta: pts.map(point => ({ name: point[2], size: point[4], div: point[0], emp: point[1] }))
+        });
+      });
+
+      ['prompt', 'quality_rl', 'token_div', 'ours'].forEach(family => {
+        const p17 = methods.find(method => method[3] === family && method[4] === '1.7B');
+        const p4 = methods.find(method => method[3] === family && method[4] === '4B');
+        if (!p17 || !p4) {
+          return;
+        }
+
+        datasets.push({
+          label: `_connector_${family}`,
+          data: [{ x: p17[0], y: p17[1] }, { x: p4[0], y: p4[1] }],
+          type: 'line',
+          borderColor: familyColors[family],
+          borderDash: [4, 4],
+          borderWidth: 1,
+          pointRadius: 0,
+          pointHoverRadius: 0,
+          showLine: true
+        });
+      });
+
+      const canvas = document.getElementById('pareto-chart');
+      if (!canvas || typeof Chart === 'undefined') {
+        return;
+      }
+
+      new Chart(canvas, {
+        type: 'scatter',
+        data: { datasets },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          aspectRatio: 1.55,
+          scales: {
+            x: {
+              min: 0.25,
+              max: 0.80,
+              title: {
+                display: true,
+                text: 'Tactic Diversity (more diverse →)',
+                font: { size: 13 }
               },
+              grid: { display: false },
+              ticks: { font: { size: 11 } }
             },
-            backgroundColor: 'rgba(17,24,39,0.92)',
-            titleFont: { size: 12 },
-            bodyFont: { size: 12 },
-            padding: 10,
-            cornerRadius: 8,
+            y: {
+              min: 2.7,
+              max: 4.88,
+              title: {
+                display: true,
+                text: 'Aggregate Empathy (more empathic →)',
+                font: { size: 13 }
+              },
+              grid: { color: 'rgba(15, 23, 42, 0.06)' },
+              ticks: { font: { size: 11 } }
+            }
           },
-        },
-      },
-    });
-  }
-})();
-</script>
+          plugins: {
+            legend: {
+              display: true,
+              position: 'bottom',
+              labels: {
+                filter: item => !item.text.startsWith('_connector'),
+                usePointStyle: true,
+                padding: 16,
+                font: { size: 11.5 }
+              }
+            },
+            tooltip: {
+              backgroundColor: 'rgba(15, 23, 42, 0.92)',
+              titleFont: { size: 12 },
+              bodyFont: { size: 12 },
+              padding: 10,
+              cornerRadius: 8,
+              callbacks: {
+                label: context => {
+                  const meta = context.dataset._meta?.[context.dataIndex];
+                  if (!meta) {
+                    return '';
+                  }
+                  return `${meta.name} (${meta.size}): Empathy=${meta.emp.toFixed(2)}, Diversity=${meta.div.toFixed(2)}`;
+                }
+              }
+            }
+          }
+        }
+      });
+    }
 
+    document.getElementById('copy-bibtex').addEventListener('click', copyBibtex);
+    attachExplorerEvents();
+    loadExplorer();
+    enableFadeIn();
+    buildParetoChart();
+  </script>
 </body>
 </html>
