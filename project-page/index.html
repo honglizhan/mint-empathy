@@ -2293,149 +2293,176 @@ function showCopied() {
 </script>
 
 
-<!-- Chart.js for interactive figures -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<!-- Chart.js for interactive figures — loaded lazily when Pareto section enters viewport -->
 <script>
 (function() {
   // ============================================================
   // INTERACTIVE PARETO FRONT
+  // Loaded via IntersectionObserver to avoid blocking initial render.
   // X-axis = Tactic Diversity (1 - stickiness), higher = more diverse
   // Y-axis = Aggregate Empathy, higher = more empathic
   // ============================================================
-  var methods = [
-    // [diversity, empathy, name, family, model_size]
-    [0.73, 2.90, 'Human (Gold)', 'human', 'both'],
-    [0.49, 3.60, 'Vanilla', 'prompt', '1.7B'],
-    [0.35, 4.42, 'PsychoCounsel', 'quality_rl', '1.7B'],
-    [0.37, 4.38, 'R1-Zero-Div', 'token_div', '1.7B'],
-    [0.49, 4.54, 'MINT', 'ours', '1.7B'],
-    [0.43, 3.75, 'Vanilla', 'prompt', '4B'],
-    [0.33, 4.62, 'PsychoCounsel', 'quality_rl', '4B'],
-    [0.43, 4.58, 'R1-Zero-Div', 'token_div', '4B'],
-    [0.58, 4.67, 'MINT', 'ours', '4B'],
-  ];
+  function buildChart() {
+    var methods = [
+      // [diversity, empathy, name, family, model_size]
+      [0.73, 2.90, 'Human (Gold)', 'human', 'both'],
+      [0.49, 3.60, 'Vanilla', 'prompt', '1.7B'],
+      [0.35, 4.42, 'PsychoCounsel', 'quality_rl', '1.7B'],
+      [0.37, 4.38, 'R1-Zero-Div', 'token_div', '1.7B'],
+      [0.49, 4.54, 'MINT', 'ours', '1.7B'],
+      [0.43, 3.75, 'Vanilla', 'prompt', '4B'],
+      [0.33, 4.62, 'PsychoCounsel', 'quality_rl', '4B'],
+      [0.43, 4.58, 'R1-Zero-Div', 'token_div', '4B'],
+      [0.58, 4.67, 'MINT', 'ours', '4B'],
+    ];
 
-  var familyColors = {
-    human: '#B8860B',
-    prompt: '#7c9ab5',
-    quality_rl: '#d4944c',
-    token_div: '#9b82c4',
-    ours: '#2d6a4f',
-  };
+    var familyColors = {
+      human: '#B8860B',
+      prompt: '#7c9ab5',
+      quality_rl: '#d4944c',
+      token_div: '#9b82c4',
+      ours: '#2d6a4f',
+    };
 
-  var familyShapes = {
-    human: 'star',
-    prompt: 'rect',
-    quality_rl: 'triangle',
-    token_div: 'triangle',
-    ours: 'circle',
-  };
+    var familyShapes = {
+      human: 'star',
+      prompt: 'rect',
+      quality_rl: 'triangle',
+      token_div: 'triangle',
+      ours: 'circle',
+    };
 
-  var datasets = [];
+    var datasets = [];
 
-  // Group by family + size for distinct visual encoding
-  var groups = {};
-  methods.forEach(function(m) {
-    var key = m[3] + '_' + m[4];
-    if (!groups[key]) groups[key] = [];
-    groups[key].push(m);
-  });
-
-  Object.keys(groups).forEach(function(key) {
-    var pts = groups[key];
-    var fam = pts[0][3];
-    var size = pts[0][4];
-    var color = familyColors[fam];
-    var isFilled = size === '4B' || size === 'both';
-    var label = pts[0][2] + (size !== 'both' ? ' (' + size + ')' : '');
-
-    datasets.push({
-      label: label,
-      data: pts.map(function(p) { return { x: p[0], y: p[1] }; }),
-      backgroundColor: isFilled ? color : 'rgba(255,255,255,0.9)',
-      borderColor: color,
-      borderWidth: fam === 'ours' ? 2.5 : 1.5,
-      pointRadius: fam === 'human' ? 12 : fam === 'ours' ? 10 : 7,
-      pointHoverRadius: fam === 'human' ? 14 : fam === 'ours' ? 13 : 10,
-      pointStyle: familyShapes[fam],
-      _meta: pts.map(function(p) { return { name: p[2], size: p[4], div: p[0], emp: p[1] }; }),
+    // Group by family + size for distinct visual encoding
+    var groups = {};
+    methods.forEach(function(m) {
+      var key = m[3] + '_' + m[4];
+      if (!groups[key]) groups[key] = [];
+      groups[key].push(m);
     });
-  });
 
-  // Dashed connector lines between 1.7B and 4B of same method
-  var connectorFamilies = ['prompt', 'quality_rl', 'token_div', 'ours'];
-  connectorFamilies.forEach(function(fam) {
-    var p17 = methods.find(function(m) { return m[3] === fam && m[4] === '1.7B'; });
-    var p4 = methods.find(function(m) { return m[3] === fam && m[4] === '4B'; });
-    if (p17 && p4) {
+    Object.keys(groups).forEach(function(key) {
+      var pts = groups[key];
+      var fam = pts[0][3];
+      var size = pts[0][4];
+      var color = familyColors[fam];
+      var isFilled = size === '4B' || size === 'both';
+      var label = pts[0][2] + (size !== 'both' ? ' (' + size + ')' : '');
+
       datasets.push({
-        label: '_connector_' + fam,
-        data: [{ x: p17[0], y: p17[1] }, { x: p4[0], y: p4[1] }],
-        type: 'line',
-        borderColor: familyColors[fam],
-        borderDash: [4, 4],
-        borderWidth: 1,
-        pointRadius: 0,
-        pointHoverRadius: 0,
-        showLine: true,
+        label: label,
+        data: pts.map(function(p) { return { x: p[0], y: p[1] }; }),
+        backgroundColor: isFilled ? color : 'rgba(255,255,255,0.9)',
+        borderColor: color,
+        borderWidth: fam === 'ours' ? 2.5 : 1.5,
+        pointRadius: fam === 'human' ? 12 : fam === 'ours' ? 10 : 7,
+        pointHoverRadius: fam === 'human' ? 14 : fam === 'ours' ? 13 : 10,
+        pointStyle: familyShapes[fam],
+        _meta: pts.map(function(p) { return { name: p[2], size: p[4], div: p[0], emp: p[1] }; }),
       });
-    }
-  });
+    });
 
-  var ctx = document.getElementById('pareto-chart');
-  if (ctx) {
-    new Chart(ctx, {
-      type: 'scatter',
-      data: { datasets: datasets },
-      options: {
-        responsive: true,
-        maintainAspectRatio: true,
-        aspectRatio: 1.5,
-        scales: {
-          x: {
-            min: 0.25,
-            max: 0.80,
-            title: { display: true, text: 'Tactic Diversity (more diverse \u2192)', font: { size: 13 } },
-            grid: { display: false },
-            ticks: { font: { size: 11 } },
-          },
-          y: {
-            min: 2.7,
-            max: 4.88,
-            title: { display: true, text: 'Aggregate Empathy (more empathic \u2192)', font: { size: 13 } },
-            grid: { color: 'rgba(0,0,0,0.05)' },
-            ticks: { font: { size: 11 } },
-          },
-        },
-        plugins: {
-          legend: {
-            display: true,
-            position: 'bottom',
-            labels: {
-              filter: function(item) { return !item.text.startsWith('_connector'); },
-              usePointStyle: true,
-              padding: 16,
-              font: { size: 11.5 },
+    // Dashed connector lines between 1.7B and 4B of same method
+    var connectorFamilies = ['prompt', 'quality_rl', 'token_div', 'ours'];
+    connectorFamilies.forEach(function(fam) {
+      var p17 = methods.find(function(m) { return m[3] === fam && m[4] === '1.7B'; });
+      var p4 = methods.find(function(m) { return m[3] === fam && m[4] === '4B'; });
+      if (p17 && p4) {
+        datasets.push({
+          label: '_connector_' + fam,
+          data: [{ x: p17[0], y: p17[1] }, { x: p4[0], y: p4[1] }],
+          type: 'line',
+          borderColor: familyColors[fam],
+          borderDash: [4, 4],
+          borderWidth: 1,
+          pointRadius: 0,
+          pointHoverRadius: 0,
+          showLine: true,
+        });
+      }
+    });
+
+    var ctx = document.getElementById('pareto-chart');
+    if (ctx) {
+      new Chart(ctx, {
+        type: 'scatter',
+        data: { datasets: datasets },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          aspectRatio: 1.5,
+          scales: {
+            x: {
+              min: 0.25,
+              max: 0.80,
+              title: { display: true, text: 'Tactic Diversity (more diverse \u2192)', font: { size: 13 } },
+              grid: { display: false },
+              ticks: { font: { size: 11 } },
+            },
+            y: {
+              min: 2.7,
+              max: 4.88,
+              title: { display: true, text: 'Aggregate Empathy (more empathic \u2192)', font: { size: 13 } },
+              grid: { color: 'rgba(0,0,0,0.05)' },
+              ticks: { font: { size: 11 } },
             },
           },
-          tooltip: {
-            callbacks: {
-              label: function(context) {
-                var ds = context.dataset;
-                var meta = ds._meta ? ds._meta[context.dataIndex] : null;
-                if (!meta) return '';
-                return meta.name + ' (' + meta.size + '): Empathy=' + meta.emp.toFixed(2) + ', Diversity=' + meta.div.toFixed(2);
+          plugins: {
+            legend: {
+              display: true,
+              position: 'bottom',
+              labels: {
+                filter: function(item) { return !item.text.startsWith('_connector'); },
+                usePointStyle: true,
+                padding: 16,
+                font: { size: 11.5 },
               },
             },
-            backgroundColor: 'rgba(17,24,39,0.92)',
-            titleFont: { size: 12 },
-            bodyFont: { size: 12 },
-            padding: 10,
-            cornerRadius: 8,
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  var ds = context.dataset;
+                  var meta = ds._meta ? ds._meta[context.dataIndex] : null;
+                  if (!meta) return '';
+                  return meta.name + ' (' + meta.size + '): Empathy=' + meta.emp.toFixed(2) + ', Diversity=' + meta.div.toFixed(2);
+                },
+              },
+              backgroundColor: 'rgba(17,24,39,0.92)',
+              titleFont: { size: 12 },
+              bodyFont: { size: 12 },
+              padding: 10,
+              cornerRadius: 8,
+            },
           },
         },
-      },
-    });
+      });
+    }
+  }
+
+  function loadChartJs(callback) {
+    if (window.Chart) { callback(); return; }
+    var script = document.createElement('script');
+    script.defer = true;
+    script.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js';
+    script.onload = callback;
+    document.head.appendChild(script);
+  }
+
+  var chartCanvas = document.getElementById('pareto-chart');
+  if (!chartCanvas) return;
+
+  if ('IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) {
+        observer.disconnect();
+        loadChartJs(buildChart);
+      }
+    }, { rootMargin: '200px' });
+    observer.observe(chartCanvas);
+  } else {
+    // Fallback: no IntersectionObserver support, load immediately
+    loadChartJs(buildChart);
   }
 })();
 </script>
