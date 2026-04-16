@@ -181,10 +181,10 @@ The 10 tactic categories used in MINT (5 rare tactics excluded: contextualizing,
 
 ```bibtex
 @article{zhan2026discourse,
-  title   = {Discourse Diversity in Multi-Turn Empathic Dialogue},
-  author  = {Zhan, Hongli and Gueorguieva, Emma S. and Hernandez, Javier and Suh, Jina and Ong, Desmond C. and Li, Junyi Jessy},
-  year    = {2026},
-  note    = {Under review}
+  title={Discourse Diversity in Multi-Turn Empathic Dialogue},
+  author={Zhan, Hongli and Gueorguieva, Emma S and Hernandez, Javier and Suh, Jina and Ong, Desmond C and Li, Junyi Jessy},
+  journal={arXiv preprint arXiv:2604.11742},
+  year={2026}
 }
 ```
 
