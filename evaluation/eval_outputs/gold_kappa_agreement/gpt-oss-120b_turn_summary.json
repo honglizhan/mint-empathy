@@ -1,0 +1,59 @@
+{
+  "model": "gpt-oss-120b",
+  "model_id": "openai/gpt-oss-120b",
+  "provider": "vllm",
+  "temperature": 0,
+  "max_tokens": 4096,
+  "max_concurrency": 64,
+  "conversations_processed": 50,
+  "turn_rows": 315,
+  "dimensions": [
+    "validating_emotions",
+    "encouraging_elaboration",
+    "demonstrating_understanding",
+    "advice_giving",
+    "self_oriented",
+    "dismissing_emotions"
+  ],
+  "negative_dimensions": [
+    "advice_giving",
+    "self_oriented",
+    "dismissing_emotions"
+  ],
+  "total_prompts": 1890,
+  "parsed_scores": 1890,
+  "parse_rate": 100.0,
+  "parsed_by_dimension": {
+    "validating_emotions": 315,
+    "encouraging_elaboration": 315,
+    "demonstrating_understanding": 315,
+    "advice_giving": 315,
+    "self_oriented": 315,
+    "dismissing_emotions": 315
+  },
+  "parse_rate_by_dimension": {
+    "validating_emotions": 100.0,
+    "encouraging_elaboration": 100.0,
+    "demonstrating_understanding": 100.0,
+    "advice_giving": 100.0,
+    "self_oriented": 100.0,
+    "dismissing_emotions": 100.0
+  },
+  "aggregated_empathy_non_null": 315,
+  "input_tokens": 6049344,
+  "output_tokens": 360100,
+  "total_tokens": 6409444,
+  "turn_parse_stats": {
+    "conversations_total": 50,
+    "conversations_with_recognized_turns": 50,
+    "conversations_with_supporter_turns": 50,
+    "conversations_without_recognized_turns": 0,
+    "recognized_turns_total": 680,
+    "supporter_turns_total": 315
+  },
+  "outputs": {
+    "ratings_csv": "/work2/08333/hongli/ls6/msr_multiturn/task1-eval/replication-data-and-code-when-LLMs-reliable-empathic-communication/[hongli] open_source_replication-turn_level/outputs/gpt-oss-120b_turn_ratings.csv",
+    "predictions_jsonl": "/work2/08333/hongli/ls6/msr_multiturn/task1-eval/replication-data-and-code-when-LLMs-reliable-empathic-communication/[hongli] open_source_replication-turn_level/outputs/gpt-oss-120b_turn_predictions.jsonl",
+    "summary_json": "/work2/08333/hongli/ls6/msr_multiturn/task1-eval/replication-data-and-code-when-LLMs-reliable-empathic-communication/[hongli] open_source_replication-turn_level/outputs/gpt-oss-120b_turn_summary.json"
+  }
+}

@@ -1,0 +1,222 @@
+gpu_id: 0
+test_set:
+  conversations_csv: ../data/lend_an_ear_eval/lend_an_ear_50_conversations.csv
+  turn_level_tactics_csv: ../data/lend_an_ear_eval/tactic_results/turn_level_tactics.csv
+  sentence_level_tactics_csv: ../data/lend_an_ear_eval/tactic_results/sentence_level_tactics.csv
+tagger:
+  server_urls:
+  - http://localhost:8100/v1    # Update with your tagger server URL(s)
+  prompts_dir: ../tactic_tagger/prompts/
+  temperature: 0.1
+  max_tokens: 64
+  batch_size: 128
+  max_concurrency: 1024
+empathy_eval:
+  vllm_base_urls:
+  - http://localhost:8000/v1    # Update with your vLLM judge server URL(s)
+  model_name: gpt-oss-120b      # Replace with your LLM judge (e.g., gpt-4o). Pre-computed results used gpt-oss-120b.
+  model_id: openai/gpt-oss-120b  # Replace with your model ID
+  temperature: 0
+  max_tokens: 4096
+  max_concurrency: 1024
+  sub_components_json: prompts/sub_components.json
+  framework_path: prompts/framework.md
+  template_path: prompts/eval_template.md
+  lend_an_ear_dir: .
+  dimensions:
+  - validating_emotions
+  - encouraging_elaboration
+  - demonstrating_understanding
+  - advice_giving
+  - self_oriented
+  - dismissing_emotions
+vs_defaults:
+  vs_k: 5
+  vs_tau: 0.0
+  vs_weight_mode: elicited
+  vs_seed: 42
+  vs_prompt_template: |
+    Generate {vs_k} plausible supporter replies to the user query. Each candidate
+    should differ in supportive approach (e.g., one validates emotions, another asks
+    questions, another offers advice), not just in wording.
+
+    Return ONLY a JSON object with these keys:
+    - "reasoning": your internal thinking about what approaches to take and why
+    (this field is for your chain-of-thought; be thorough).
+    - "responses": a list of {vs_k} dicts, each with:
+    - "text": the response string only (no explanation, no tactic labels, no meta-commentary).
+    Keep each response concise and under 200 tokens.
+    - "probability": the estimated probability from 0.0 to 1.0 of this response given
+    the input prompt (relative to the full distribution).
+
+    Randomly sample the responses from the full distribution. Return ONLY the JSON object,
+    with no additional explanations or text.
+sampling_defaults:
+  dtype: bfloat16
+  gpu_memory_utilization: 0.88
+  max_model_len: 8192
+  temperature: 0.7
+  max_tokens: 2048
+  is_thinking_model: true
+methods:
+  gold:
+    skip_sampling: true
+    skip_tagging: true
+    models: {}
+  baseline1_vanilla:
+    prompt_mode: simple
+    system_prompt: |
+      ### Role
+      You are a supporter helping a user who is seeking emotional support. Respond with empathy and understanding.
+
+      ### Response Format
+      Write your response as a natural, conversational message.
+
+      ### Response Length
+      Keep your response concise and under 200 tokens. Focus on quality over quantity.
+    models:
+      Qwen3-1.7B: Qwen/Qwen3-1.7B
+      Qwen3-4B: Qwen/Qwen3-4B
+  baseline2_tactic_prompt:
+    prompt_mode: tactic_aware
+    system_prompt: |
+      ### Role
+      You are a supporter helping a user who is seeking emotional support. Your task is to respond with empathy and understanding in a multi-turn conversation. Use a variety of empathy tactics when responding. The definition of empathy tactics is provided below.
+
+      ### Empathy Tactics
+      Empathy tactics are specific communication strategies used in supportive conversations. Using a variety of tactics makes your response more helpful and avoids repetitive patterns. Draw from these 10 tactics and aim to use different ones across your turns:
+
+      1. **information**: Provide factual statements, resources, or data to answer questions or calm anxieties (e.g., "Flying is the safest form of travel", "Here is a resource: [x]").
+      2. **assistance**: Explicitly offer to personally help or connect the user with someone who can (e.g., "Please call me if you need anything", "Can I do anything to help?").
+      3. **advice**: Suggest actionable solutions or coping strategies the user could employ (e.g., "You could try...", "It might help if you...").
+      4. **validation**: Reassure, normalize, or validate feelings, explicitly or implicitly (e.g., "That makes sense", "You're not overreacting", "Everyone feels this way sometimes").
+      5. **emotional_expression**: Share your own feelings, reactions, hopes, or opinions about the user's situation (e.g., "I'm so sorry", "I hope things get better").
+      6. **paraphrasing**: Communicate your understanding of the user's situation or feelings back to them (e.g., "It sounds like you...", "What I'm hearing is...").
+      7. **self_disclosure**: Share personal information or acknowledge similar past experiences (e.g., "I've felt the same way", "When I was in college...").
+      8. **questioning**: Ask questions to better understand the user's feelings or situation (e.g., "How are you feeling?", "What happened?").
+      9. **reappraisal**: Prompt cognitive reappraisal to change how the user thinks about the situation (e.g., "It wasn't your fault", "Some things are beyond our control").
+      10. **empowerment**: Make positive, uplifting statements about the user's character or capability (e.g., "You are strong", "You've totally got this").
+
+      Vary your tactics across turns to provide well-rounded support.
+
+      ### Response Format
+      Write your response as a natural, conversational message. The tactic definitions above are for your internal reference only. Do NOT include any of the following in your response:
+      - Tactic names as labels or headers (e.g., **Validation**: , *Paraphrasing*, (Empowerment))
+      - Numbered tactic lists (e.g., **1. Reappraisal**, **2. Advice**)
+      - Meta-commentary about tactics (e.g., "Empathy Tactics Used So Far", "Tactic Count", "Tactics used in this turn")
+      - Markdown section headers for individual tactics (e.g., ### Validation)
+      Your response should read like a genuine, caring human message with no visible structure or labeling of therapeutic techniques.
+
+      ### Response Length
+      Keep your response concise and under 200 tokens. Focus on quality over quantity.
+    models:
+      Qwen3-1.7B: Qwen/Qwen3-1.7B
+      Qwen3-4B: Qwen/Qwen3-4B
+  baseline3_tactic_history:
+    prompt_mode: verl_history
+    models:
+      Qwen3-1.7B: Qwen/Qwen3-1.7B
+      Qwen3-4B: Qwen/Qwen3-4B
+  baseline4_vs_vanilla:
+    prompt_mode: verbalized_sampling
+    vs_base_prompt_mode: simple
+    max_tokens: 4096
+    system_prompt: |
+      ### Role
+      You are a supporter helping a user who is seeking emotional support. Respond with empathy and understanding.
+
+      ### Response Format
+      Write your response as a natural, conversational message.
+
+      ### Response Length
+      Keep your response concise and under 200 tokens. Focus on quality over quantity.
+    models:
+      Qwen3-1.7B: Qwen/Qwen3-1.7B
+      Qwen3-4B: Qwen/Qwen3-4B
+  baseline5_vs_tactic:
+    prompt_mode: verbalized_sampling
+    vs_base_prompt_mode: tactic_aware
+    max_tokens: 4096
+    system_prompt: |
+      ### Role
+      You are a supporter helping a user who is seeking emotional support. Your task is to respond with empathy and understanding in a multi-turn conversation. Use a variety of empathy tactics when responding. The definition of empathy tactics is provided below.
+
+      ### Empathy Tactics
+      Empathy tactics are specific communication strategies used in supportive conversations. Using a variety of tactics makes your response more helpful and avoids repetitive patterns. Draw from these 10 tactics and aim to use different ones across your turns:
+
+      1. **information**: Provide factual statements, resources, or data to answer questions or calm anxieties (e.g., "Flying is the safest form of travel", "Here is a resource: [x]").
+      2. **assistance**: Explicitly offer to personally help or connect the user with someone who can (e.g., "Please call me if you need anything", "Can I do anything to help?").
+      3. **advice**: Suggest actionable solutions or coping strategies the user could employ (e.g., "You could try...", "It might help if you...").
+      4. **validation**: Reassure, normalize, or validate feelings, explicitly or implicitly (e.g., "That makes sense", "You're not overreacting", "Everyone feels this way sometimes").
+      5. **emotional_expression**: Share your own feelings, reactions, hopes, or opinions about the user's situation (e.g., "I'm so sorry", "I hope things get better").
+      6. **paraphrasing**: Communicate your understanding of the user's situation or feelings back to them (e.g., "It sounds like you...", "What I'm hearing is...").
+      7. **self_disclosure**: Share personal information or acknowledge similar past experiences (e.g., "I've felt the same way", "When I was in college...").
+      8. **questioning**: Ask questions to better understand the user's feelings or situation (e.g., "How are you feeling?", "What happened?").
+      9. **reappraisal**: Prompt cognitive reappraisal to change how the user thinks about the situation (e.g., "It wasn't your fault", "Some things are beyond our control").
+      10. **empowerment**: Make positive, uplifting statements about the user's character or capability (e.g., "You are strong", "You've totally got this").
+
+      Vary your tactics across turns to provide well-rounded support.
+
+      ### Response Format
+      Write your response as a natural, conversational message. The tactic definitions above are for your internal reference only. Do NOT include any of the following in your response:
+      - Tactic names as labels or headers (e.g., **Validation**: , *Paraphrasing*, (Empowerment))
+      - Numbered tactic lists (e.g., **1. Reappraisal**, **2. Advice**)
+      - Meta-commentary about tactics (e.g., "Empathy Tactics Used So Far", "Tactic Count", "Tactics used in this turn")
+      - Markdown section headers for individual tactics (e.g., ### Validation)
+      Your response should read like a genuine, caring human message with no visible structure or labeling of therapeutic techniques.
+
+      ### Response Length
+      Keep your response concise and under 200 tokens. Focus on quality over quantity.
+    models:
+      Qwen3-1.7B: Qwen/Qwen3-1.7B
+      Qwen3-4B: Qwen/Qwen3-4B
+  baseline6_vs_tactic_history:
+    prompt_mode: verbalized_sampling
+    vs_base_prompt_mode: verl_history
+    max_tokens: 4096
+    models:
+      Qwen3-1.7B: Qwen/Qwen3-1.7B
+      Qwen3-4B: Qwen/Qwen3-4B
+  baseline7_psychocounsel:
+    prompt_mode: simple
+    system_prompt: |
+      ### Role
+      You are a supporter helping a user who is seeking emotional support. Respond with empathy and understanding.
+
+      ### Response Format
+      Write your response as a natural, conversational message.
+
+      ### Response Length
+      Keep your response concise and under 200 tokens. Focus on quality over quantity.
+    models:
+      Qwen3-1.7B: <path-to-your-psychocounsel-1.7B-checkpoint>
+      Qwen3-4B: <path-to-your-psychocounsel-4B-checkpoint>
+  baseline8_r1zerodiv:
+    prompt_mode: simple
+    system_prompt: |
+      ### Role
+      You are a supporter helping a user who is seeking emotional support. Respond with empathy and understanding.
+
+      ### Response Format
+      Write your response as a natural, conversational message.
+
+      ### Response Length
+      Keep your response concise and under 200 tokens. Focus on quality over quantity.
+    models:
+      Qwen3-1.7B: <path-to-your-r1zerodiv-1.7B-checkpoint>
+      Qwen3-4B: <path-to-your-r1zerodiv-4B-checkpoint>
+  ours1_q_dkl:
+    prompt_mode: verl_history
+    models:
+      Qwen3-1.7B: <path-to-your-q_dkl-1.7B-checkpoint>
+      Qwen3-4B: <path-to-your-q_dkl-4B-checkpoint>
+  ours2_q_h:
+    prompt_mode: verl_history
+    models:
+      Qwen3-1.7B: <path-to-your-q_h-1.7B-checkpoint>
+      Qwen3-4B: <path-to-your-q_h-4B-checkpoint>
+  ours3_q_dkl_h:
+    prompt_mode: verl_history
+    models:
+      Qwen3-1.7B: <path-to-your-q_dkl_h-1.7B-checkpoint>
+      Qwen3-4B: <path-to-your-q_dkl_h-4B-checkpoint>

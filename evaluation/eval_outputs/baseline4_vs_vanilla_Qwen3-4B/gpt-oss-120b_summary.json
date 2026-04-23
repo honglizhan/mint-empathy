@@ -1,0 +1,13 @@
+{
+  "model": "gpt-oss-120b",
+  "model_id": "openai/gpt-oss-120b",
+  "temperature": 0,
+  "conversations": 50,
+  "supporter_turns": 315,
+  "total_prompts": 1890,
+  "parsed_scores": 1890,
+  "parse_rate": 100.0,
+  "input_tokens": 6269178,
+  "output_tokens": 440657,
+  "total_tokens": 6709835
+}

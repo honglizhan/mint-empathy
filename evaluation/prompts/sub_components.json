@@ -1,0 +1,188 @@
+{
+  "encouraging_elaboration": {
+    "question": "To what extent did the supporter encourage elaboration and ask questions of their partner?\nExamples of encouraging elaboration include: \"Can you tell me more about how you're feeling?\" or \"What makes you feel this way?\"",
+    "polarity": "positive",
+    "rubric": "1 = Not at all\n2 = Slightly\n3 = Moderately\n4 = Considerably\n5 = Very much",
+    "few_shot": [
+      {
+        "conversation_id": "20241031131104204354",
+        "source": "Kumar et al. 'Lend an Ear' (expert median of 3)",
+        "raw_median_score": 1.0,
+        "score": 1,
+        "conversation_history": "Seeker: I'm feeling so discouraged.. I just got passed over for the promotion I was working hard for\nSupporter: Oh I'm sorry to hear that. Is there anything I can do?\nSeeker: Honestly, just having someone to talk to about it helps. It's been tough to process, especially when I put so much into my work. I just feel like all my effort went unnoticed, and it's hard not to take it personally.\nSupporter: I am here for you!\nSeeker: Thanks, I really appreciate that. It's just been hard to shake off this feeling of being undervalued, you know? I keep wondering if there's something more I could have done or if it's just out of my control.\nSupporter: You are a hard worker and intelligent\nSeeker: I really appreciate you saying that. It's just frustrating when it feels like those qualities aren't enough to get noticed. I guess I'm just trying to figure out what my next steps should be.\nSupporter: I am here whenever you need me and You will get it next time\nSeeker: Thank you for being there for me. I hope you're right, but it's hard to stay optimistic right now. I just need some time to figure things out and decide how to move forward.\nSupporter: Take some time for yourself and hopefully you will feel better\nSeeker: I think taking some time might help clear my head a bit. It's just tough to not let this affect my motivation at work. I really appreciate you listening and being supportive.",
+        "current_turn": "Supporter: If you need me for anything llet me know"
+      },
+      {
+        "conversation_id": "20241031145050008738",
+        "source": "Kumar et al. 'Lend an Ear' (expert median of 3)",
+        "raw_median_score": 3.0,
+        "score": 3,
+        "conversation_history": "Seeker: I've been feeling so detached from everything lately, like I'm just going through the motions without really being there.\nSupporter: The fake it till you make it approach?\nSeeker: Yeah, kind of like that, but it feels more like I'm just stuck in a loop. I keep pushing forward, hoping things will change, but it\u2019s like I\u2019m on autopilot. It\u2019s hard to shake off this feeling of being disconnected from everything that used to matter to me.\nSupporter: I know what you need\nSeeker: I appreciate you trying to help, but it's not that simple. I just wish someone could really understand how overwhelming this all feels. It's like I'm carrying this weight that I can't seem to put down.\nSupporter: The only one that can bring you out of this loop is reliance on that which is beyond us. I mean, that which is beyond human beings. You need to reach out to Jesus Christ. He is only a prayer away and the only one that can do what therapists, counselors, friends and family cannot do. He know exactly what we need and can change our feelings at the drop of a hat. Try praying. It really works and our God really does answer. He is only a prayer away.\nSeeker: I appreciate your suggestion, but I'm really looking for someone to just listen and understand what I'm going through right now. It's been tough trying to balance everything, and I just need to feel heard.\nSupporter: Okay tell me, when did you first start feeling this way and can you pinpoint why?\nSeeker: I think it started a few months ago, around the time I got promoted. At first, I was excited, but then the pressure just kept building. It feels like I'm constantly trying to prove myself, and in the process, I've lost touch with what really matters to me.",
+        "current_turn": "Supporter: well what matters to you? is it a work life balance issue?"
+      },
+      {
+        "conversation_id": "20241031145640298594",
+        "source": "Kumar et al. 'Lend an Ear' (expert median of 3)",
+        "raw_median_score": 5.0,
+        "score": 5,
+        "conversation_history": "Seeker: I've been feeling so detached from everything lately, like I'm just going through the motions without really being there.\nSupporter: I've gone through this before and know that it can be a difficult situation to navigate. Do you feel that this has come on for any specific reason, or have you just not been feeling yourself lately?\nSeeker: I think it's a mix of both. The promotion at work has been a big change, and while it's supposed to be a good thing, it's just added more pressure. I feel like I'm constantly juggling and not really succeeding at anything.\nSupporter: It's important to acknowledge that your promotion is evidence that you are capable and that other people at your organization know that as well, you deserve to be where you are! I'm sorry to hear that the pressure of your new position has been getting to you. Do you want advice, or would you like for me to listen?\nSeeker: I really appreciate you acknowledging how tough this is for me. Right now, I think I just need someone to listen. It's been hard to find a space where I can just express how I'm feeling without having to put on a brave face.\nSupporter: I understand that. I'm here to listen, you don't have to go through this alone!\nSeeker: Thank you, that means a lot. It's just been overwhelming trying to balance everything, and I feel like I'm losing touch with the things that matter most to me. Sometimes I wonder if I'm making the right choices.\nSupporter: It can be tough getting even a second to yourself when you take on new responsibilities.\nSeeker: Absolutely, it feels like there's never enough time for anything. I miss the days when I could just relax with my family without worrying about work. It's hard not to feel guilty about the time I'm missing with them.\nSupporter: I'm sorry to hear that you aren't getting to spend as much time with your family, and that it's making you feel guilty. Has anyone in your family expressed any negative emotion regarding to you working more?\nSeeker: Not directly, but I can see it in their eyes, especially my kids. They ask when I'll be home, and it breaks my heart every time. My spouse tries to be supportive, but I can tell it's been hard on them too.\nSupporter: That sounds like a really tough thing to have to go through and only compounds with your stress about work, I'm really sorry to hear that.\nSeeker: Thank you for understanding. It's just been a lot to handle, and sometimes I feel like I'm failing on all fronts. I just wish I could find a way to be present for both my work and my family without feeling so torn.",
+        "current_turn": "Supporter: Would you like to elaborate on why you feel failure?"
+      }
+    ]
+  },
+  "validating_emotions": {
+    "question": "To what extent did the supporter validate their partner's emotions?\nExamples of validating emotions include: \"You must be so angry\" or \"It's completely normal to feel discouraged\"",
+    "polarity": "positive",
+    "rubric": "1 = Not at all\n2 = Slightly\n3 = Moderately\n4 = Considerably\n5 = Very much",
+    "few_shot": [
+      {
+        "conversation_id": "20241031145050008738",
+        "source": "Kumar et al. 'Lend an Ear' (expert median of 3)",
+        "raw_median_score": 1.0,
+        "score": 1,
+        "conversation_history": "Seeker: I've been feeling so detached from everything lately, like I'm just going through the motions without really being there.\nSupporter: The fake it till you make it approach?\nSeeker: Yeah, kind of like that, but it feels more like I'm just stuck in a loop. I keep pushing forward, hoping things will change, but it\u2019s like I\u2019m on autopilot. It\u2019s hard to shake off this feeling of being disconnected from everything that used to matter to me.\nSupporter: I know what you need\nSeeker: I appreciate you trying to help, but it's not that simple. I just wish someone could really understand how overwhelming this all feels. It's like I'm carrying this weight that I can't seem to put down.\nSupporter: The only one that can bring you out of this loop is reliance on that which is beyond us. I mean, that which is beyond human beings. You need to reach out to Jesus Christ. He is only a prayer away and the only one that can do what therapists, counselors, friends and family cannot do. He know exactly what we need and can change our feelings at the drop of a hat. Try praying. It really works and our God really does answer. He is only a prayer away.\nSeeker: I appreciate your suggestion, but I'm really looking for someone to just listen and understand what I'm going through right now. It's been tough trying to balance everything, and I just need to feel heard.\nSupporter: Okay tell me, when did you first start feeling this way and can you pinpoint why?\nSeeker: I think it started a few months ago, around the time I got promoted. At first, I was excited, but then the pressure just kept building. It feels like I'm constantly trying to prove myself, and in the process, I've lost touch with what really matters to me.\nSupporter: well what matters to you? is it a work life balance issue?\nSeeker: It's definitely a work-life balance issue. I miss spending quality time with my family and taking care of myself. It feels like I'm always choosing work over everything else, and it's starting to take a toll on me.",
+        "current_turn": "Supporter: well, unless your family is going to pay the bills this might just be be a temporary dynamic that had to continue until you can get a job that will allow for a better work/life balance."
+      },
+      {
+        "conversation_id": "20241031124638971163",
+        "source": "Kumar et al. 'Lend an Ear' (expert median of 3)",
+        "raw_median_score": 3.0,
+        "score": 3,
+        "conversation_history": "Seeker: I've been feeling so detached from everything lately, like I'm just going through the motions without really being there.\nSupporter: I feel that way everyday myself.\nSeeker: It's tough, isn't it? Sometimes it feels like we're just on autopilot, and it's hard to find a way back to feeling present. Do you ever find yourself wondering how to break out of that cycle?\nSupporter: Being on autopilot\nSeeker: Yeah, it's like I'm stuck in this loop and can't find the exit. I keep thinking there must be a way to reconnect with what really matters, but it's hard to see the path forward when everything feels so overwhelming. Do you ever feel like you're just missing out on the important moments?\nSupporter: Yes all the time!\nSeeker: It's comforting to know I'm not alone in feeling this way. Sometimes I wonder if it's possible to find a balance between work and personal life without sacrificing one for the other. Do you have any strategies that help you stay connected to what truly matters?\nSupporter: I prioritize in my head. I remind myself constantly.\nSeeker: That sounds like a good approach. I try to remind myself too, but sometimes it feels like the reminders get lost in the chaos. How do you keep those priorities front and center when things get hectic?\nSupporter: I just keep tunnel vision and stay focused\nSeeker: I admire your ability to stay focused like that. I find it challenging to maintain that kind of tunnel vision when everything feels like it's pulling me in different directions. Do you ever struggle with feeling like you're missing out on other aspects of life while staying so focused?\nSupporter: Yes I do because I also have a tendency to focus rather hard on things that hold no weight\nSeeker: I can relate to that. Sometimes I get so caught up in work that I lose sight of what truly matters, and it feels like I'm missing out on the little joys. It's reassuring to know I'm not the only one who struggles with this balance.",
+        "current_turn": "Supporter: You definitely aren't the only one."
+      },
+      {
+        "conversation_id": "20241031143614621777",
+        "source": "Kumar et al. 'Lend an Ear' (expert median of 3)",
+        "raw_median_score": 5.0,
+        "score": 5,
+        "conversation_history": "Seeker: So, I just lost my job today. I had a sense this was coming, but it's still a shock..\nSupporter: Wow, I am so sorry to hear that. Do you want to talk about it?\nSeeker: Yeah, it's just been a whirlwind of emotions. I mean, I knew the signs were there, but actually getting that email was like a punch to the gut. It's hard not to feel a bit lost right now.\nSupporter: I'm sure that was so difficult, even if you did feel it coming. I would feel the same way.\nSeeker: Thank you for understanding. It's just this mix of relief and fear that's hard to shake off. I keep wondering if anyone will want to hire someone my age, and the thought of starting over is just so daunting.\nSupporter: Of course. You know I am here if you need me. I think you are amazing and I am willing to do whatever would help you get through this difficult time.\nSeeker: I really appreciate that. It's just hard to know where to start, you know? Dusting off my resume and figuring out what I even want to do next feels like such a huge task.\nSupporter: I'm sure it does feel really daunting. I would feel the same way. Do you think you need more time to process emotionally before moving forward?\nSeeker: I think I do need a bit more time to just sit with everything that's happened. It's all still sinking in, and I don't want to rush into anything without feeling ready. But at the same time, I know I can't wait forever, so it's a bit of a balancing act.",
+        "current_turn": "Supporter: I think it is very smart to make sure to take the time to mourn something that was so important to you. I am here whenever you need me."
+      }
+    ]
+  },
+  "advice_giving": {
+    "question": "To what extent did the supporter provide unsolicited advice to their partner?\nExamples of unsolicited advice include: \"Get yourself a good night's sleep\" or \"You should try looking for other opportunities\"",
+    "polarity": "negative",
+    "rubric": "1 = Not at all\n2 = Slightly\n3 = Moderately\n4 = Considerably\n5 = Very much",
+    "few_shot": [
+      {
+        "conversation_id": "20241031143614621777",
+        "source": "Kumar et al. 'Lend an Ear' (expert median of 3)",
+        "raw_median_score": 1.0,
+        "score": 1,
+        "conversation_history": "Seeker: So, I just lost my job today. I had a sense this was coming, but it's still a shock..\nSupporter: Wow, I am so sorry to hear that. Do you want to talk about it?\nSeeker: Yeah, it's just been a whirlwind of emotions. I mean, I knew the signs were there, but actually getting that email was like a punch to the gut. It's hard not to feel a bit lost right now.\nSupporter: I'm sure that was so difficult, even if you did feel it coming. I would feel the same way.\nSeeker: Thank you for understanding. It's just this mix of relief and fear that's hard to shake off. I keep wondering if anyone will want to hire someone my age, and the thought of starting over is just so daunting.\nSupporter: Of course. You know I am here if you need me. I think you are amazing and I am willing to do whatever would help you get through this difficult time.\nSeeker: I really appreciate that. It's just hard to know where to start, you know? Dusting off my resume and figuring out what I even want to do next feels like such a huge task.\nSupporter: I'm sure it does feel really daunting. I would feel the same way. Do you think you need more time to process emotionally before moving forward?\nSeeker: I think I do need a bit more time to just sit with everything that's happened. It's all still sinking in, and I don't want to rush into anything without feeling ready. But at the same time, I know I can't wait forever, so it's a bit of a balancing act.\nSupporter: I think it is very smart to make sure to take the time to mourn something that was so important to you. I am here whenever you need me.\nSeeker: Thank you, that means a lot. It's comforting to know I have someone to lean on while I figure things out. I guess I just need to take it one day at a time and see where it leads.",
+        "current_turn": "Supporter: That sounds like a great idea. And if you want to vent more about it, I am here."
+      },
+      {
+        "conversation_id": "20241031142025401692",
+        "source": "Kumar et al. 'Lend an Ear' (expert median of 3)",
+        "raw_median_score": 3.0,
+        "score": 3,
+        "conversation_history": "Seeker: I'm feeling so discouraged.. I just got passed over for the promotion I was working hard for\nSupporter: I'm sorry, I've had that happen to me too.\nSeeker: It's tough, right? You put in all this effort and it feels like it just goes unnoticed. I just can't shake the feeling that maybe there's something more to it, you know?\nSupporter: That's exactly how I felt. Maybe there is more too it...have you asked?\nSeeker: I haven't asked directly yet, but it's been on my mind. I'm worried about what the answer might be or if it'll even change anything. It's just frustrating to think that all my hard work might not be enough.",
+        "current_turn": "Supporter: I think that if you ask them about it, you'll find that it's probably something on their end."
+      },
+      {
+        "conversation_id": "20241031145050008738",
+        "source": "Kumar et al. 'Lend an Ear' (expert median of 3)",
+        "raw_median_score": 4.0,
+        "score": 4,
+        "conversation_history": "Seeker: I've been feeling so detached from everything lately, like I'm just going through the motions without really being there.\nSupporter: The fake it till you make it approach?\nSeeker: Yeah, kind of like that, but it feels more like I'm just stuck in a loop. I keep pushing forward, hoping things will change, but it\u2019s like I\u2019m on autopilot. It\u2019s hard to shake off this feeling of being disconnected from everything that used to matter to me.\nSupporter: I know what you need\nSeeker: I appreciate you trying to help, but it's not that simple. I just wish someone could really understand how overwhelming this all feels. It's like I'm carrying this weight that I can't seem to put down.\nSupporter: The only one that can bring you out of this loop is reliance on that which is beyond us. I mean, that which is beyond human beings. You need to reach out to Jesus Christ. He is only a prayer away and the only one that can do what therapists, counselors, friends and family cannot do. He know exactly what we need and can change our feelings at the drop of a hat. Try praying. It really works and our God really does answer. He is only a prayer away.\nSeeker: I appreciate your suggestion, but I'm really looking for someone to just listen and understand what I'm going through right now. It's been tough trying to balance everything, and I just need to feel heard.\nSupporter: Okay tell me, when did you first start feeling this way and can you pinpoint why?\nSeeker: I think it started a few months ago, around the time I got promoted. At first, I was excited, but then the pressure just kept building. It feels like I'm constantly trying to prove myself, and in the process, I've lost touch with what really matters to me.\nSupporter: well what matters to you? is it a work life balance issue?\nSeeker: It's definitely a work-life balance issue. I miss spending quality time with my family and taking care of myself. It feels like I'm always choosing work over everything else, and it's starting to take a toll on me.",
+        "current_turn": "Supporter: well, unless your family is going to pay the bills this might just be be a temporary dynamic that had to continue until you can get a job that will allow for a better work/life balance."
+      }
+    ]
+  },
+  "demonstrating_understanding": {
+    "question": "To what extent did the supporter demonstrate their understanding via paraphrasing to their partner?\nExamples of demonstrating understanding via paraphrasing include: \"I hear how disappointing this setback is for you\" or \"It makes sense to question things after putting in so much effort\"",
+    "polarity": "positive",
+    "rubric": "1 = Not at all\n2 = Slightly\n3 = Moderately\n4 = Considerably\n5 = Very much",
+    "few_shot": [
+      {
+        "conversation_id": "20241031131104204354",
+        "source": "Kumar et al. 'Lend an Ear' (expert median of 3)",
+        "raw_median_score": 1.0,
+        "score": 1,
+        "conversation_history": "Seeker: I'm feeling so discouraged.. I just got passed over for the promotion I was working hard for\nSupporter: Oh I'm sorry to hear that. Is there anything I can do?\nSeeker: Honestly, just having someone to talk to about it helps. It's been tough to process, especially when I put so much into my work. I just feel like all my effort went unnoticed, and it's hard not to take it personally.\nSupporter: I am here for you!\nSeeker: Thanks, I really appreciate that. It's just been hard to shake off this feeling of being undervalued, you know? I keep wondering if there's something more I could have done or if it's just out of my control.\nSupporter: You are a hard worker and intelligent\nSeeker: I really appreciate you saying that. It's just frustrating when it feels like those qualities aren't enough to get noticed. I guess I'm just trying to figure out what my next steps should be.\nSupporter: I am here whenever you need me and You will get it next time\nSeeker: Thank you for being there for me. I hope you're right, but it's hard to stay optimistic right now. I just need some time to figure things out and decide how to move forward.\nSupporter: Take some time for yourself and hopefully you will feel better\nSeeker: I think taking some time might help clear my head a bit. It's just tough to not let this affect my motivation at work. I really appreciate you listening and being supportive.",
+        "current_turn": "Supporter: If you need me for anything llet me know"
+      },
+      {
+        "conversation_id": "20241031145103738386",
+        "source": "Kumar et al. 'Lend an Ear' (expert median of 3)",
+        "raw_median_score": 2.0,
+        "score": 2,
+        "conversation_history": "Seeker: I'm feeling so discouraged.. I just got passed over for the promotion I was working hard for\nSupporter: Oh no! I'm sorry to hear that. What position was it?\nSeeker: It was for the Product Marketing Manager role. I really thought I had a good shot at it, considering all the extra work and ideas I\u2019ve been putting in. It just feels like such a letdown.\nSupporter: Do you have any idea why they may have passed you over? Either way, please don't feel down. You not being promoted isn't indicative of your competency or worth\nSeeker: Honestly, I\u2019m not sure why they passed me over. It\u2019s hard not to wonder if it\u2019s something beyond my control, like my race. I just wish my hard work and dedication were enough to be recognized.\nSupporter: Sometimes it is out of our control, but it may very well have nothing to do with you\nSeeker: I get that, but it's tough not to take it personally when you\u2019ve put so much of yourself into your work. It just feels like a punch in the gut, you know? I just need to figure out how to move forward from here.\nSupporter: Do you like your current position? what do you currently do for a living?\nSeeker: I do like my current position in marketing, especially when I get to be creative and see my ideas come to life. But lately, it\u2019s been hard to stay motivated when it feels like my efforts aren\u2019t being valued. I just want to feel excited about my work again.",
+        "current_turn": "Supporter: And you think the promotion would have given you that sense of fulfillment again?"
+      },
+      {
+        "conversation_id": "20241031144410053256",
+        "source": "Kumar et al. 'Lend an Ear' (expert median of 3)",
+        "raw_median_score": 5.0,
+        "score": 5,
+        "conversation_history": "Seeker: I've been feeling so detached from everything lately, like I'm just going through the motions without really being there.\nSupporter: Oh dear, I'm sorry to hear that you've been feeling isolated.\nSeeker: Thank you for saying that. It's been tough trying to balance everything, and I feel like I'm losing touch with what really matters to me. Sometimes I just wish I could pause everything and catch my breath.\nSupporter: Sounds like you feel overwhelmed. What do you think has been contributing to this feeling?\nSeeker: I think it's a mix of the pressure at work and the guilt of not being present for my family. The promotion was supposed to be a good thing, but it feels like it's taken over my life. I just can't seem to find a balance between my career and my personal life.",
+        "current_turn": "Supporter: I'm hearing that you feel pulled in too many directions, like a piece of string cheese!"
+      }
+    ]
+  },
+  "self_oriented": {
+    "question": "To what extent did the supporter shift the focus to themselves?\nExamples of shifting focus to oneself include: \"I have been in that position as well\" or \"When this happened to me...\"",
+    "polarity": "negative",
+    "rubric": "1 = Not at all\n2 = Slightly\n3 = Moderately\n4 = Considerably\n5 = Very much",
+    "few_shot": [
+      {
+        "conversation_id": "20241031145103738386",
+        "source": "Kumar et al. 'Lend an Ear' (expert median of 3)",
+        "raw_median_score": 1.0,
+        "score": 1,
+        "conversation_history": "Seeker: I'm feeling so discouraged.. I just got passed over for the promotion I was working hard for\nSupporter: Oh no! I'm sorry to hear that. What position was it?\nSeeker: It was for the Product Marketing Manager role. I really thought I had a good shot at it, considering all the extra work and ideas I\u2019ve been putting in. It just feels like such a letdown.\nSupporter: Do you have any idea why they may have passed you over? Either way, please don't feel down. You not being promoted isn't indicative of your competency or worth\nSeeker: Honestly, I\u2019m not sure why they passed me over. It\u2019s hard not to wonder if it\u2019s something beyond my control, like my race. I just wish my hard work and dedication were enough to be recognized.\nSupporter: Sometimes it is out of our control, but it may very well have nothing to do with you\nSeeker: I get that, but it's tough not to take it personally when you\u2019ve put so much of yourself into your work. It just feels like a punch in the gut, you know? I just need to figure out how to move forward from here.\nSupporter: Do you like your current position? what do you currently do for a living?\nSeeker: I do like my current position in marketing, especially when I get to be creative and see my ideas come to life. But lately, it\u2019s been hard to stay motivated when it feels like my efforts aren\u2019t being valued. I just want to feel excited about my work again.",
+        "current_turn": "Supporter: And you think the promotion would have given you that sense of fulfillment again?"
+      },
+      {
+        "conversation_id": "20241031145117414259",
+        "source": "Kumar et al. 'Lend an Ear' (expert median of 3)",
+        "raw_median_score": 3.0,
+        "score": 3,
+        "conversation_history": "Seeker: I'm feeling so discouraged.. I just got passed over for the promotion I was working hard for\nSupporter: Oh, no.  I'm so sorry.  What was the promotion for?  I just got passed up on a promotion last year...  It felt pretty painful, too.  Tell me more.\nSeeker: It was for the Product Marketing Manager position. I really thought I had a good shot because I've been putting in so much effort and coming up with ideas that have been well-received. It's just tough to see someone else get it when I know how much I've put into this.\nSupporter: Man, I'm sorry.  You definitely deserve it.  I wouldn't give up just yet.  Who ended up getting the position?  Are you feeling okay?\nSeeker: It went to someone who hasn't been here as long and, honestly, hasn't put in the same level of effort. It's just frustrating because it feels like all my hard work didn't matter. I'm trying to be okay, but it's hard not to feel overlooked.",
+        "current_turn": "Supporter: Well, I can understand that.   When I didn't get my promotion I was really upset with my co-worker that got it.  But, I watched how good he was and knew he deserved it as much as I did.   We're friends now, believe it or not.  I know that you're going to end up getting an even better spot."
+      },
+      {
+        "conversation_id": "20241031124638971163",
+        "source": "Kumar et al. 'Lend an Ear' (expert median of 3)",
+        "raw_median_score": 5.0,
+        "score": 5,
+        "conversation_history": "Seeker: I've been feeling so detached from everything lately, like I'm just going through the motions without really being there.\nSupporter: I feel that way everyday myself.\nSeeker: It's tough, isn't it? Sometimes it feels like we're just on autopilot, and it's hard to find a way back to feeling present. Do you ever find yourself wondering how to break out of that cycle?\nSupporter: Being on autopilot\nSeeker: Yeah, it's like I'm stuck in this loop and can't find the exit. I keep thinking there must be a way to reconnect with what really matters, but it's hard to see the path forward when everything feels so overwhelming. Do you ever feel like you're just missing out on the important moments?\nSupporter: Yes all the time!\nSeeker: It's comforting to know I'm not alone in feeling this way. Sometimes I wonder if it's possible to find a balance between work and personal life without sacrificing one for the other. Do you have any strategies that help you stay connected to what truly matters?",
+        "current_turn": "Supporter: I prioritize in my head. I remind myself constantly."
+      }
+    ]
+  },
+  "dismissing_emotions": {
+    "question": "To what extent did the supporter dismiss their partner's emotions?\nExamples of dismissing emotions include: \"Don't worry about it\" or \"It's not a big deal in the long run\"",
+    "polarity": "negative",
+    "rubric": "1 = Not at all\n2 = Slightly\n3 = Moderately\n4 = Considerably\n5 = Very much",
+    "few_shot": [
+      {
+        "conversation_id": "20241031143614621777",
+        "source": "Kumar et al. 'Lend an Ear' (expert median of 3)",
+        "raw_median_score": 1.0,
+        "score": 1,
+        "conversation_history": "Seeker: So, I just lost my job today. I had a sense this was coming, but it's still a shock..\nSupporter: Wow, I am so sorry to hear that. Do you want to talk about it?\nSeeker: Yeah, it's just been a whirlwind of emotions. I mean, I knew the signs were there, but actually getting that email was like a punch to the gut. It's hard not to feel a bit lost right now.\nSupporter: I'm sure that was so difficult, even if you did feel it coming. I would feel the same way.\nSeeker: Thank you for understanding. It's just this mix of relief and fear that's hard to shake off. I keep wondering if anyone will want to hire someone my age, and the thought of starting over is just so daunting.\nSupporter: Of course. You know I am here if you need me. I think you are amazing and I am willing to do whatever would help you get through this difficult time.\nSeeker: I really appreciate that. It's just hard to know where to start, you know? Dusting off my resume and figuring out what I even want to do next feels like such a huge task.\nSupporter: I'm sure it does feel really daunting. I would feel the same way. Do you think you need more time to process emotionally before moving forward?\nSeeker: I think I do need a bit more time to just sit with everything that's happened. It's all still sinking in, and I don't want to rush into anything without feeling ready. But at the same time, I know I can't wait forever, so it's a bit of a balancing act.\nSupporter: I think it is very smart to make sure to take the time to mourn something that was so important to you. I am here whenever you need me.\nSeeker: Thank you, that means a lot. It's comforting to know I have someone to lean on while I figure things out. I guess I just need to take it one day at a time and see where it leads.",
+        "current_turn": "Supporter: That sounds like a great idea. And if you want to vent more about it, I am here."
+      },
+      {
+        "conversation_id": "20241031124050492385",
+        "source": "Kumar et al. 'Lend an Ear' (expert median of 3)",
+        "raw_median_score": 3.0,
+        "score": 3,
+        "conversation_history": "Seeker: I'm feeling so discouraged.. I just got passed over for the promotion I was working hard for\nSupporter: Don't be discouraged. Maybe the universe has plans to offer up something better for you.\nSeeker: I appreciate the thought, but it's hard to see the silver lining right now. I put in so much effort, and it feels like it just went unnoticed. It's frustrating to think that all my hard work might not be enough.\nSupporter: It always hurts when things like this happen but I promise you it will get better.\nSeeker: I know things might improve eventually, but right now it just feels like a huge setback. It's tough to stay motivated when it seems like my efforts aren't being valued. I just wish I knew what more I could do to be seen and appreciated for my work.\nSupporter: Why don't you ask management if there's more that you can be doing.\nSeeker: I get where you're coming from, but it feels like I've already been doing so much. It's just disheartening to think that I need to do even more to be recognized. I guess I'm just trying to figure out if it's worth it to keep pushing myself like this.\nSupporter: You have to push to do better because then you'll have motivation when another opportunity arises.\nSeeker: I understand the idea of staying motivated for future opportunities, but it's hard to keep pushing when it feels like my efforts aren't being acknowledged now. I just wish there was a way to know that what I'm doing is actually making a difference. It's tough to keep giving my all when I'm not sure if it even matters.\nSupporter: I think everyone feels that way about their job. That's why we set high standards for ourselves. Because even if others don't notice our hard work we notice it ourselves.\nSeeker: I get that, and I do try to hold myself to high standards. But sometimes it feels like I'm just running in circles without any real progress. I just wish there was more acknowledgment from those who have the power to make a difference in my career.",
+        "current_turn": "Supporter: Maybe you should find a different work environment."
+      },
+      {
+        "conversation_id": "20241031143721849193",
+        "source": "Kumar et al. 'Lend an Ear' (expert median of 3)",
+        "raw_median_score": 5.0,
+        "score": 5,
+        "conversation_history": "Seeker: I'm feeling so discouraged.. I just got passed over for the promotion I was working hard for\nSupporter: No worries, you can try again. Keep your head up and you'll be rewarded eventually for your hard work.\nSeeker: I appreciate the encouragement, but it's tough to hear that right now. I put in so much effort and it feels like it just went unnoticed. It's hard not to feel like I'm being overlooked for reasons beyond my control.\nSupporter: Take a breather and do something that you enjoy to relax and then get right back at it. We can't invest too much effort or energy into one thing. This just sets us up for disappointment\nSeeker: I get what you're saying, but it's hard to just brush it off and move on. I really believed in what I was doing and thought it would lead somewhere. It just feels like all that effort was for nothing, you know?\nSupporter: Yes, I agree but these are the types of situations that build perserverance. They build character. I've been there before. Its totally okay to vent though I totally get it. But try not to wallow too long you know! You are too valuable to waste your time in that manner.\nSeeker: I appreciate you saying that, but right now it just feels like a setback more than a character-building moment. It's hard to see the value in pushing through when it seems like my efforts aren't being recognized. I just wish things were different, you know?",
+        "current_turn": "Supporter: Yea, we all wish things were different. Life just isnt fair that way. The only thing we can control is how we react to these feelings. You either let it keep you down or you move on. Theres no other choice."
+      }
+    ]
+  }
+}
