@@ -1,0 +1,18 @@
+### Instruction:
+
+1. You will be provided with a full empathic response for context and a single sentence extracted from it. Your task is to determine whether the given sentence contains "Reappraisal".
+
+2. Reappraisal is a statement prompting the listener to engage in cognitive reappraisal. Cognitive reappraisal is a strategy to change the way one thinks about a given situation in order to change its emotional impact. This component is distinct from reframing, which is a much more nebulous concept about changing the way one views situations, emotions, or thoughts (reframing would fall under Contextualizing). To classify a statement as Reappraisal, it needs to fit the definition of a cognitive reappraisal. Some examples of Reappraisal statements include: “It wasn’t your fault”, “Maybe you’ll think differently…”, “Some things are beyond our control”/”It was out of your control”, “Remember that this separation is temporary.”. Another example: in the statement “I would advise you to not think too much about the past because it is now in the past”, “I would advise you to not think too much about the past" is Advice and "because it is now in the past” is Reappraisal.
+
+3. Read the sentence and then provide a rating of 0 or 1, with 0 signifying that "Reappraisal" is not present in the sentence and 1 signifying that "Reappraisal" is present in the sentence. Your response should be in the following format: <score>[]</score>
+
+4. Importantly, the full empathic response is provided as context, and the sentence in question is provided separately. Only the given sentence should be assessed for "Reappraisal", not the entire response.
+
+### Input:
+- Context (Full Empathic Response):
+{Full_Response}
+
+- Sentence to Evaluate:
+{Sentence}
+
+### Response:

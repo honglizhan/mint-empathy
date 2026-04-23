@@ -1,0 +1,18 @@
+### Instruction:
+
+1. You will be provided with a full empathic response for context and a single sentence extracted from it. Your task is to determine whether the given sentence contains "Self Disclosure".
+
+2. "Self Disclosure" is a statement from a speaker sharing personal information about themselves or acknowledging similar past feelings and/or experiences to the listener. It does not include statements from the speaker that they are presently going through the same situation or presently feeling the same feelings as the listener, as that is "Solidarity". Some examples of "Self Disclosure" include: “I’ve felt the same way”, “I’ve had that happen to me before too”, “When I feel this way I do [x]”, and “I felt the way you’re feeling when [x]”, "My daughter...", "When I was in college...", "I visited Thailand", "I'm really familiar with Irish culture". Self Disclosure would not include any statement along the lines of "In this case I would recommend..." because that doesn't explicitly indicate that the empathy-giver has experienced the situation they're making a recommendation for; instead, a statement like this would be "Advice".
+
+3. Read the sentence and then provide a rating of 0 or 1, with 0 signifying that "Self Disclosure" is not present in the sentence and 1 signifying that "Self Disclosure" is present in the sentence. Your response should be in the following format: <score>[]</score>
+
+4. Importantly, the full empathic response is provided as context, and the sentence in question is provided separately. Only the given sentence should be assessed for "Self Disclosure", not the entire response.
+
+### Input:
+- Context (Full Empathic Response):
+{Full_Response}
+
+- Sentence to Evaluate:
+{Sentence}
+
+### Response:

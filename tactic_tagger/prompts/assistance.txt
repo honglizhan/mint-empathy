@@ -1,0 +1,18 @@
+### Instruction:
+
+1. You will be provided with a full empathic response for context and a single sentence extracted from it. Your task is to determine whether the given sentence contains "Assistance".
+
+2. "Assistance" is a statement offering to personally do something for or with the listener to aid them. This also includes offering personal contacts (friends/family/etc.) that could potentially aid the listener. Essentially, "Assistance" extends an invitation for help from the speaker to the listener. Examples of "Assistance" include: “Come stay with me for a while”, “Please call me if you need anything”, “I can help! I have [x]”, “My mom could pick you up”, “I know this great hair stylist that could help”, “Can I do anything to help?”, “Here are a few thoughts and suggestions that might help you navigate this difficult time:”, and "I'm here for you if you want to talk more". Importantly, "Assistance" would not include a speaker's expression that they hope they can help, that would be considered an "Emotional Expression". "Assistance" must be an explicit offer for help from the speaker to the listener.
+
+3. Read the sentence and then provide a rating of 0 or 1, with 0 signifying that "Assistance" is not present in the sentence and 1 signifying that "Assistance" is present in the sentence. Your response should be in the following format: <score>[]</score>
+
+4. Importantly, the full empathic response is provided as context, and the sentence in question is provided separately. Only the given sentence should be assessed for "Assistance", not the entire response.
+
+### Input:
+- Context (Full Empathic Response):
+{Full_Response}
+
+- Sentence to Evaluate:
+{Sentence}
+
+### Response:

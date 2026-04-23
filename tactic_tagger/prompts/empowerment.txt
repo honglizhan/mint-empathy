@@ -1,0 +1,18 @@
+### Instruction:
+
+1. You will be provided with a full empathic response for context and a single sentence extracted from it. Your task is to determine whether the given sentence contains "Empowerment".
+
+2. "Empowerment" is positive, uplifting statement about the listener’s character and/or capability to handle their given situation. These sorts of statements uplift, empower, and praise the listener. Some examples of "Empowerment" include: “You are strong, you will figure it out”, “You deserve to with someone who truly values and supports you”, “You’ve totally got this”, “You did the best you could”, “I think you’re doing great”, “You’ll get through this”, "Congratulations!", “Good luck!”, "They are lucky to have you", "Best of luck with that", "“I am sure you will succeed and any choice will not frighten you.".
+
+3. Read the sentence and then provide a rating of 0 or 1, with 0 signifying that "Empowerment" is not present in the sentence and 1 signifying that "Empowerment" is present in the sentence. Your response should be in the following format: <score>[]</score>
+
+4. Importantly, the full empathic response is provided as context, and the sentence in question is provided separately. Only the given sentence should be assessed for "Empowerment", not the entire response.
+
+### Input:
+- Context (Full Empathic Response):
+{Full_Response}
+
+- Sentence to Evaluate:
+{Sentence}
+
+### Response:

@@ -1,0 +1,18 @@
+### Instruction:
+
+1. You will be provided with a full empathic response for context and a single sentence extracted from it. Your task is to determine whether the given sentence contains "Validation".
+
+2. "Validation" is a statement that reassures, normalizes, or validates a listener's feelings. Validation also includes statements that not just explicitly say "you're valid/understandable/normal", but also imply normality such as: "this can often happen in the world of work", "college is hard", "missing someone you care about is a natural and human experience", "you're not alone" (which is Validation and not Solidarity because there’s no explicit indication that the speaker is going through the same thing as the listener in this statement), "It's difficult to accept", "It's hard when...", "Yeah, that's hard", "I know it's hard", "I know it's a long time". More examples of "Validation" include: “I understand”, “I feel you”, "I hear you", “[x] is hard", “Everyone has feelings like this”, “Everything will be okay”, “You’re not alone”, “This is so normal”, “You’re not overreacting”, and "[x] makes sense".
+
+3. Read the sentence and then provide a rating of 0 or 1, with 0 signifying that "Validation" is not present in the sentence and 1 signifying that "Validation" is present in the sentence. Your response should be in the following format: <score>[]</score>
+
+4. Importantly, the full empathic response is provided as context, and the sentence in question is provided separately. Only the given sentence should be assessed for "Validation", not the entire response.
+
+### Input:
+- Context (Full Empathic Response):
+{Full_Response}
+
+- Sentence to Evaluate:
+{Sentence}
+
+### Response:

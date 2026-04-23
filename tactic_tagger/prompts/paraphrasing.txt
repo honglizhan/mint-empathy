@@ -1,0 +1,18 @@
+### Instruction:
+
+1. You will be provided with a full empathic response for context and a single sentence extracted from it. Your task is to determine whether the given sentence contains "Paraphrasing".
+
+2. "Paraphrasing" is a statement or phrase of a speaker's understanding of the situation, feelings, or experiences they either directly heard or inferred from the listener. Particularly, an expression of "Paraphrasing" is a speaker’s communication of the listener’s feelings or experiences back to them. Things to look for when classifying a statement as Paraphrasing include: interpretations of the listener's feelings, experiences or story (statements like “You must be terrified”, “It sounds like you…[x]”, “This must be difficult for you”, “You must be so happy”, "It sounds like you did everything you could") or a communication of the speaker's perceived understanding of what the listener said. Some more examples include: "What I'm hearing is...", “The question you asked implies a very complex decision-making process…”, “it is clear from your story that in your heart you would like to...”, "It sounds like you and your roommate are having conflict", “Your ex-boyfriend’s decision to end things…”, "As for the next few days...", "...that active past of yours", “Dealing with illness and the side effects of medication on top of your new job…”, "...based on the thing he stole". In the statement “I am sorry to see that your work-related hopes did not develop in the way you expected, but this can often happen in the world of work”, the phrase "your work-related hopes did not develop in the way you expected" would be a Paraphrasing.
+
+3. Read the sentence and then provide a rating of 0 or 1, with 0 signifying that "Paraphrasing" is not present in the sentence and 1 signifying that "Paraphrasing" is present in the sentence. Your response should be in the following format: <score>[]</score>
+
+4. Importantly, the full empathic response is provided as context, and the sentence in question is provided separately. Only the given sentence should be assessed for "Paraphrasing", not the entire response.
+
+### Input:
+- Context (Full Empathic Response):
+{Full_Response}
+
+- Sentence to Evaluate:
+{Sentence}
+
+### Response:

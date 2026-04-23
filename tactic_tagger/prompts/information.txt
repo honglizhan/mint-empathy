@@ -1,0 +1,18 @@
+### Instruction:
+
+1. You will be provided with a full empathic response for context and a single sentence extracted from it. Your task is to determine whether the given sentence contains "Information".
+
+2. "Information" is a statement providing factual information that may assist in answering the listener’s questions and calming their anxieties. Importantly, "Information" includes well-intentioned, but factually incorrect statements that are presented as factually correct and stated with the intent to help the listener. Offering official resources that an empathy-seeker could turn to for help (e.g., links to websites, phone numbers, organizations) would also be considered "Information". Another important note is that a lot of the time, Information will follow Advice as a sort of justification for the Advice the speaker is giving. For example, in the statement "talk to a professional, they have the resources to help you”, "talk to a professional" is Advice and "they have the resources to help you" is Information. Another example: in the statement "By discovering that there may in fact be other things you enjoy, you will certainly feel more motivated”, "By discovering that there may in fact be other things you enjoy" is Advice, and "you will certainly feel more motivated" is Information. Another example: in the statement “Go outside and read, sunshine is good for your mental health”, "Go outside and read" is Advice, and "sunshine is good for your mental health" is Information. More examples of "Information" include: “Here’s the link to this website: [x]”, “Flying is the safest form of travel”, "Migraines can be caused by stress, so it’s important to manage your anxiety”, "It's customary to kiss on both cheeks when greeting each other in French culture", "In some social contexts, being a people pleaser is actually really helpful", “People need friendships as much as they need love”, “Narcissism is an innate component of all human beings”, “I believe workplace bullying can take many forms, some more extreme and some more nuanced”, and "Humans are meant to be highly social".
+
+3. Read the sentence and then provide a rating of 0 or 1, with 0 signifying that "Information" is not present in the sentence and 1 signifying that "Information" is present in the sentence. Your response should be in the following format: <score>[]</score>
+
+4. Importantly, the full empathic response is provided as context, and the sentence in question is provided separately. Only the given sentence should be assessed for "Information", not the entire response.
+
+### Input:
+- Context (Full Empathic Response):
+{Full_Response}
+
+- Sentence to Evaluate:
+{Sentence}
+
+### Response:

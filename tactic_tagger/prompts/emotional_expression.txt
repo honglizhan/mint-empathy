@@ -1,0 +1,18 @@
+### Instruction:
+
+1. You will be provided with a full empathic response for context and a single sentence extracted from it. Your task is to determine whether the given sentence contains "Emotional Expression".
+
+2. "Emotional Expression" is a speaker’s communication of their own feelings, reactions, hopes, thoughts, or opinions to the listener as a result of hearing the listener's story. It’s important to include statements about a speaker’s opinion about the listener's story as Emotional Expression. Along with opinions, Emotional Expression also includes interjections, apologies, hopes, emoticons or emojis, and any personal feelings or reactions. Examples of "Emotional Expression" include statements or phrases like: “It’s heartwarming to hear…”, “I’m so sorry”, “I’m so happy for you”, “Wow!”, “Your story made me think...", “Your story made me feel…”, "Geez", "I hope I can help", "I hope things get better for you", "It's devastating that...", "I think she can appreciate this sentiment", “I think you’ve put a lot of effort into this”, “I don’t think that being a people-pleaser is bad". However, while a statement like "Your story makes me wonder about the meaning of..." is Emotional Expression, a statement like "I wonder if you've considered therapy" would not be Emotional Expression. That would be "Questioning".
+
+3. Read the sentence and then provide a rating of 0 or 1, with 0 signifying that "Emotional Expression" is not present in the sentence and 1 signifying that "Emotional Expression" is present in the sentence. Your response should be in the following format: <score>[]</score>
+
+4. Importantly, the full empathic response is provided as context, and the sentence in question is provided separately. Only the given sentence should be assessed for "Emotional Expression", not the entire response.
+
+### Input:
+- Context (Full Empathic Response):
+{Full_Response}
+
+- Sentence to Evaluate:
+{Sentence}
+
+### Response:
