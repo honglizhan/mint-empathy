@@ -1,0 +1,134 @@
+{
+  "Human": {
+    "bigram_overlap": 0.02209832472346001,
+    "bigram_std": 0.060106710954570826,
+    "bleu2": 0.03548540428020415,
+    "bleu2_std": 0.04904611341576553,
+    "bertscore_f1": 0.8654480194145778,
+    "bertscore_std": 0.015447296124289685,
+    "tactic_stickiness": 0.26582961696300017,
+    "per_tactic_stickiness": {
+      "advice": 0.4426229508196721,
+      "information": 0.0,
+      "paraphrasing": 0.4270833333333333,
+      "reappraisal": 0.22580645161290322,
+      "validation": 0.39759036144578314,
+      "empowerment": 0.225,
+      "questioning": 0.47107438016528924,
+      "emotional_expression": 0.22388059701492538,
+      "assistance": 0.17857142857142858,
+      "self_disclosure": 0.06666666666666667
+    },
+    "n_pairs": 265
+  },
+  "Qwen3-1.7B": {
+    "bigram_overlap": 0.018690957658971025,
+    "bigram_std": 0.05194747657836922,
+    "bleu2": 0.022720375355430804,
+    "bleu2_std": 0.02734008465927298,
+    "bertscore_f1": 0.8519988473856224,
+    "bertscore_std": 0.015509113037525635,
+    "tactic_stickiness": 0.5138748608974744,
+    "per_tactic_stickiness": {
+      "advice": 0.639344262295082,
+      "information": 0.1,
+      "paraphrasing": 0.75,
+      "reappraisal": 0.6129032258064516,
+      "validation": 0.9879518072289156,
+      "empowerment": 0.875,
+      "questioning": 0.15702479338842976,
+      "emotional_expression": 0.5522388059701493,
+      "assistance": 0.4642857142857143,
+      "self_disclosure": 0.0
+    },
+    "n_pairs": 265
+  },
+  "Qwen3-4B": {
+    "bigram_overlap": 0.020075825482739753,
+    "bigram_std": 0.05936604263010738,
+    "bleu2": 0.020251688880830034,
+    "bleu2_std": 0.02382705984715851,
+    "bertscore_f1": 0.8506653430326929,
+    "bertscore_std": 0.014765531939496524,
+    "tactic_stickiness": 0.5710834058861345,
+    "per_tactic_stickiness": {
+      "advice": 0.8524590163934426,
+      "information": 0.1,
+      "paraphrasing": 0.9166666666666666,
+      "reappraisal": 0.6774193548387096,
+      "validation": 0.927710843373494,
+      "empowerment": 0.925,
+      "questioning": 0.04132231404958678,
+      "emotional_expression": 0.8059701492537313,
+      "assistance": 0.4642857142857143,
+      "self_disclosure": 0.0
+    },
+    "n_pairs": 265
+  },
+  "GPT-3.5-turbo": {
+    "bigram_overlap": 0.10041629778429807,
+    "bigram_std": 0.12364061410688928,
+    "bleu2": 0.13411680715694962,
+    "bleu2_std": 0.12781871500895486,
+    "bertscore_f1": 0.8598669861315786,
+    "bertscore_std": 0.04023205483542528,
+    "tactic_stickiness": 0.5162187050789215,
+    "per_tactic_stickiness": {
+      "advice": 0.8124054462934948,
+      "information": 0.8057228915662651,
+      "paraphrasing": 0.5231607629427792,
+      "reappraisal": 0.497907949790795,
+      "validation": 0.42083333333333334,
+      "empowerment": 0.4358974358974359,
+      "questioning": 0.47058823529411764,
+      "emotional_expression": 0.45,
+      "assistance": 0.42424242424242425,
+      "self_disclosure": 0.32142857142857145
+    },
+    "n_pairs": 1066
+  },
+  "GPT-4": {
+    "bigram_overlap": 0.08932745433676108,
+    "bigram_std": 0.1762519444545086,
+    "bleu2": 0.1274690049708789,
+    "bleu2_std": 0.16768302003379243,
+    "bertscore_f1": 0.8579510230767099,
+    "bertscore_std": 0.03615893871195074,
+    "tactic_stickiness": 0.5564388986223275,
+    "per_tactic_stickiness": {
+      "advice": 0.9207920792079208,
+      "information": 0.8578947368421053,
+      "paraphrasing": 0.6642335766423357,
+      "reappraisal": 0.6752136752136753,
+      "validation": 0.7096774193548387,
+      "empowerment": 0.5316455696202531,
+      "questioning": 0.48314606741573035,
+      "emotional_expression": 0.3559322033898305,
+      "assistance": 0.36585365853658536,
+      "self_disclosure": 0.0
+    },
+    "n_pairs": 228
+  },
+  "Llama-2-70B": {
+    "bigram_overlap": 0.11891783705171342,
+    "bigram_std": 0.13296217460479978,
+    "bleu2": 0.1586093565231043,
+    "bleu2_std": 0.1437830729349576,
+    "bertscore_f1": 0.8596343872616592,
+    "bertscore_std": 0.030128508281382346,
+    "tactic_stickiness": 0.5021175633199226,
+    "per_tactic_stickiness": {
+      "advice": 0.9080459770114943,
+      "information": 0.8295454545454546,
+      "paraphrasing": 0.6545454545454545,
+      "reappraisal": 0.4772727272727273,
+      "validation": 0.6724137931034483,
+      "empowerment": 0.5333333333333333,
+      "questioning": 0.39473684210526316,
+      "emotional_expression": 0.38461538461538464,
+      "assistance": 0.16666666666666666,
+      "self_disclosure": 0.0
+    },
+    "n_pairs": 103
+  }
+}

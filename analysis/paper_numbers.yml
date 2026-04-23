@@ -1,0 +1,262 @@
+repo_root: .
+
+tolerances:
+  table_metric_abs: 0.011
+
+expected:
+  counts:
+    training_conversations: 322
+    training_supporter_turns: 1719
+    sense7_conversations: 69
+    gold_conversations: 50
+    gold_supporter_turns: 315
+    tagger_sentences_nonempty: 3164
+
+  prevalence_caption:
+    advice_min_percent: 64
+    advice_max_percent: 89
+    information_min_percent: 63
+    information_max_percent: 80
+    questioning_min_percent: 25
+    questioning_max_percent: 34
+    human_questioning_percent: 42
+
+  derived_claims:
+    avg_agg_empathy_improvement_percent: 25.3
+    4b_stickiness_reduction_percent: 26.3
+    1p7b_unsolicited_advice_drop_percent: 40.2
+    4b_unsolicited_advice_drop_percent: 44.8
+    1p7b_encouraging_elaboration_gain_percent: 212.3
+    4b_encouraging_elaboration_gain_percent: 196.3
+
+  table_2_non_word_metrics:
+    Gold:
+      validating_emotions: 1.98
+      encouraging_elaboration: 1.62
+      demonstrating_understanding: 1.47
+      advice_giving: 1.93
+      self_oriented: 1.48
+      dismissing_emotions: 2.29
+      aggregated_empathy: 2.90
+      tac_per_turn: 1.97
+      stickiness: 0.27
+    1.7B Vanilla:
+      validating_emotions: 3.76
+      encouraging_elaboration: 1.55
+      demonstrating_understanding: 2.50
+      advice_giving: 1.99
+      self_oriented: 1.07
+      dismissing_emotions: 1.17
+      aggregated_empathy: 3.60
+      tac_per_turn: 4.49
+      stickiness: 0.51
+    1.7B Tactic Prompt:
+      validating_emotions: 4.09
+      encouraging_elaboration: 2.22
+      demonstrating_understanding: 2.93
+      advice_giving: 1.60
+      self_oriented: 1.16
+      dismissing_emotions: 1.07
+      aggregated_empathy: 3.90
+      tac_per_turn: 3.73
+      stickiness: 0.45
+    1.7B Tactic+History:
+      validating_emotions: 3.99
+      encouraging_elaboration: 2.10
+      demonstrating_understanding: 2.90
+      advice_giving: 1.45
+      self_oriented: 1.14
+      dismissing_emotions: 1.04
+      aggregated_empathy: 3.89
+      tac_per_turn: 3.63
+      stickiness: 0.40
+    1.7B VS (Vanilla):
+      validating_emotions: 2.84
+      encouraging_elaboration: 1.52
+      demonstrating_understanding: 2.07
+      advice_giving: 2.30
+      self_oriented: 1.12
+      dismissing_emotions: 1.67
+      aggregated_empathy: 3.22
+      tac_per_turn: 3.02
+      stickiness: 0.41
+    1.7B VS (Tactic):
+      validating_emotions: 3.50
+      encouraging_elaboration: 2.14
+      demonstrating_understanding: 2.60
+      advice_giving: 1.60
+      self_oriented: 1.14
+      dismissing_emotions: 1.22
+      aggregated_empathy: 3.71
+      tac_per_turn: 3.41
+      stickiness: 0.45
+    1.7B VS (Tactic+History):
+      validating_emotions: 3.52
+      encouraging_elaboration: 1.87
+      demonstrating_understanding: 2.49
+      advice_giving: 1.60
+      self_oriented: 1.21
+      dismissing_emotions: 1.19
+      aggregated_empathy: 3.64
+      tac_per_turn: 3.27
+      stickiness: 0.38
+    1.7B PsychoCounsel:
+      validating_emotions: 4.47
+      encouraging_elaboration: 4.56
+      demonstrating_understanding: 3.14
+      advice_giving: 1.54
+      self_oriented: 1.08
+      dismissing_emotions: 1.01
+      aggregated_empathy: 4.42
+      tac_per_turn: 6.43
+      stickiness: 0.65
+    1.7B R1-Zero-Div:
+      validating_emotions: 4.27
+      encouraging_elaboration: 4.78
+      demonstrating_understanding: 2.89
+      advice_giving: 1.53
+      self_oriented: 1.10
+      dismissing_emotions: 1.01
+      aggregated_empathy: 4.38
+      tac_per_turn: 5.85
+      stickiness: 0.63
+    1.7B Ours Q+DKL:
+      validating_emotions: 4.52
+      encouraging_elaboration: 4.84
+      demonstrating_understanding: 3.10
+      advice_giving: 1.19
+      self_oriented: 1.06
+      dismissing_emotions: 1.01
+      aggregated_empathy: 4.54
+      tac_per_turn: 5.04
+      stickiness: 0.51
+    1.7B Ours Q+H:
+      validating_emotions: 4.10
+      encouraging_elaboration: 4.00
+      demonstrating_understanding: 2.80
+      advice_giving: 2.91
+      self_oriented: 3.60
+      dismissing_emotions: 1.04
+      aggregated_empathy: 3.56
+      tac_per_turn: 8.57
+      stickiness: 0.86
+    1.7B Ours Q+DKL+H:
+      validating_emotions: 4.43
+      encouraging_elaboration: 4.03
+      demonstrating_understanding: 3.50
+      advice_giving: 2.07
+      self_oriented: 1.38
+      dismissing_emotions: 1.02
+      aggregated_empathy: 4.25
+      tac_per_turn: 6.77
+      stickiness: 0.64
+    4B Vanilla:
+      validating_emotions: 3.78
+      encouraging_elaboration: 1.64
+      demonstrating_understanding: 3.20
+      advice_giving: 2.01
+      self_oriented: 1.08
+      dismissing_emotions: 1.05
+      aggregated_empathy: 3.75
+      tac_per_turn: 4.65
+      stickiness: 0.57
+    4B Tactic Prompt:
+      validating_emotions: 3.78
+      encouraging_elaboration: 2.06
+      demonstrating_understanding: 3.47
+      advice_giving: 1.76
+      self_oriented: 1.22
+      dismissing_emotions: 1.04
+      aggregated_empathy: 3.88
+      tac_per_turn: 4.46
+      stickiness: 0.52
+    4B Tactic+History:
+      validating_emotions: 3.77
+      encouraging_elaboration: 1.93
+      demonstrating_understanding: 3.19
+      advice_giving: 1.69
+      self_oriented: 1.48
+      dismissing_emotions: 1.06
+      aggregated_empathy: 3.78
+      tac_per_turn: 4.54
+      stickiness: 0.40
+    4B VS (Vanilla):
+      validating_emotions: 3.34
+      encouraging_elaboration: 1.43
+      demonstrating_understanding: 2.54
+      advice_giving: 1.95
+      self_oriented: 1.03
+      dismissing_emotions: 1.29
+      aggregated_empathy: 3.51
+      tac_per_turn: 3.29
+      stickiness: 0.39
+    4B VS (Tactic):
+      validating_emotions: 3.46
+      encouraging_elaboration: 1.96
+      demonstrating_understanding: 2.89
+      advice_giving: 1.75
+      self_oriented: 1.41
+      dismissing_emotions: 1.12
+      aggregated_empathy: 3.67
+      tac_per_turn: 4.42
+      stickiness: 0.54
+    4B VS (Tactic+History):
+      validating_emotions: 3.42
+      encouraging_elaboration: 1.93
+      demonstrating_understanding: 2.90
+      advice_giving: 1.86
+      self_oriented: 1.58
+      dismissing_emotions: 1.17
+      aggregated_empathy: 3.61
+      tac_per_turn: 4.16
+      stickiness: 0.42
+    4B PsychoCounsel:
+      validating_emotions: 4.58
+      encouraging_elaboration: 4.85
+      demonstrating_understanding: 4.05
+      advice_giving: 1.73
+      self_oriented: 1.05
+      dismissing_emotions: 1.01
+      aggregated_empathy: 4.62
+      tac_per_turn: 6.58
+      stickiness: 0.67
+    4B R1-Zero-Div:
+      validating_emotions: 4.35
+      encouraging_elaboration: 4.69
+      demonstrating_understanding: 3.82
+      advice_giving: 1.34
+      self_oriented: 1.07
+      dismissing_emotions: 1.00
+      aggregated_empathy: 4.58
+      tac_per_turn: 5.57
+      stickiness: 0.57
+    4B Ours Q+DKL:
+      validating_emotions: 4.11
+      encouraging_elaboration: 4.86
+      demonstrating_understanding: 4.30
+      advice_giving: 1.11
+      self_oriented: 1.15
+      dismissing_emotions: 1.00
+      aggregated_empathy: 4.67
+      tac_per_turn: 4.67
+      stickiness: 0.42
+    4B Ours Q+H:
+      validating_emotions: 4.12
+      encouraging_elaboration: 3.23
+      demonstrating_understanding: 3.61
+      advice_giving: 2.70
+      self_oriented: 4.23
+      dismissing_emotions: 1.09
+      aggregated_empathy: 3.49
+      tac_per_turn: 8.83
+      stickiness: 0.86
+    4B Ours Q+DKL+H:
+      validating_emotions: 4.31
+      encouraging_elaboration: 3.92
+      demonstrating_understanding: 3.74
+      advice_giving: 1.91
+      self_oriented: 2.54
+      dismissing_emotions: 1.02
+      aggregated_empathy: 4.08
+      tac_per_turn: 7.73
+      stickiness: 0.72
