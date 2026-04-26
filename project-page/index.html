@@ -1603,9 +1603,6 @@
       <a href="https://arxiv.org/abs/2604.11742" class="hero__btn hero__btn--outline" target="_blank" rel="noopener">
         Paper
       </a>
-      <a href="https://arxiv.org/pdf/2604.11742" class="hero__btn hero__btn--outline" target="_blank" rel="noopener">
-        PDF
-      </a>
       <a href="https://github.com/honglizhan/mint-empathy" class="hero__btn hero__btn--primary" target="_blank" rel="noopener">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
         Code
@@ -1749,7 +1746,7 @@
         <canvas id="pareto-chart" role="img" aria-label="Scatter plot of aggregate empathy vs tactic stickiness. The x axis follows the paper: moving right is lower stickiness and more diversity; MINT moves toward the upper right."></canvas>
       </div>
       <p class="muted-text chart-caption">
-        MINT moves models toward the upper right: higher empathy with lower tactic stickiness, matching the paper's reversed stickiness axis.
+        MINT moves models toward the upper right: higher empathy with lower tactic stickiness, matching the paper's reversed stickiness axis. This green region marks the high empathy, low stickiness zone containing both MINT models.
       </p>
       <noscript>
         <table class="results-table">
@@ -2676,6 +2673,59 @@ function showCopied() {
       ours: 'circle',
     };
 
+    var idealRegion = {
+      label: 'MINT target region',
+      xMin: 0.37,
+      xMax: 0.55,
+      yMin: 4.42,
+      yMax: 4.80,
+    };
+
+    var logo = new Image();
+    logo.src = 'static/mint_logo.png';
+
+    var idealRegionPlugin = {
+      id: 'idealRegionPlugin',
+      beforeDatasetsDraw: function(chart) {
+        var xScale = chart.scales.x;
+        var yScale = chart.scales.y;
+        var left = Math.min(xScale.getPixelForValue(idealRegion.xMin), xScale.getPixelForValue(idealRegion.xMax));
+        var right = Math.max(xScale.getPixelForValue(idealRegion.xMin), xScale.getPixelForValue(idealRegion.xMax));
+        var top = yScale.getPixelForValue(idealRegion.yMax);
+        var bottom = yScale.getPixelForValue(idealRegion.yMin);
+        var ctx = chart.ctx;
+
+        ctx.save();
+        ctx.fillStyle = 'rgba(16, 185, 129, 0.08)';
+        ctx.strokeStyle = 'rgba(16, 185, 129, 0.34)';
+        ctx.lineWidth = 1.2;
+        ctx.fillRect(left, top, right - left, bottom - top);
+        ctx.strokeRect(left, top, right - left, bottom - top);
+        ctx.restore();
+      },
+      afterDatasetsDraw: function(chart) {
+        if (!logo.complete || !logo.naturalWidth) return;
+
+        var xScale = chart.scales.x;
+        var yScale = chart.scales.y;
+        var x = xScale.getPixelForValue(0.535);
+        var y = yScale.getPixelForValue(4.73);
+        var size = 32;
+        var ctx = chart.ctx;
+
+        ctx.save();
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.88)';
+        ctx.strokeStyle = 'rgba(45, 106, 79, 0.28)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.arc(x, y, size / 2 + 4, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+        ctx.drawImage(logo, x - size / 2, y - size / 2, size, size);
+        ctx.restore();
+      },
+    };
+
     var datasets = [];
 
     // Group by family + size for distinct visual encoding
@@ -2729,8 +2779,9 @@ function showCopied() {
 
     var ctx = document.getElementById('pareto-chart');
     if (ctx) {
-      new Chart(ctx, {
+      var chart = new Chart(ctx, {
         type: 'scatter',
+        plugins: [idealRegionPlugin],
         data: { datasets: datasets },
         options: {
           responsive: true,
@@ -2782,6 +2833,9 @@ function showCopied() {
           },
         },
       });
+      logo.onload = function() {
+        chart.update();
+      };
     }
   }
 

@@ -9,12 +9,29 @@ class LinkParser(HTMLParser):
         super().__init__()
         self.links = []
         self.nodes = []
+        self.current_link_index = None
+        self.current_link_text = []
 
     def handle_starttag(self, tag, attrs) -> None:
         attr_map = {key: value or '' for key, value in attrs}
         self.nodes.append((tag, attr_map))
         if tag == 'a':
+            attr_map['_text'] = ''
             self.links.append(attr_map)
+            self.current_link_index = len(self.links) - 1
+            self.current_link_text = []
+
+    def handle_data(self, data) -> None:
+        if self.current_link_index is not None:
+            self.current_link_text.append(data)
+
+    def handle_endtag(self, tag) -> None:
+        if tag != 'a' or self.current_link_index is None:
+            return
+        text = ' '.join(' '.join(self.current_link_text).split())
+        self.links[self.current_link_index]['_text'] = text
+        self.current_link_index = None
+        self.current_link_text = []
 
 
 class ProjectPageStructureTest(unittest.TestCase):
@@ -63,6 +80,16 @@ class ProjectPageStructureTest(unittest.TestCase):
         self.assertIn('Tactic Taggers', html)
         self.assertIn('Colab', html)
 
+    def test_hero_does_not_duplicate_paper_with_pdf_cta(self) -> None:
+        parser = self.parse_html()
+        hero_labels = [
+            attrs.get('_text', '')
+            for attrs in parser.links
+            if 'hero__btn' in attrs.get('class', '')
+        ]
+        self.assertIn('Paper', hero_labels)
+        self.assertNotIn('PDF', hero_labels)
+        self.assertIn('citation_pdf_url', self.read_html())
 
     def test_chart_uses_tactic_stickiness_axis(self) -> None:
         html = self.read_html()
@@ -78,6 +105,17 @@ class ProjectPageStructureTest(unittest.TestCase):
         self.assertIn('Tactic Stickiness \\u2192 more diverse', html)
         self.assertIn('MINT moves models toward the upper right', html)
         self.assertNotIn('MINT moves models toward the upper left', html)
+
+    def test_chart_highlights_mint_region_like_paper(self) -> None:
+        html = self.read_html()
+        self.assertIn('idealRegionPlugin', html)
+        self.assertIn('MINT target region', html)
+        self.assertIn('xMin: 0.37', html)
+        self.assertIn('xMax: 0.55', html)
+        self.assertIn('yMin: 4.42', html)
+        self.assertIn('yMax: 4.80', html)
+        self.assertIn("logo.src = 'static/mint_logo.png'", html)
+        self.assertIn('This green region marks the high empathy, low stickiness zone containing both MINT models.', html)
 
     def test_page_has_try_it_yourself_tools(self) -> None:
         html = self.read_html()
