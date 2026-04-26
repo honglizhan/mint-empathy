@@ -5,11 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Discourse Diversity in Multi-Turn Empathic Dialogue</title>
   <meta name="description" content="MINT: Multi-turn Inter-tactic Novelty Training for discourse diversity in multi-turn empathic dialogue.">
+  <link rel="canonical" href="https://honglizhan.github.io/mint-empathy/">
 
   <!-- Open Graph / Twitter -->
   <meta property="og:title" content="Discourse Diversity in Multi-Turn Empathic Dialogue">
   <meta property="og:description" content="LLMs lock into the same empathy tactics turn after turn. MINT encourages diverse, human-like support strategies while preserving empathy quality.">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://honglizhan.github.io/mint-empathy/">
   <meta property="og:image" content="https://honglizhan.github.io/mint-empathy/static/figure1_teaser.svg">
   <meta property="og:image:alt" content="Comparison of human, vanilla LLM, and MINT empathic dialogue strategies across conversation turns">
   <meta name="twitter:card" content="summary_large_image">
@@ -27,6 +29,8 @@
   <meta name="citation_author" content="Ong, Desmond C.">
   <meta name="citation_author" content="Li, Junyi Jessy">
   <meta name="citation_publication_date" content="2026">
+  <meta name="citation_arxiv_id" content="2604.11742">
+  <meta name="citation_pdf_url" content="https://arxiv.org/pdf/2604.11742">
 
   <!-- Google Fonts: Source Serif 4 for headings -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -112,6 +116,7 @@
       align-items: center;
       gap: 10px;
       min-width: 0;
+      flex: 1 1 auto;
     }
 
     .topbar__logo {
@@ -149,13 +154,22 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      flex-shrink: 0;
+      flex: 1 1 auto;
+      min-width: 0;
+      justify-content: flex-end;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .topbar__links::-webkit-scrollbar {
+      display: none;
     }
 
     .topbar__pill {
       display: inline-flex;
       align-items: center;
       gap: 5px;
+      white-space: nowrap;
       padding: 5px 14px;
       border-radius: 999px;
       font-size: 12.5px;
@@ -175,12 +189,6 @@
 
     .topbar__pill svg {
       flex-shrink: 0;
-    }
-
-    .topbar__pill--disabled {
-      opacity: 0.5;
-      cursor: default;
-      pointer-events: none;
     }
 
     /* ============================================================
@@ -316,12 +324,6 @@
       background: rgba(45, 106, 79, 0.04);
     }
 
-    .hero__btn--disabled {
-      opacity: 0.5;
-      cursor: default;
-      pointer-events: none;
-    }
-
     .hero__note {
       display: block;
       width: 100%;
@@ -329,6 +331,175 @@
       font-size: 12.5px;
       color: #6b7280;
       font-style: italic;
+    }
+
+    .takeaway-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin: 34px auto 0;
+      max-width: 920px;
+      text-align: left;
+    }
+
+    .takeaway-card {
+      min-height: 148px;
+      padding: 18px;
+      border: 1px solid rgba(45, 106, 79, 0.16);
+      border-radius: 18px;
+      background: linear-gradient(180deg, #ffffff 0%, #f7fbf8 100%);
+      box-shadow: 0 14px 34px rgba(15, 23, 42, 0.06);
+    }
+
+    .takeaway-card__eyebrow {
+      display: inline-flex;
+      margin-bottom: 10px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #2d6a4f;
+    }
+
+    .takeaway-card p {
+      font-size: 13.5px;
+      line-height: 1.55;
+      color: #475569;
+    }
+
+    .takeaway-card strong {
+      color: #111827;
+      font-weight: 700;
+    }
+
+    .artifact-links {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin: 18px auto 0;
+      max-width: 920px;
+      text-align: left;
+    }
+
+    .artifact-card {
+      display: block;
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: 1px solid #dbe7df;
+      background: #ffffff;
+      color: #334155;
+      box-shadow: 0 8px 22px rgba(15, 23, 42, 0.05);
+    }
+
+    .artifact-card:hover {
+      transform: translateY(-1px);
+      border-color: #2d6a4f;
+      color: #1b4332;
+    }
+
+    .artifact-card strong {
+      display: block;
+      margin-bottom: 2px;
+      font-size: 13.5px;
+      color: #1f2937;
+    }
+
+    .artifact-card span {
+      display: block;
+      font-size: 12px;
+      line-height: 1.45;
+      color: #6b7280;
+    }
+
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 30px;
+    }
+
+    .tool-card {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-height: 190px;
+      padding: 24px;
+      border-radius: 22px;
+      border: 1px solid rgba(45, 106, 79, 0.16);
+      background: linear-gradient(180deg, #ffffff 0%, #f7fbf8 100%);
+      box-shadow: 0 18px 42px rgba(15, 23, 42, 0.07);
+      color: #334155;
+    }
+
+    .tool-card:hover {
+      transform: translateY(-2px);
+      border-color: #2d6a4f;
+      color: #1b4332;
+    }
+
+    .tool-card__kicker {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #2d6a4f;
+    }
+
+    .tool-card strong {
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 20px;
+      line-height: 1.2;
+      color: #111827;
+    }
+
+    .tool-card span {
+      font-size: 14px;
+      line-height: 1.55;
+      color: #4b5563;
+    }
+
+    .tool-card__cta {
+      margin-top: auto;
+      font-size: 13px;
+      font-weight: 700;
+      color: #2d6a4f;
+    }
+
+    .conversation-details {
+      margin-top: 18px;
+      border-radius: 22px;
+      border: 1px solid rgba(45, 106, 79, 0.16);
+      background: #ffffff;
+      box-shadow: 0 14px 34px rgba(15, 23, 42, 0.06);
+      overflow: hidden;
+    }
+
+    .conversation-details summary {
+      cursor: pointer;
+      list-style: none;
+      padding: 20px 24px;
+      font-weight: 700;
+      color: #1f2937;
+    }
+
+    .conversation-details summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .conversation-details summary::after {
+      content: '+';
+      float: right;
+      color: #2d6a4f;
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .conversation-details[open] summary::after {
+      content: '×';
+    }
+
+    .conversation-details__body {
+      padding: 0 20px 22px;
     }
 
     /* ============================================================
@@ -342,6 +513,44 @@
       color: #111827;
       margin-bottom: 24px;
       line-height: 1.3;
+    }
+
+
+    .section-heading--center {
+      text-align: center;
+    }
+
+    .chart-frame {
+      position: relative;
+      width: 100%;
+      max-width: 700px;
+      min-height: 467px;
+      margin: 0 auto;
+    }
+
+    .chart-caption {
+      text-align: center;
+      margin-top: 14px;
+    }
+
+    .results-table {
+      width: 100%;
+      margin-top: 18px;
+      border-collapse: collapse;
+      font-size: 13px;
+      color: #334155;
+    }
+
+    .results-table caption {
+      margin-bottom: 8px;
+      color: #6b7280;
+    }
+
+    .results-table th,
+    .results-table td {
+      padding: 8px 10px;
+      border: 1px solid #e2e8f0;
+      text-align: left;
     }
 
     /* ============================================================
@@ -1208,12 +1417,30 @@
     /* ============================================================
        RESPONSIVE
        ============================================================ */
+    @media (max-width: 900px) {
+      .takeaway-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .artifact-links {
+        grid-template-columns: 1fr;
+      }
+
+      .tool-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
     @media (max-width: 768px) {
       .topbar__title { display: none; }
       .topbar__sep { display: none; }
 
       .hero { padding: 48px 0 36px; }
-      .hero h1 { font-size: 32px; }
+      .hero h1 { font-size: clamp(28px, 7vw, 36px); max-width: 100%; }
+      .hero__subtitle { max-width: 100%; }
+      .hero__links { max-width: 380px; margin-left: auto; margin-right: auto; }
+      .hero__btn { flex: 1 1 calc(50% - 10px); justify-content: center; }
+      .takeaway-grid { grid-template-columns: 1fr; max-width: 380px; }
 
       section { padding: 56px 0; }
 
@@ -1222,7 +1449,36 @@
       }
 
       .topbar {
-        padding: 0 16px;
+        height: auto;
+        padding: 8px 16px;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .topbar__left {
+        flex: 1 1 auto;
+      }
+
+      .topbar__links {
+        width: 100%;
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding-bottom: 2px;
+        scrollbar-width: none;
+      }
+
+      .topbar__links::-webkit-scrollbar {
+        display: none;
+      }
+
+      .topbar__pill {
+        white-space: nowrap;
+      }
+
+      .authors {
+        max-width: 380px;
+        margin-left: auto;
+        margin-right: auto;
       }
 
       .dialogue-spotlight {
@@ -1256,7 +1512,9 @@
     @media (max-width: 480px) {
       .hero__links { flex-direction: column; }
       .hero__btn { width: 100%; justify-content: center; }
-      .topbar__pill span.pill-label { display: none; }
+      .topbar__pill { padding: 5px 10px; }
+      .takeaway-grid { grid-template-columns: 1fr; }
+      .static-conv { padding: 16px; }
 
       .model-tab {
         flex-basis: 100%;
@@ -1282,7 +1540,7 @@
     <span class="topbar__title">Discourse Diversity in Multi-Turn Empathic Dialogue</span>
   </div>
   <nav class="topbar__links" aria-label="Primary">
-    <a class="topbar__pill topbar__pill--disabled" aria-label="Paper (coming soon)">
+    <a href="https://arxiv.org/abs/2604.11742" class="topbar__pill" target="_blank" rel="noopener" aria-label="Paper on arXiv">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
       <span class="pill-label">Paper</span>
     </a>
@@ -1290,9 +1548,17 @@
       <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
       <span class="pill-label">Code</span>
     </a>
-    <a href="https://huggingface.co/hongli-zhan" class="topbar__pill" target="_blank" rel="noopener" aria-label="Project resources on Hugging Face">
+    <a href="https://huggingface.co/hongli-zhan/MINT-empathy-Qwen3-4B" class="topbar__pill" target="_blank" rel="noopener" aria-label="MINT Qwen3 4B on Hugging Face">
       <span aria-hidden="true">&#129303;</span>
-      <span class="pill-label">Hugging Face</span>
+      <span class="pill-label">4B Model</span>
+    </a>
+    <a href="https://huggingface.co/hongli-zhan/MINT-empathy-Qwen3-1.7B" class="topbar__pill" target="_blank" rel="noopener" aria-label="MINT Qwen3 1.7B on Hugging Face">
+      <span aria-hidden="true">&#129303;</span>
+      <span class="pill-label">1.7B Model</span>
+    </a>
+    <a href="https://huggingface.co/hongli-zhan/empathy-tactic-taggers-llama3.1-8b" class="topbar__pill" target="_blank" rel="noopener" aria-label="Tactic taggers on Hugging Face">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41 11 3.83A2 2 0 0 0 9.59 3H4a1 1 0 0 0-1 1v5.59A2 2 0 0 0 3.59 11l9.59 9.59a2 2 0 0 0 2.82 0l4.59-4.59a2 2 0 0 0 0-2.59Z"/><circle cx="7.5" cy="7.5" r="1"/></svg>
+      <span class="pill-label">Tactic Taggers</span>
     </a>
     <a href="https://colab.research.google.com/github/honglizhan/mint-empathy/blob/main/analysis/tagger_colab_starter.ipynb" class="topbar__pill" target="_blank" rel="noopener" aria-label="Open the Colab starter notebook">
       <span aria-hidden="true">&#128187;</span>
@@ -1334,20 +1600,62 @@
     </div>
 
     <div class="hero__links">
-      <a class="hero__btn hero__btn--outline hero__btn--disabled" aria-label="Paper coming soon">
+      <a href="https://arxiv.org/abs/2604.11742" class="hero__btn hero__btn--outline" target="_blank" rel="noopener">
         Paper
+      </a>
+      <a href="https://arxiv.org/pdf/2604.11742" class="hero__btn hero__btn--outline" target="_blank" rel="noopener">
+        PDF
       </a>
       <a href="https://github.com/honglizhan/mint-empathy" class="hero__btn hero__btn--primary" target="_blank" rel="noopener">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
         Code
       </a>
-      <a href="https://huggingface.co/hongli-zhan" class="hero__btn hero__btn--outline" target="_blank" rel="noopener">
-        &#129303; Hugging Face
+      <a href="https://huggingface.co/hongli-zhan/MINT-empathy-Qwen3-4B" class="hero__btn hero__btn--outline" target="_blank" rel="noopener">
+        &#129303; 4B Model
       </a>
-      <a href="https://colab.research.google.com/github/honglizhan/mint-empathy/blob/main/analysis/tagger_colab_starter.ipynb" class="hero__btn hero__btn--outline" target="_blank" rel="noopener">
-        &#128187; Open in Colab
+      <a href="https://huggingface.co/hongli-zhan/MINT-empathy-Qwen3-1.7B" class="hero__btn hero__btn--outline" target="_blank" rel="noopener">
+        &#129303; 1.7B Model
       </a>
-      <span class="hero__note">Paper and data will be available upon publication.</span>
+      <a href="https://huggingface.co/hongli-zhan/empathy-tactic-taggers-llama3.1-8b" class="hero__btn hero__btn--outline" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41 11 3.83A2 2 0 0 0 9.59 3H4a1 1 0 0 0-1 1v5.59A2 2 0 0 0 3.59 11l9.59 9.59a2 2 0 0 0 2.82 0l4.59-4.59a2 2 0 0 0 0-2.59Z"/><circle cx="7.5" cy="7.5" r="1"/></svg> Tactic Taggers
+      </a>
+      <a href="https://colab.research.google.com/github/honglizhan/mint-empathy/blob/main/analysis/tagger_colab_starter.ipynb" class="hero__btn hero__btn--outline" target="_blank" rel="noopener" aria-label="Open in Colab to Tag your conversation">
+        &#128187; Tag your conversation
+      </a>
+    </div>
+
+    <div class="takeaway-grid">
+      <div class="takeaway-card">
+        <span class="takeaway-card__eyebrow">Problem</span>
+        <p>LLMs can sound empathic in one turn, but they repeat the same discourse moves across a conversation.</p>
+      </div>
+      <div class="takeaway-card">
+        <span class="takeaway-card__eyebrow">Metric</span>
+        <p>After a tactic appears, LLMs reuse it next turn at <strong>0.50 to 0.56</strong>, compared with <strong>0.27</strong> for humans.</p>
+      </div>
+      <div class="takeaway-card">
+        <span class="takeaway-card__eyebrow">Method</span>
+        <p>MINT combines an empathy quality reward with cross turn tactic novelty during reinforcement learning.</p>
+      </div>
+      <div class="takeaway-card">
+        <span class="takeaway-card__eyebrow">Result</span>
+        <p>The best variant improves aggregate empathy by <strong>25.3%</strong> and reduces 4B cross turn repetition by <strong>26.3%</strong>.</p>
+      </div>
+    </div>
+
+    <div class="artifact-links">
+      <a class="artifact-card" href="https://huggingface.co/hongli-zhan/MINT-empathy-Qwen3-4B" target="_blank" rel="noopener">
+        <strong>MINT Qwen3 4B</strong>
+        <span>Best released 4B checkpoint from the paper.</span>
+      </a>
+      <a class="artifact-card" href="https://huggingface.co/hongli-zhan/MINT-empathy-Qwen3-1.7B" target="_blank" rel="noopener">
+        <strong>MINT Qwen3 1.7B</strong>
+        <span>Smaller released checkpoint for reproduction.</span>
+      </a>
+      <a class="artifact-card" href="https://huggingface.co/hongli-zhan/empathy-tactic-taggers-llama3.1-8b" target="_blank" rel="noopener">
+        <strong>Tactic Taggers</strong>
+        <span>Ten binary LoRA adapters for tactic annotation.</span>
+      </a>
     </div>
 
   </div>
@@ -1357,7 +1665,8 @@
 <!-- ==================== DIALOGUE SPOTLIGHT ==================== -->
 <section class="bg-tint">
   <div class="container">
-    <h2 class="section-heading" style="text-align:center;">Why MINT?</h2>
+    <h2 class="section-heading section-heading--center">The problem in one conversation</h2>
+    <p class="section-intro">A vanilla model can sound warm while falling into the same discourse moves turn after turn. MINT keeps the response empathic but changes the support strategy as the conversation evolves.</p>
 
     <div class="dialogue-spotlight fade-in-target">
 
@@ -1434,35 +1743,73 @@
 <!-- ==================== PARETO FRONT ==================== -->
 <section aria-labelledby="pareto-heading">
   <div class="container--narrow">
-    <h2 id="pareto-heading" class="section-heading" style="text-align:center;">Empathy vs. Diversity Trade-off</h2>
+    <h2 id="pareto-heading" class="section-heading section-heading--center">Empathy vs. Tactic Stickiness</h2>
     <div class="fade-in-target">
-      <div style="position:relative;width:100%;max-width:700px;margin:0 auto;min-height:467px;">
-        <canvas id="pareto-chart" role="img" aria-label="Scatter plot of aggregate empathy vs tactic diversity. MINT achieves the best trade-off across both model sizes."></canvas>
+      <div class="chart-frame">
+        <canvas id="pareto-chart" role="img" aria-label="Scatter plot of aggregate empathy vs tactic stickiness. The x axis follows the paper: moving right is lower stickiness and more diversity; MINT moves toward the upper right."></canvas>
       </div>
-      <p class="muted-text" style="text-align:center;margin-top:14px;">
-        MINT achieves the best balance of empathy and diversity across both model sizes.
+      <p class="muted-text chart-caption">
+        MINT moves models toward the upper right: higher empathy with lower tactic stickiness, matching the paper's reversed stickiness axis.
       </p>
+      <noscript>
+        <table class="results-table">
+          <caption>Key plotted values for aggregate empathy and tactic stickiness.</caption>
+          <thead><tr><th>Method</th><th>Aggregate empathy</th><th>Tactic stickiness</th></tr></thead>
+          <tbody>
+            <tr><td>Human gold</td><td>2.90</td><td>0.27</td></tr>
+            <tr><td>Vanilla 4B</td><td>3.75</td><td>0.57</td></tr>
+            <tr><td>MINT 4B</td><td>4.67</td><td>0.42</td></tr>
+          </tbody>
+        </table>
+      </noscript>
+  </div>
+  </div>
+</section>
+
+
+<!-- ==================== TRY IT YOURSELF ==================== -->
+<section id="tools" class="bg-tint">
+  <div class="container--narrow">
+    <h2 class="section-heading section-heading--center">Try it yourself</h2>
+    <p class="section-intro">Use the released artifacts directly. The website stays light; the tools live in Colab, Hugging Face, and the repository.</p>
+
+    <div class="tool-grid">
+      <a class="tool-card" href="https://colab.research.google.com/github/honglizhan/mint-empathy/blob/main/analysis/tagger_colab_starter.ipynb" target="_blank" rel="noopener">
+        <span class="tool-card__kicker">Tactic annotation</span>
+        <strong>Tag your own conversation</strong>
+        <span>Run the released tactic taggers on supporter utterances and inspect sentence level empathy tactics.</span>
+        <span class="tool-card__cta">Open Colab</span>
+      </a>
+
+      <a class="tool-card" href="https://github.com/honglizhan/mint-empathy/blob/main/analysis/pareto_front.py" target="_blank" rel="noopener">
+        <span class="tool-card__kicker">Evaluation template</span>
+        <strong>Plot your outputs on the Pareto front</strong>
+        <span>Reuse the paper plotting script to compare aggregate empathy with tactic stickiness for your own model outputs.</span>
+        <span class="tool-card__cta">View plotting script</span>
+      </a>
     </div>
   </div>
 </section>
 
 
 <!-- ==================== EXPLORE CONVERSATIONS ==================== -->
-<section class="bg-tint">
+<section>
   <div class="container--narrow">
-    <h2 class="section-heading" style="text-align:center;">Explore Conversations</h2>
-    <p class="section-intro">Browse matched conversations from humans, a vanilla LLM, and MINT. The tactic summary below each transcript makes the diversity gap visible at a glance. Human responses are real crowdsourced conversations and may reflect informal or terse phrasing.</p>
+    <h2 class="section-heading section-heading--center">Conversation examples</h2>
+    <p class="section-intro">The main page keeps the story short. Open the examples if you want to inspect matched human, vanilla LLM, and MINT transcripts with tactic tags.</p>
 
-    <div class="fade-in-target">
+    <details class="conversation-details">
+      <summary>View conversation examples</summary>
+      <div class="conversation-details__body fade-in-target">
       <div class="static-conv-selector">
         <input type="radio" name="conv_select" id="convsel_0" class="convsel-radio" checked>
         <input type="radio" name="conv_select" id="convsel_1" class="convsel-radio">
         <input type="radio" name="conv_select" id="convsel_2" class="convsel-radio">
 
-        <div class="convsel-labels" role="tablist" aria-label="Select conversation">
-          <label for="convsel_0" class="convsel-label" role="tab">Passed over for promotion</label>
-          <label for="convsel_1" class="convsel-label" role="tab">Feeling detached</label>
-          <label for="convsel_2" class="convsel-label" role="tab">Lost my job today</label>
+        <div class="convsel-labels">
+          <label for="convsel_0" class="convsel-label">Passed over for promotion</label>
+          <label for="convsel_1" class="convsel-label">Feeling detached</label>
+          <label for="convsel_2" class="convsel-label">Lost my job today</label>
         </div>
 
         <div class="convsel-panels">
@@ -1475,15 +1822,15 @@
         <input type="radio" name="conv0" id="conv0_vanilla" class="static-tab-radio">
         <input type="radio" name="conv0" id="conv0_mint" class="static-tab-radio" checked>
 
-        <div class="static-tab-labels" role="tablist" aria-label="Select model">
-          <label for="conv0_human" class="static-tab-label" role="tab">Human</label>
-          <label for="conv0_vanilla" class="static-tab-label" role="tab">Vanilla LLM</label>
-          <label for="conv0_mint" class="static-tab-label static-tab-label--mint" role="tab">MINT (Ours)</label>
+        <div class="static-tab-labels">
+          <label for="conv0_human" class="static-tab-label">Human</label>
+          <label for="conv0_vanilla" class="static-tab-label">Vanilla LLM</label>
+          <label for="conv0_mint" class="static-tab-label static-tab-label--mint">MINT (Ours)</label>
         </div>
 
         <div class="static-tab-panels explorer-panel">
           <div class="static-tab-panel" id="conv0_human_panel">
-            <div class="chat" role="region" aria-label="Human conversation transcript">
+            <div class="chat">
       <div class="chat-turn">
         <div class="message message--seeker">
           <div class="message__inner">
@@ -1538,7 +1885,7 @@
           </div>
 
           <div class="static-tab-panel" id="conv0_vanilla_panel">
-            <div class="chat" role="region" aria-label="Vanilla LLM conversation transcript">
+            <div class="chat">
       <div class="chat-turn">
         <div class="message message--seeker">
           <div class="message__inner">
@@ -1607,7 +1954,7 @@
           </div>
 
           <div class="static-tab-panel" id="conv0_mint_panel">
-            <div class="chat" role="region" aria-label="MINT (Ours) conversation transcript">
+            <div class="chat">
       <div class="chat-turn">
         <div class="message message--seeker">
           <div class="message__inner">
@@ -1700,7 +2047,7 @@
           </div>
         </div>
 
-        <p class="explorer-note">Want to tag your own conversations? <a href="https://colab.research.google.com/github/honglizhan/mint-empathy/blob/main/analysis/tagger_colab_starter.ipynb" target="_blank" rel="noopener">Open the Colab notebook.</a></p>
+        <p class="explorer-note">Want to tag your own conversations? <a href="https://colab.research.google.com/github/honglizhan/mint-empathy/blob/main/analysis/tagger_colab_starter.ipynb" target="_blank" rel="noopener">Open in Colab.</a></p>
       </div>
           </div>
           <div class="convsel-panel">
@@ -1712,15 +2059,15 @@
         <input type="radio" name="conv1" id="conv1_vanilla" class="static-tab-radio">
         <input type="radio" name="conv1" id="conv1_mint" class="static-tab-radio" checked>
 
-        <div class="static-tab-labels" role="tablist" aria-label="Select model">
-          <label for="conv1_human" class="static-tab-label" role="tab">Human</label>
-          <label for="conv1_vanilla" class="static-tab-label" role="tab">Vanilla LLM</label>
-          <label for="conv1_mint" class="static-tab-label static-tab-label--mint" role="tab">MINT (Ours)</label>
+        <div class="static-tab-labels">
+          <label for="conv1_human" class="static-tab-label">Human</label>
+          <label for="conv1_vanilla" class="static-tab-label">Vanilla LLM</label>
+          <label for="conv1_mint" class="static-tab-label static-tab-label--mint">MINT (Ours)</label>
         </div>
 
         <div class="static-tab-panels explorer-panel">
           <div class="static-tab-panel" id="conv1_human_panel">
-            <div class="chat" role="region" aria-label="Human conversation transcript">
+            <div class="chat">
       <div class="chat-turn">
         <div class="message message--seeker">
           <div class="message__inner">
@@ -1781,7 +2128,7 @@
           </div>
 
           <div class="static-tab-panel" id="conv1_vanilla_panel">
-            <div class="chat" role="region" aria-label="Vanilla LLM conversation transcript">
+            <div class="chat">
       <div class="chat-turn">
         <div class="message message--seeker">
           <div class="message__inner">
@@ -1846,7 +2193,7 @@
           </div>
 
           <div class="static-tab-panel" id="conv1_mint_panel">
-            <div class="chat" role="region" aria-label="MINT (Ours) conversation transcript">
+            <div class="chat">
       <div class="chat-turn">
         <div class="message message--seeker">
           <div class="message__inner">
@@ -1937,7 +2284,7 @@
           </div>
         </div>
 
-        <p class="explorer-note">Want to tag your own conversations? <a href="https://colab.research.google.com/github/honglizhan/mint-empathy/blob/main/analysis/tagger_colab_starter.ipynb" target="_blank" rel="noopener">Open the Colab notebook.</a></p>
+        <p class="explorer-note">Want to tag your own conversations? <a href="https://colab.research.google.com/github/honglizhan/mint-empathy/blob/main/analysis/tagger_colab_starter.ipynb" target="_blank" rel="noopener">Open in Colab.</a></p>
       </div>
           </div>
           <div class="convsel-panel">
@@ -1949,15 +2296,15 @@
         <input type="radio" name="conv2" id="conv2_vanilla" class="static-tab-radio">
         <input type="radio" name="conv2" id="conv2_mint" class="static-tab-radio" checked>
 
-        <div class="static-tab-labels" role="tablist" aria-label="Select model">
-          <label for="conv2_human" class="static-tab-label" role="tab">Human</label>
-          <label for="conv2_vanilla" class="static-tab-label" role="tab">Vanilla LLM</label>
-          <label for="conv2_mint" class="static-tab-label static-tab-label--mint" role="tab">MINT (Ours)</label>
+        <div class="static-tab-labels">
+          <label for="conv2_human" class="static-tab-label">Human</label>
+          <label for="conv2_vanilla" class="static-tab-label">Vanilla LLM</label>
+          <label for="conv2_mint" class="static-tab-label static-tab-label--mint">MINT (Ours)</label>
         </div>
 
         <div class="static-tab-panels explorer-panel">
           <div class="static-tab-panel" id="conv2_human_panel">
-            <div class="chat" role="region" aria-label="Human conversation transcript">
+            <div class="chat">
       <div class="chat-turn">
         <div class="message message--seeker">
           <div class="message__inner">
@@ -2014,7 +2361,7 @@
           </div>
 
           <div class="static-tab-panel" id="conv2_vanilla_panel">
-            <div class="chat" role="region" aria-label="Vanilla LLM conversation transcript">
+            <div class="chat">
       <div class="chat-turn">
         <div class="message message--seeker">
           <div class="message__inner">
@@ -2080,7 +2427,7 @@
           </div>
 
           <div class="static-tab-panel" id="conv2_mint_panel">
-            <div class="chat" role="region" aria-label="MINT (Ours) conversation transcript">
+            <div class="chat">
       <div class="chat-turn">
         <div class="message message--seeker">
           <div class="message__inner">
@@ -2175,14 +2522,15 @@
           </div>
         </div>
 
-        <p class="explorer-note">Want to tag your own conversations? <a href="https://colab.research.google.com/github/honglizhan/mint-empathy/blob/main/analysis/tagger_colab_starter.ipynb" target="_blank" rel="noopener">Open the Colab notebook.</a></p>
+        <p class="explorer-note">Want to tag your own conversations? <a href="https://colab.research.google.com/github/honglizhan/mint-empathy/blob/main/analysis/tagger_colab_starter.ipynb" target="_blank" rel="noopener">Open in Colab.</a></p>
       </div>
           </div>
         </div>
       </div>
+      </div>
+    </details>
 
     </div>
-  </div>
 </section>
 
 
@@ -2295,21 +2643,21 @@ function showCopied() {
   // ============================================================
   // INTERACTIVE PARETO FRONT
   // Loaded via IntersectionObserver to avoid blocking initial render.
-  // X-axis = Tactic Diversity (1 - stickiness), higher = more diverse
+  // X-axis = Tactic Stickiness, reversed to match the paper so right means more diverse
   // Y-axis = Aggregate Empathy, higher = more empathic
   // ============================================================
   function buildChart() {
     var methods = [
-      // [diversity, empathy, name, family, model_size]
-      [0.73, 2.90, 'Human (Gold)', 'human', 'both'],
-      [0.49, 3.60, 'Vanilla', 'prompt', '1.7B'],
-      [0.35, 4.42, 'PsychoCounsel', 'quality_rl', '1.7B'],
-      [0.37, 4.38, 'R1-Zero-Div', 'token_div', '1.7B'],
-      [0.49, 4.54, 'MINT', 'ours', '1.7B'],
-      [0.43, 3.75, 'Vanilla', 'prompt', '4B'],
-      [0.33, 4.62, 'PsychoCounsel', 'quality_rl', '4B'],
-      [0.43, 4.58, 'R1-Zero-Div', 'token_div', '4B'],
-      [0.58, 4.67, 'MINT', 'ours', '4B'],
+      // [stickiness, empathy, name, family, model_size]
+      [0.27, 2.90, 'Human (Gold)', 'human', 'both'],
+      [0.51, 3.60, 'Vanilla', 'prompt', '1.7B'],
+      [0.65, 4.42, 'PsychoCounsel', 'quality_rl', '1.7B'],
+      [0.63, 4.38, 'R1-Zero-Div', 'token_div', '1.7B'],
+      [0.51, 4.54, 'MINT', 'ours', '1.7B'],
+      [0.57, 3.75, 'Vanilla', 'prompt', '4B'],
+      [0.67, 4.62, 'PsychoCounsel', 'quality_rl', '4B'],
+      [0.57, 4.58, 'R1-Zero-Div', 'token_div', '4B'],
+      [0.42, 4.67, 'MINT', 'ours', '4B'],
     ];
 
     var familyColors = {
@@ -2355,7 +2703,7 @@ function showCopied() {
         pointRadius: fam === 'human' ? 12 : fam === 'ours' ? 10 : 7,
         pointHoverRadius: fam === 'human' ? 14 : fam === 'ours' ? 13 : 10,
         pointStyle: familyShapes[fam],
-        _meta: pts.map(function(p) { return { name: p[2], size: p[4], div: p[0], emp: p[1] }; }),
+        _meta: pts.map(function(p) { return { name: p[2], size: p[4], stickiness: p[0], emp: p[1] }; }),
       });
     });
 
@@ -2391,8 +2739,9 @@ function showCopied() {
           scales: {
             x: {
               min: 0.25,
-              max: 0.80,
-              title: { display: true, text: 'Tactic Diversity (more diverse \u2192)', font: { size: 13 } },
+              max: 0.70,
+              reverse: true,
+              title: { display: true, text: 'Tactic Stickiness \u2192 more diverse', font: { size: 13 } },
               grid: { display: false },
               ticks: { font: { size: 11 } },
             },
@@ -2421,7 +2770,7 @@ function showCopied() {
                   var ds = context.dataset;
                   var meta = ds._meta ? ds._meta[context.dataIndex] : null;
                   if (!meta) return '';
-                  return meta.name + ' (' + meta.size + '): Empathy=' + meta.emp.toFixed(2) + ', Diversity=' + meta.div.toFixed(2);
+                  return meta.name + ' (' + meta.size + '): Empathy=' + meta.emp.toFixed(2) + ', Stickiness=' + meta.stickiness.toFixed(2);
                 },
               },
               backgroundColor: 'rgba(17,24,39,0.92)',
