@@ -533,6 +533,88 @@
       margin-top: 14px;
     }
 
+    .chart-mobile-legend {
+      display: none;
+      list-style: none;
+      max-width: 520px;
+      margin: 14px auto 0;
+      padding: 12px 14px;
+      border: 1px solid rgba(148, 163, 184, 0.26);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.82);
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+      color: #4b5563;
+      font-size: 12px;
+      line-height: 1.2;
+    }
+
+    .chart-mobile-legend__item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+      white-space: nowrap;
+    }
+
+    .legend-symbol {
+      width: 13px;
+      height: 13px;
+      flex: 0 0 auto;
+      color: #64748b;
+      border: 2px solid currentColor;
+      background: currentColor;
+    }
+
+    .legend-symbol--human {
+      width: 16px;
+      height: 16px;
+      border: 0;
+      background: none;
+      color: #B8860B;
+      position: relative;
+    }
+
+    .legend-symbol--human::before {
+      content: '✱';
+      position: absolute;
+      inset: -5px 0 0 -1px;
+      font-size: 19px;
+      line-height: 1;
+    }
+
+    .legend-symbol--prompt {
+      color: #7c9ab5;
+      border-radius: 2px;
+    }
+
+    .legend-symbol--quality {
+      color: #d4944c;
+      border: 0;
+      clip-path: polygon(50% 0, 100% 100%, 0 100%);
+    }
+
+    .legend-symbol--token {
+      color: #9b82c4;
+      border: 0;
+      clip-path: polygon(50% 0, 100% 100%, 0 100%);
+    }
+
+    .legend-symbol--ours {
+      color: #2d6a4f;
+      border-radius: 999px;
+    }
+
+    .legend-symbol--open {
+      color: #64748b;
+      background: #ffffff;
+      border-radius: 999px;
+    }
+
+    .legend-symbol--filled {
+      color: #64748b;
+      border-radius: 3px;
+    }
+
     .results-table {
       width: 100%;
       margin-top: 18px;
@@ -1509,6 +1591,27 @@
       }
     }
 
+    @media (max-width: 640px) {
+      .chart-frame {
+        max-width: 520px;
+        min-height: 390px;
+      }
+
+      .chart-mobile-legend {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 9px 12px;
+      }
+
+      .chart-caption {
+        max-width: 360px;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 13px;
+        line-height: 1.55;
+      }
+    }
+
     @media (max-width: 480px) {
       .hero__links { flex-direction: column; }
       .hero__btn { width: 100%; justify-content: center; }
@@ -1745,6 +1848,15 @@
       <div class="chart-frame">
         <canvas id="pareto-chart" role="img" aria-label="Scatter plot of aggregate empathy vs tactic stickiness. The x axis follows the paper: moving right is lower stickiness and more diversity; MINT moves toward the upper right."></canvas>
       </div>
+      <ul class="chart-mobile-legend">
+        <li class="chart-mobile-legend__item"><span class="legend-symbol legend-symbol--human" aria-hidden="true"></span>Human</li>
+        <li class="chart-mobile-legend__item"><span class="legend-symbol legend-symbol--prompt" aria-hidden="true"></span>Vanilla</li>
+        <li class="chart-mobile-legend__item"><span class="legend-symbol legend-symbol--quality" aria-hidden="true"></span>PsychoCounsel</li>
+        <li class="chart-mobile-legend__item"><span class="legend-symbol legend-symbol--token" aria-hidden="true"></span>R1-Zero-Div</li>
+        <li class="chart-mobile-legend__item"><span class="legend-symbol legend-symbol--ours" aria-hidden="true"></span>MINT</li>
+        <li class="chart-mobile-legend__item"><span class="legend-symbol legend-symbol--open" aria-hidden="true"></span>1.7B</li>
+        <li class="chart-mobile-legend__item"><span class="legend-symbol legend-symbol--filled" aria-hidden="true"></span>4B</li>
+      </ul>
       <p class="muted-text chart-caption">
         MINT moves models toward the upper right: higher empathy with lower tactic stickiness, matching the paper's reversed stickiness axis. This green region marks the high empathy, low stickiness zone containing both MINT models.
       </p>
@@ -2657,6 +2769,8 @@ function showCopied() {
       [0.42, 4.67, 'MINT', 'ours', '4B'],
     ];
 
+    var isSmallScreen = window.matchMedia('(max-width: 640px)').matches;
+
     var familyColors = {
       human: '#B8860B',
       prompt: '#7c9ab5',
@@ -2672,6 +2786,24 @@ function showCopied() {
       token_div: 'triangle',
       ours: 'circle',
     };
+
+    function getPointRadius(fam) {
+      if (isSmallScreen) {
+        if (fam === 'human') return 8;
+        if (fam === 'ours') return 8;
+        return 6;
+      }
+      return fam === 'human' ? 12 : fam === 'ours' ? 10 : 7;
+    }
+
+    function getPointHoverRadius(fam) {
+      if (isSmallScreen) {
+        if (fam === 'human') return 10;
+        if (fam === 'ours') return 10;
+        return 8;
+      }
+      return fam === 'human' ? 14 : fam === 'ours' ? 13 : 10;
+    }
 
     var idealRegion = {
       label: 'MINT target region',
@@ -2708,9 +2840,11 @@ function showCopied() {
 
         var xScale = chart.scales.x;
         var yScale = chart.scales.y;
-        var x = xScale.getPixelForValue(0.535);
-        var y = yScale.getPixelForValue(4.73);
-        var size = 32;
+        var right = Math.max(xScale.getPixelForValue(idealRegion.xMin), xScale.getPixelForValue(idealRegion.xMax));
+        var top = yScale.getPixelForValue(idealRegion.yMax);
+        var size = isSmallScreen ? 24 : 32;
+        var x = right - size / 2 - 10;
+        var y = top + size / 2 + 10;
         var ctx = chart.ctx;
 
         ctx.save();
@@ -2750,8 +2884,8 @@ function showCopied() {
         backgroundColor: isFilled ? color : 'rgba(255,255,255,0.9)',
         borderColor: color,
         borderWidth: fam === 'ours' ? 2.5 : 1.5,
-        pointRadius: fam === 'human' ? 12 : fam === 'ours' ? 10 : 7,
-        pointHoverRadius: fam === 'human' ? 14 : fam === 'ours' ? 13 : 10,
+        pointRadius: getPointRadius(fam),
+        pointHoverRadius: getPointHoverRadius(fam),
         pointStyle: familyShapes[fam],
         _meta: pts.map(function(p) { return { name: p[2], size: p[4], stickiness: p[0], emp: p[1] }; }),
       });
@@ -2786,27 +2920,33 @@ function showCopied() {
         options: {
           responsive: true,
           maintainAspectRatio: true,
-          aspectRatio: 1.5,
+          aspectRatio: isSmallScreen ? 0.9 : 1.5,
           scales: {
             x: {
               min: 0.25,
               max: 0.70,
               reverse: true,
-              title: { display: true, text: 'Tactic Stickiness \u2192 more diverse', font: { size: 13 } },
+              title: { display: true, text: 'Tactic Stickiness \u2192 more diverse', font: { size: isSmallScreen ? 12 : 13 } },
               grid: { display: false },
-              ticks: { font: { size: 11 } },
+              ticks: {
+                maxTicksLimit: isSmallScreen ? 5 : 8,
+                font: { size: isSmallScreen ? 10 : 11 },
+              },
             },
             y: {
               min: 2.7,
               max: 4.88,
-              title: { display: true, text: 'Aggregate Empathy (more empathic \u2192)', font: { size: 13 } },
+              title: { display: !isSmallScreen, text: 'Aggregate Empathy (more empathic \u2192)', font: { size: 13 } },
               grid: { color: 'rgba(0,0,0,0.05)' },
-              ticks: { font: { size: 11 } },
+              ticks: {
+                maxTicksLimit: isSmallScreen ? 4 : 7,
+                font: { size: isSmallScreen ? 10 : 11 },
+              },
             },
           },
           plugins: {
             legend: {
-              display: true,
+              display: !isSmallScreen,
               position: 'bottom',
               labels: {
                 filter: function(item) { return !item.text.startsWith('_connector'); },
@@ -2821,7 +2961,11 @@ function showCopied() {
                   var ds = context.dataset;
                   var meta = ds._meta ? ds._meta[context.dataIndex] : null;
                   if (!meta) return '';
-                  return meta.name + ' (' + meta.size + '): Empathy=' + meta.emp.toFixed(2) + ', Stickiness=' + meta.stickiness.toFixed(2);
+                  var methodLabel = meta.name;
+                  if (meta.size !== 'both') {
+                    methodLabel += ' (' + meta.size + ')';
+                  }
+                  return methodLabel + ': Empathy=' + meta.emp.toFixed(2) + ', Stickiness=' + meta.stickiness.toFixed(2);
                 },
               },
               backgroundColor: 'rgba(17,24,39,0.92)',

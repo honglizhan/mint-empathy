@@ -117,6 +117,29 @@ class ProjectPageStructureTest(unittest.TestCase):
         self.assertIn("logo.src = 'static/mint_logo.png'", html)
         self.assertIn('This green region marks the high empathy, low stickiness zone containing both MINT models.', html)
 
+    def test_chart_logo_is_anchored_to_region_upper_right(self) -> None:
+        html = self.read_html()
+        self.assertIn('var x = right - size / 2 - 10', html)
+        self.assertIn('var y = top + size / 2 + 10', html)
+        self.assertNotIn('var x = xScale.getPixelForValue(0.535)', html)
+        self.assertNotIn('var y = yScale.getPixelForValue(4.73)', html)
+
+    def test_human_gold_tooltip_omits_model_size(self) -> None:
+        html = self.read_html()
+        self.assertIn("if (meta.size !== 'both')", html)
+        self.assertIn("methodLabel += ' (' + meta.size + ')'", html)
+        self.assertIn("return methodLabel + ': Empathy='", html)
+        self.assertNotIn("meta.name + ' (' + meta.size + '): Empathy='", html)
+
+    def test_pareto_chart_has_mobile_layout(self) -> None:
+        html = self.read_html()
+        self.assertIn('chart-mobile-legend', html)
+        self.assertIn("window.matchMedia('(max-width: 640px)')", html)
+        self.assertIn('aspectRatio: isSmallScreen ? 0.9 : 1.5', html)
+        self.assertIn('display: !isSmallScreen', html)
+        self.assertIn("title: { display: !isSmallScreen, text: 'Aggregate Empathy", html)
+        self.assertIn('pointRadius: getPointRadius(fam)', html)
+
     def test_page_has_try_it_yourself_tools(self) -> None:
         html = self.read_html()
         self.assertIn('Try it yourself', html)
