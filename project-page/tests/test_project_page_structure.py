@@ -117,10 +117,17 @@ class ProjectPageStructureTest(unittest.TestCase):
         self.assertIn("logo.src = 'static/mint_logo.png'", html)
         self.assertIn('This green region marks the high empathy, low stickiness zone containing both MINT models.', html)
 
-    def test_chart_logo_is_anchored_to_region_upper_right(self) -> None:
+    def test_chart_logo_uses_mobile_safe_anchor(self) -> None:
         html = self.read_html()
-        self.assertIn('var x = right - size / 2 - 10', html)
-        self.assertIn('var y = top + size / 2 + 10', html)
+        self.assertIn('function getMintLogoPosition(chart, idealRegion, size)', html)
+        self.assertIn('if (isSmallScreen) {', html)
+        self.assertIn('var mobileX = chart.chartArea.right - size / 2 - 6', html)
+        self.assertIn('var mobileY = top + size / 2 + 8', html)
+        self.assertIn('var logoPosition = getMintLogoPosition(chart, idealRegion, size)', html)
+        self.assertIn('var x = logoPosition.x', html)
+        self.assertIn('var y = logoPosition.y', html)
+        self.assertNotIn('var x = right - size / 2 - 10', html)
+        self.assertNotIn('var y = top + size / 2 + 10', html)
         self.assertNotIn('var x = xScale.getPixelForValue(0.535)', html)
         self.assertNotIn('var y = yScale.getPixelForValue(4.73)', html)
 

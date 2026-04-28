@@ -2816,6 +2816,22 @@ function showCopied() {
     var logo = new Image();
     logo.src = 'static/mint_logo.png';
 
+    function getMintLogoPosition(chart, idealRegion, size) {
+      var xScale = chart.scales.x;
+      var yScale = chart.scales.y;
+      var right = Math.max(xScale.getPixelForValue(idealRegion.xMin), xScale.getPixelForValue(idealRegion.xMax));
+      var top = yScale.getPixelForValue(idealRegion.yMax);
+      if (isSmallScreen) {
+        var mobileX = chart.chartArea.right - size / 2 - 6;
+        var mobileY = top + size / 2 + 8;
+        return { x: mobileX, y: mobileY };
+      }
+      return {
+        x: right - size / 2 - 10,
+        y: top + size / 2 + 10,
+      };
+    }
+
     var idealRegionPlugin = {
       id: 'idealRegionPlugin',
       beforeDatasetsDraw: function(chart) {
@@ -2838,13 +2854,10 @@ function showCopied() {
       afterDatasetsDraw: function(chart) {
         if (!logo.complete || !logo.naturalWidth) return;
 
-        var xScale = chart.scales.x;
-        var yScale = chart.scales.y;
-        var right = Math.max(xScale.getPixelForValue(idealRegion.xMin), xScale.getPixelForValue(idealRegion.xMax));
-        var top = yScale.getPixelForValue(idealRegion.yMax);
         var size = isSmallScreen ? 24 : 32;
-        var x = right - size / 2 - 10;
-        var y = top + size / 2 + 10;
+        var logoPosition = getMintLogoPosition(chart, idealRegion, size);
+        var x = logoPosition.x;
+        var y = logoPosition.y;
         var ctx = chart.ctx;
 
         ctx.save();
