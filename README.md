@@ -93,7 +93,7 @@ uv pip install -r requirements.txt
 uv pip install flash-attn==2.8.3 openrlhf==0.9.3 --no-build-isolation --no-deps
 ```
 
-The training stack was tested on Stampede3 H100 with Python 3.12 and CUDA 12.8. Older x86 systems with glibc older than 2.31 and ARM/GH200 systems may require platform-specific vLLM or OpenRLHF installation.
+The training stack was tested on H100 with Python 3.12 and CUDA 12.8.
 
 ### Verify paper-facing numbers
 
