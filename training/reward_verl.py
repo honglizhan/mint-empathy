@@ -14,15 +14,15 @@ tactic tagging via HTTP server.
 
 Batch interface: sync `compute_score(data_sources, solution_strs, ground_truths, extra_infos, **kwargs)`
 that calls `asyncio.run()` internally. In the current VERL build used here, the
-launcher wires this through `reward_manager_compat.py` with:
-    reward.reward_manager.source=importlib
-    reward.reward_manager.name=UidBatchRewardManager
-    reward.custom_reward_function.path=/abs/path/reward_verl.py
+launcher wires this through VERL's batch reward manager with:
+    custom_reward_function.path=/abs/path/reward_verl.py
+    custom_reward_function.name=compute_score
+    reward_manager.name=batch
 
 The **kwargs come from Hydra config:
-    reward.custom_reward_function.reward_kwargs.reward_mode=quality_plus_diversity
-    reward.custom_reward_function.reward_kwargs.rm_server_url=http://localhost:5100
-    reward.custom_reward_function.reward_kwargs.tactic_tagger_server_url=http://localhost:8100/v1
+    custom_reward_function.reward_kwargs.reward_mode=quality_plus_diversity
+    custom_reward_function.reward_kwargs.rm_server_url=http://localhost:5100
+    custom_reward_function.reward_kwargs.tactic_tagger_server_url=http://localhost:8100/v1
     etc.
 """
 

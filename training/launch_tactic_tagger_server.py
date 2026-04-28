@@ -6,11 +6,11 @@ This server runs independently from the GRPO training process and provides
 fast batch inference for tactic tagging via HTTP API.
 
 Usage:
-    # Launch on GPU 0 (default)
+    # Launch on GPU 0 with adapters from Hugging Face (default)
     CUDA_VISIBLE_DEVICES=0 python launch_tactic_tagger_server.py
 
-    # Or specify GPU explicitly
-    python launch_tactic_tagger_server.py --gpu 0
+    # Or specify a local adapter directory
+    python launch_tactic_tagger_server.py --adapter_base_dir ./lora_adapters --gpu 0
 
 The server exposes an OpenAI-compatible API at http://localhost:8100/v1
 """
@@ -19,6 +19,7 @@ import os
 import sys
 import subprocess
 from absl import app, flags
+from huggingface_hub import snapshot_download
 from termcolor import cprint
 
 from reward_func_tactics_kl_bigram_entropy import TACTIC_NAMES
@@ -27,8 +28,9 @@ FLAGS = flags.FLAGS
 
 flags.DEFINE_string('model_id', 'meta-llama/Llama-3.1-8B-Instruct', 'Base model ID')
 flags.DEFINE_string('adapter_base_dir',
-    './lora_adapters/',
-    'Directory containing LoRA adapters')
+    'hongli-zhan/empathy-tactic-taggers-llama3.1-8b',
+    'Local adapter directory or Hugging Face repo ID containing tactic LoRA adapters')
+flags.DEFINE_string('hf_revision', 'main', 'Hugging Face revision for adapter_base_dir when it is a repo ID')
 flags.DEFINE_integer('gpu', 0, 'GPU to use for the server')
 flags.DEFINE_integer('port', 8100, 'Port for the server')
 flags.DEFINE_string('host', '0.0.0.0', 'Host to bind to')
@@ -36,6 +38,27 @@ flags.DEFINE_float('gpu_memory_utilization', 0.95, 'GPU memory utilization')
 flags.DEFINE_integer('max_model_len', 8192, 'Maximum model length')
 flags.DEFINE_integer('max_lora_rank', 64, 'Maximum LoRA rank')
 flags.DEFINE_integer('tensor_parallel_size', 1, 'Number of GPUs for tensor parallelism')
+
+
+def resolve_adapter_base_dir(adapter_base_dir: str, hf_revision: str) -> str:
+    """Return a local adapter directory, downloading from Hugging Face when needed."""
+    if os.path.isdir(adapter_base_dir):
+        return adapter_base_dir
+
+    if "/" not in adapter_base_dir:
+        return adapter_base_dir
+
+    cprint(
+        f"[INFO] Downloading tactic tagger adapters from {adapter_base_dir}@{hf_revision}",
+        "cyan",
+        force_color=True,
+    )
+    allow_patterns = [f"{tactic}/*" for tactic in TACTIC_NAMES]
+    return snapshot_download(
+        repo_id=adapter_base_dir,
+        revision=hf_revision,
+        allow_patterns=allow_patterns,
+    )
 
 
 def resolve_adapter_path(adapter_base_dir: str, tactic: str) -> str | None:
@@ -94,6 +117,7 @@ def check_gpu_memory(gpu_id: int) -> None:
 def launch_server(
     model_id: str,
     adapter_base_dir: str,
+    hf_revision: str,
     gpu: int,
     port: int,
     host: str,
@@ -103,6 +127,8 @@ def launch_server(
     tensor_parallel_size: int,
 ):
     """Launch vLLM server with LoRA adapters for tactic tagging."""
+
+    adapter_base_dir = resolve_adapter_base_dir(adapter_base_dir, hf_revision)
 
     # Set GPU - only if not already set by the calling shell
     # (avoids conflicts with vLLM's multiprocess architecture)
@@ -159,6 +185,7 @@ def main(_):
     launch_server(
         model_id=FLAGS.model_id,
         adapter_base_dir=FLAGS.adapter_base_dir,
+        hf_revision=FLAGS.hf_revision,
         gpu=FLAGS.gpu,
         port=FLAGS.port,
         host=FLAGS.host,
