@@ -121,7 +121,7 @@ class ProjectPageStructureTest(unittest.TestCase):
         html = self.read_html()
         self.assertIn('function getMintLogoPosition(chart, idealRegion, size)', html)
         self.assertIn('if (isSmallScreen) {', html)
-        self.assertIn('var mobileX = chart.chartArea.right - size / 2 - 6', html)
+        self.assertIn('var mobileX = right + size / 2 + 8', html)
         self.assertIn('var mobileY = top + size / 2 + 8', html)
         self.assertIn('var logoPosition = getMintLogoPosition(chart, idealRegion, size)', html)
         self.assertIn('var x = logoPosition.x', html)

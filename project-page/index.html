@@ -2822,7 +2822,7 @@ function showCopied() {
       var right = Math.max(xScale.getPixelForValue(idealRegion.xMin), xScale.getPixelForValue(idealRegion.xMax));
       var top = yScale.getPixelForValue(idealRegion.yMax);
       if (isSmallScreen) {
-        var mobileX = chart.chartArea.right - size / 2 - 6;
+        var mobileX = right + size / 2 + 8;
         var mobileY = top + size / 2 + 8;
         return { x: mobileX, y: mobileY };
       }
